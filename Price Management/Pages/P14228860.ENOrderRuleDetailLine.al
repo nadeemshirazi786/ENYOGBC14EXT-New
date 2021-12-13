@@ -1,8 +1,10 @@
 page 14228860 "EN Order Rule Detail Line"
 {
-    
+
 
     PageType = List;
+    UsageCategory = Lists;
+    ApplicationArea = all;
     SourceTable = "EN Order Rule Detail Line";
 
     layout
