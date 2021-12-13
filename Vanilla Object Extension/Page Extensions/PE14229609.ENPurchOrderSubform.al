@@ -1,0 +1,145 @@
+pageextension 14229609 "EN Purchase Order Subform" extends "Purchase Order Subform"
+{
+
+    layout
+    {
+        addafter(Quantity)
+        {
+            field("Pallet Count"; "Pallet Count ELA")
+            {
+                ApplicationArea = All;
+                Visible = true;
+            }
+            field("Lot No."; "Lot No. ELA")
+            {
+                ApplicationArea = All;
+                Visible = true;
+            }
+        }
+        addlast(Control1)
+        {
+            field("Bottle Deposit"; "Bottle Deposit")
+            {
+                ApplicationArea = All;
+            }
+            field("Bottle Deposit Amount"; GetBottleAmount(Rec))
+            {
+                ApplicationArea = All;
+
+            }
+        }
+        addafter("Deferral Code")
+        {
+            field("Shortcut EC Charge 1"; ShortcutECCharge[1])
+            {
+                ApplicationArea = All;
+                Visible = false;
+                AutoFormatExpression = "Currency Code";
+                trigger OnDrillDown()
+                begin
+                    ValidateShortcutECChargeELA(1, ShortcutECCharge[1]);
+                end;
+            }
+            field("Shortcut EC Charge 2"; ShortcutECCharge[2])
+            {
+                ApplicationArea = All;
+                Visible = false;
+                AutoFormatExpression = "Currency Code";
+                trigger OnDrillDown()
+                begin
+                    ValidateShortcutECChargeELA(1, ShortcutECCharge[1]);
+                end;
+            }
+            field("Shortcut EC Charge 3"; ShortcutECCharge[3])
+            {
+                ApplicationArea = All;
+                Visible = false;
+                AutoFormatExpression = "Currency Code";
+                trigger OnDrillDown()
+                begin
+                    ValidateShortcutECChargeELA(1, ShortcutECCharge[1]);
+                end;
+            }
+            field("Shortcut EC Charge 4"; ShortcutECCharge[4])
+            {
+                ApplicationArea = All;
+                Visible = false;
+                AutoFormatExpression = "Currency Code";
+                trigger OnDrillDown()
+                begin
+                    ValidateShortcutECChargeELA(1, ShortcutECCharge[1]);
+                end;
+            }
+            field("Shortcut EC Charge 5"; ShortcutECCharge[5])
+            {
+                ApplicationArea = All;
+                Visible = false;
+                AutoFormatExpression = "Currency Code";
+                trigger OnDrillDown()
+                begin
+                    ValidateShortcutECChargeELA(1, ShortcutECCharge[1]);
+                end;
+            }
+            field("Extra Charge"; "Extra Charge ELA")
+            {
+                ApplicationArea = All;
+                trigger OnDrillDown()
+                begin
+                    //<<ENEC1.00
+                    CurrPage.SAVERECORD;
+                    COMMIT;
+                    Rec.ShowExtraChargesELA;
+                    ShowShortcutECChargeELA(ShortcutECCharge);
+                    CurrPage.UPDATE(TRUE);
+                    //>>ENEC1.00
+                end;
+            }
+            field("Extra Charge Unit Cost"; ExtraChargeUnitCostELA)
+            {
+                ApplicationArea = All;
+                Visible = false;
+            }
+
+            field("Line Amount Incl. Extra Charges"; LineAmountWithExtraChargeELA)
+            {
+                ApplicationArea = All;
+
+            }
+        }
+        modify(Type)
+        {
+            trigger OnAfterValidate()
+            begin
+                SetLotFields;
+            end;
+        }
+    }
+    actions
+    {
+        addafter(DocAttach)
+        {
+            action("E&xtra Charge")
+            {
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedCategory = Process;
+                trigger OnAction()
+                begin
+                    ShowExtraChargesELA;
+                end;
+            }
+        }
+
+    }
+    procedure SetLotFields()
+    var
+        ProcessFns: Codeunit "Process 800 Functions ELA";
+        P800Globals: Codeunit "Process 800 System Globals ELA";
+    begin
+        LotEditable := ProcessFns.TrackingInstalled AND ("Lot No. ELA" <> P800Globals.MultipleLotCode) AND (Type = Type::Item);
+    end;
+
+    var
+        ShortcutECCharge: Array[5] of Decimal;
+        LotEditable: Boolean;
+}

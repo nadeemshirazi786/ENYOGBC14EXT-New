@@ -1,0 +1,21 @@
+{
+  "id": "011638a4-80c4-449e-9b54-21a2e66aa3fe",
+  "name": "Elation YOG Extension1",
+  "publisher": "Elation LLC",
+  "version": "1.0.0.0",
+  "brief": "",
+  "description": "",
+  "privacyStatement": "",
+  "EULA": "",
+  "help": "",
+  "url": "",
+  "logo": "",
+  "dependencies": [],
+  "screenshots": [],
+  "platform": "1.0.0.0",
+  "application": "14.0.0.0",
+  "contextSensitiveHelpUrl": "https://ElationYOGExt.com/help/",
+  "showMyCode": true,
+  "runtime": "3.0",
+  "target": "Internal"
+}

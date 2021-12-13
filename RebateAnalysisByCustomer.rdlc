@@ -1,0 +1,463 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+      <rd:SecurityType>None</rd:SecurityType>
+    </DataSource>
+  </DataSources>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <Height>2in</Height>
+        <Style />
+      </Body>
+      <Width>6.5in</Width>
+      <Page>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <ReportParameters>
+    <ReportParameter Name="Title">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>Title</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Title</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="SellTo">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>SellTo</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>SellTo</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="FunctArea">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>FunctArea</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>FunctArea</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DocType">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>DocType</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>DocType</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DocNo">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>DocNo</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>DocNo</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="PostDate">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>PostDate</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>PostDate</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Amount">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>Amount</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Amount</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="AmountDOC">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>AmountDOC</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>AmountDOC</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="CurrencyDOC">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>CurrencyDOC</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>CurrencyDOC</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Open">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>Open</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Open</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Registered">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>Registered</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Registered</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Posted">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>Posted</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Posted</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Closed">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>Closed</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Closed</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="TotalFor">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>TotalFor</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>TotalFor</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="TotalOpen">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>TotalOpen</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>TotalOpen</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="TotalPending">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>TotalPending</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>TotalPending</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="TotalAccrued">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>TotalAccrued</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>TotalAccrued</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="TotalClosed">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>TotalClosed</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>TotalClosed</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ReportSummary">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>ReportSummary</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>ReportSummary</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Total">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>Total</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Total</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <Code>Public Function BlankZero(ByVal Value As Decimal)
+    if Value = 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankPos(ByVal Value As Decimal)
+    if Value &gt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankZeroAndPos(ByVal Value As Decimal)
+    if Value &gt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNeg(ByVal Value As Decimal)
+    if Value &lt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNegAndZero(ByVal Value As Decimal)
+    if Value &lt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+</Code>
+  <Language>=User!Language</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="CompName">
+          <DataField>CompName</DataField>
+        </Field>
+        <Field Name="gtxtFilterString">
+          <DataField>gtxtFilterString</DataField>
+        </Field>
+        <Field Name="No_Customer">
+          <DataField>No_Customer</DataField>
+        </Field>
+        <Field Name="Name_Customer">
+          <DataField>Name_Customer</DataField>
+        </Field>
+        <Field Name="gdecCustTotalLCY">
+          <DataField>gdecCustTotalLCY</DataField>
+        </Field>
+        <Field Name="gdecCustTotalLCYFormat">
+          <DataField>gdecCustTotalLCYFormat</DataField>
+        </Field>
+        <Field Name="gdecRptTotalOpen">
+          <DataField>gdecRptTotalOpen</DataField>
+        </Field>
+        <Field Name="gdecRptTotalOpenFormat">
+          <DataField>gdecRptTotalOpenFormat</DataField>
+        </Field>
+        <Field Name="gdecRptTotalPending">
+          <DataField>gdecRptTotalPending</DataField>
+        </Field>
+        <Field Name="gdecRptTotalPendingFormat">
+          <DataField>gdecRptTotalPendingFormat</DataField>
+        </Field>
+        <Field Name="gdecRptTotalAccrued">
+          <DataField>gdecRptTotalAccrued</DataField>
+        </Field>
+        <Field Name="gdecRptTotalAccruedFormat">
+          <DataField>gdecRptTotalAccruedFormat</DataField>
+        </Field>
+        <Field Name="gdecRptTotalClosed">
+          <DataField>gdecRptTotalClosed</DataField>
+        </Field>
+        <Field Name="gdecRptTotalClosedFormat">
+          <DataField>gdecRptTotalClosedFormat</DataField>
+        </Field>
+        <Field Name="gdecRptTotal">
+          <DataField>gdecRptTotal</DataField>
+        </Field>
+        <Field Name="gdecRptTotalFormat">
+          <DataField>gdecRptTotalFormat</DataField>
+        </Field>
+        <Field Name="Customer_No_">
+          <DataField>Customer_No_</DataField>
+        </Field>
+        <Field Name="SelltoCustomerNo_OpenRebates">
+          <DataField>SelltoCustomerNo_OpenRebates</DataField>
+        </Field>
+        <Field Name="SelltoCustomerName_OpenRebates">
+          <DataField>SelltoCustomerName_OpenRebates</DataField>
+        </Field>
+        <Field Name="RebateCode_OpenRebates">
+          <DataField>RebateCode_OpenRebates</DataField>
+        </Field>
+        <Field Name="RebateDescription_OpenRebates">
+          <DataField>RebateDescription_OpenRebates</DataField>
+        </Field>
+        <Field Name="FunctionalArea_OpenRebates">
+          <DataField>FunctionalArea_OpenRebates</DataField>
+        </Field>
+        <Field Name="SourceType_OpenRebates">
+          <DataField>SourceType_OpenRebates</DataField>
+        </Field>
+        <Field Name="SourceNo_OpenRebates">
+          <DataField>SourceNo_OpenRebates</DataField>
+        </Field>
+        <Field Name="PostingDate_OpenRebates">
+          <DataField>PostingDate_OpenRebates</DataField>
+        </Field>
+        <Field Name="AmountLCY_OpenRebates">
+          <DataField>AmountLCY_OpenRebates</DataField>
+        </Field>
+        <Field Name="AmountLCY_OpenRebatesFormat">
+          <DataField>AmountLCY_OpenRebatesFormat</DataField>
+        </Field>
+        <Field Name="AmountDOC_OpenRebates">
+          <DataField>AmountDOC_OpenRebates</DataField>
+        </Field>
+        <Field Name="AmountDOC_OpenRebatesFormat">
+          <DataField>AmountDOC_OpenRebatesFormat</DataField>
+        </Field>
+        <Field Name="gcodDocCurrCode_OpenRebates">
+          <DataField>gcodDocCurrCode_OpenRebates</DataField>
+        </Field>
+        <Field Name="SelltoCustomerNo_RegisteredRebates">
+          <DataField>SelltoCustomerNo_RegisteredRebates</DataField>
+        </Field>
+        <Field Name="SelltoCustomerName_RegisteredRebates">
+          <DataField>SelltoCustomerName_RegisteredRebates</DataField>
+        </Field>
+        <Field Name="RebateCode_RegisteredRebates">
+          <DataField>RebateCode_RegisteredRebates</DataField>
+        </Field>
+        <Field Name="RebateDescription_RegisteredRebates">
+          <DataField>RebateDescription_RegisteredRebates</DataField>
+        </Field>
+        <Field Name="FunctionalArea_RegisteredRebates">
+          <DataField>FunctionalArea_RegisteredRebates</DataField>
+        </Field>
+        <Field Name="SourceType_RegisteredRebates">
+          <DataField>SourceType_RegisteredRebates</DataField>
+        </Field>
+        <Field Name="SourceNo_RegisteredRebates">
+          <DataField>SourceNo_RegisteredRebates</DataField>
+        </Field>
+        <Field Name="PostingDate_RegisteredRebates">
+          <DataField>PostingDate_RegisteredRebates</DataField>
+        </Field>
+        <Field Name="AmountLCY_RegisteredRebates">
+          <DataField>AmountLCY_RegisteredRebates</DataField>
+        </Field>
+        <Field Name="AmountLCY_RegisteredRebatesFormat">
+          <DataField>AmountLCY_RegisteredRebatesFormat</DataField>
+        </Field>
+        <Field Name="AmountDOC_RegisteredRebates">
+          <DataField>AmountDOC_RegisteredRebates</DataField>
+        </Field>
+        <Field Name="AmountDOC_RegisteredRebatesFormat">
+          <DataField>AmountDOC_RegisteredRebatesFormat</DataField>
+        </Field>
+        <Field Name="gcodDocCurrCode_RegisteredRebates">
+          <DataField>gcodDocCurrCode_RegisteredRebates</DataField>
+        </Field>
+        <Field Name="SelltoCustomerNo_PostedRebates">
+          <DataField>SelltoCustomerNo_PostedRebates</DataField>
+        </Field>
+        <Field Name="SelltoCustomerName_PostedRebates">
+          <DataField>SelltoCustomerName_PostedRebates</DataField>
+        </Field>
+        <Field Name="RebateCode_PostedRebates">
+          <DataField>RebateCode_PostedRebates</DataField>
+        </Field>
+        <Field Name="RebateDescription_PostedRebates">
+          <DataField>RebateDescription_PostedRebates</DataField>
+        </Field>
+        <Field Name="FunctionalArea_PostedRebates">
+          <DataField>FunctionalArea_PostedRebates</DataField>
+        </Field>
+        <Field Name="SourceType_PostedRebates">
+          <DataField>SourceType_PostedRebates</DataField>
+        </Field>
+        <Field Name="SourceNo_PostedRebates">
+          <DataField>SourceNo_PostedRebates</DataField>
+        </Field>
+        <Field Name="PostingDate_PostedRebates">
+          <DataField>PostingDate_PostedRebates</DataField>
+        </Field>
+        <Field Name="AmountLCY_PostedRebates">
+          <DataField>AmountLCY_PostedRebates</DataField>
+        </Field>
+        <Field Name="AmountLCY_PostedRebatesFormat">
+          <DataField>AmountLCY_PostedRebatesFormat</DataField>
+        </Field>
+        <Field Name="AmountDOC_PostedRebates">
+          <DataField>AmountDOC_PostedRebates</DataField>
+        </Field>
+        <Field Name="AmountDOC_PostedRebatesFormat">
+          <DataField>AmountDOC_PostedRebatesFormat</DataField>
+        </Field>
+        <Field Name="gcodDocCurrCode_PostedRebates">
+          <DataField>gcodDocCurrCode_PostedRebates</DataField>
+        </Field>
+        <Field Name="SelltoCustomerNo_ClosedRebates">
+          <DataField>SelltoCustomerNo_ClosedRebates</DataField>
+        </Field>
+        <Field Name="SelltoCustomerName_ClosedRebates">
+          <DataField>SelltoCustomerName_ClosedRebates</DataField>
+        </Field>
+        <Field Name="RebateCode_ClosedRebates">
+          <DataField>RebateCode_ClosedRebates</DataField>
+        </Field>
+        <Field Name="RebateDescription_ClosedRebates">
+          <DataField>RebateDescription_ClosedRebates</DataField>
+        </Field>
+        <Field Name="FunctionalArea_ClosedRebates">
+          <DataField>FunctionalArea_ClosedRebates</DataField>
+        </Field>
+        <Field Name="SourceType_ClosedRebates">
+          <DataField>SourceType_ClosedRebates</DataField>
+        </Field>
+        <Field Name="SourceNo_ClosedRebates">
+          <DataField>SourceNo_ClosedRebates</DataField>
+        </Field>
+        <Field Name="PostingDate_ClosedRebates">
+          <DataField>PostingDate_ClosedRebates</DataField>
+        </Field>
+        <Field Name="AmountLCY_ClosedRebates">
+          <DataField>AmountLCY_ClosedRebates</DataField>
+        </Field>
+        <Field Name="AmountLCY_ClosedRebatesFormat">
+          <DataField>AmountLCY_ClosedRebatesFormat</DataField>
+        </Field>
+        <Field Name="AmountDOC_ClosedRebates">
+          <DataField>AmountDOC_ClosedRebates</DataField>
+        </Field>
+        <Field Name="AmountDOC_ClosedRebatesFormat">
+          <DataField>AmountDOC_ClosedRebatesFormat</DataField>
+        </Field>
+        <Field Name="gcodDocCurrCode_ClosedRebates">
+          <DataField>gcodDocCurrCode_ClosedRebates</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
+</Report>
