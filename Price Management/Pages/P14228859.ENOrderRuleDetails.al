@@ -7,6 +7,8 @@ page 14228859 "EN Order Rule Details"
     PageType = Worksheet;
     SaveValues = true;
     SourceTable = "EN Order Rule Detail";
+    UsageCategory = Tasks;
+    ApplicationArea = All;
 
     layout
     {
@@ -324,7 +326,7 @@ page 14228859 "EN Order Rule Details"
         [InDataSet]
         ItemRefNoFilterCtrlEnable: Boolean;
 
-    
+
     procedure GetRecFilters()
     begin
         IF GETFILTERS <> '' THEN BEGIN
@@ -349,7 +351,7 @@ page 14228859 "EN Order Rule Details"
         EVALUATE(StartingDateFilter, GETFILTER("Start Date"));
     end;
 
-    
+
     procedure SetRecFilters()
     begin
         SalesCodeFilterCtrlEnable := TRUE;
@@ -400,7 +402,7 @@ page 14228859 "EN Order Rule Details"
 
     end;
 
-    
+
     /// <summary>
     /// GetCaption.
     /// </summary>

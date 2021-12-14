@@ -472,7 +472,7 @@ page 14228832 "YOG Item List"
 
     trigger OnAfterGetCurrRecord()
     VAR
-        SalesType: Option "PropertyValueOptionCaptionCustomer","Customer Price Group","All Customers","Campaign","Customer Buying Group","Price List Group";
+        SalesType: Option "Customer","Customer Price Group","All Customers","Campaign","Customer Buying Group","Price List Group";
     BEGIN
         IF "No." <> '' THEN BEGIN
             CurrPage.ItemAvailMatrixSubPage.PAGE.SetItem(Rec);

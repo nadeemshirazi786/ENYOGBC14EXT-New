@@ -87,7 +87,7 @@ page 14228834 "Standard Price Factbox ELA"
         ItemRefArr: array[100] of Code[30];
         PriceArr: array[5] of Decimal;
         TitleArr: array[5] of Code[10];
-        gSalesType: Option "PropertyValueOptionCaptionCustomer","Customer Price Group","All Customers","Campaign","Customer Buying Group","Price List Group";
+        gSalesType: Option "Customer","Customer Price Group","All Customers","Campaign","Customer Buying Group","Price List Group";
         gItemNo: Code[20];
         gItemSalesPriceCalculation: Record "EN Sales Price";
         gTitle: Text;
@@ -99,10 +99,10 @@ page 14228834 "Standard Price Factbox ELA"
         lrecItem: Record Item;
     begin
         IF lrecItem.GET(gItemNo) THEN
-             EXIT(lcduSalesPriceCalcMgt.ExecutePriceCalcCalcultion(gItemSalesPriceCalculation, lrecItem));
+            EXIT(lcduSalesPriceCalcMgt.ExecutePriceCalcCalcultion(gItemSalesPriceCalculation, lrecItem));
     end;
 
-    procedure Set(VAR NewItem: Record Item; SalesType: Option "PropertyValueOptionCaptionCustomer","Customer Price Group","All Customers","Campaign","Customer Buying Group","Price List Group")
+    procedure Set(VAR NewItem: Record Item; SalesType: Option "Customer","Customer Price Group","All Customers","Campaign","Customer Buying Group","Price List Group")
     var
         ItemUOM: Record "Item Unit of Measure";
         UOMCount: Integer;
@@ -164,7 +164,7 @@ page 14228834 "Standard Price Factbox ELA"
 
     procedure DrillDown(pUomCode: Code[10])
     var
-    lIpcPage: Page "EN Price List Line";
+        lIpcPage: Page "EN Price List Line";
     begin
         IF NOT SetIpcFilters(pUomCode) THEN BEGIN
             EXIT;

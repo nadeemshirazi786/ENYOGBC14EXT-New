@@ -93,7 +93,7 @@ page 14228835 "Combination Deal Factbox ELA"
     procedure GetDeals(): Integer
     var
         lpagDeals: Page "Combination Deals List ELA";
-        lrecTempDetLine: Record "EN Order Rule Detail Line";
+        lrecTempDetLine: Record "EN Order Rule Detail Line" temporary;
         i: Integer;
     begin
         lpagDeals.FillData(Rec);

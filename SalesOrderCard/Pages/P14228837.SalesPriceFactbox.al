@@ -89,7 +89,7 @@ page 14228837 "Sales Price Factbox ELA"
         ItemRefArr: array[100] of Code[30];
         PriceArr: array[5] of Decimal;
         TitleArr: array[5] of Code[10];
-        gSalesType: Option "PropertyValueOptionCaptionCustomer","Customer Price Group","All Customers","Campaign","Customer Buying Group","Price List Group";
+        gSalesType: Option "Customer","Customer Price Group","All Customers","Campaign","Customer Buying Group","Price List Group";
         gItemNo: Code[20];
         gItemSalesPriceCalculation: Record "EN Sales Price";
         gTitle: Text;
@@ -99,11 +99,11 @@ page 14228837 "Sales Price Factbox ELA"
         lcduSalesPriceCalcMgt: Codeunit "EN Sales Price Calc. Mgt.";
         lrecItem: Record Item;
     begin
-        // IF lrecItem.GET(gItemNo) THEN
-        //     EXIT(lcduSalesPriceCalcMgt.jfExecutePriceCalcCalcultion(gItemSalesPriceCalculation, lrecItem));
+        IF lrecItem.GET(gItemNo) THEN
+            EXIT(lcduSalesPriceCalcMgt.ExecutePriceCalcCalcultion(gItemSalesPriceCalculation, lrecItem));
     end;
 
-    procedure Set(VAR NewItem: Record Item; SalesType: Option "PropertyValueOptionCaptionCustomer","Customer Price Group","All Customers","Campaign","Customer Buying Group","Price List Group")
+    procedure Set(VAR NewItem: Record Item; SalesType: Option "Customer","Customer Price Group","All Customers","Campaign","Customer Buying Group","Price List Group")
     var
         ItemUOM: Record "Item Unit of Measure";
         UOMCount: Integer;
@@ -165,7 +165,7 @@ page 14228837 "Sales Price Factbox ELA"
 
     procedure DrillDown(pUomCode: Code[10])
     var
-        lIpcPage: Page "Show Sales Price Calculation";
+        lIpcPage: Page "EN Price List Line";
     begin
         IF NOT SetIpcFilters(pUomCode) THEN BEGIN
             EXIT;
@@ -182,19 +182,19 @@ page 14228837 "Sales Price Factbox ELA"
         DELETEALL;
         Key1 := '1';
         Code1 := 'MAIN CC';
-        Code2 := 'PGA';
+        Code2 := 'PGA SALE';
         INSERT;
         Key1 := '2';
         Code1 := 'MAIN DEL';
-        Code2 := 'PGA';
+        Code2 := 'PGA SALE';
         INSERT;
         Key1 := '3';
         Code1 := 'SHAW';
-        Code2 := 'SHAW';
+        Code2 := 'SHAW SALE';
         INSERT;
         Key1 := '4';
         Code1 := 'MB1';
-        Code2 := 'MB';
+        Code2 := 'MB SALE';
         INSERT;
     end;
 
