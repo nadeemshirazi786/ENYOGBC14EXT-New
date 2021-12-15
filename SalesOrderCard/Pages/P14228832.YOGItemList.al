@@ -460,6 +460,195 @@ page 14228832 "YOG Item List"
                 end;
             }
         }
+        area(Navigation)
+        {
+            group("Item by Location")
+            {
+                group("Item Availability")
+                {
+                    action("Event")
+                    {
+                        Image = "Event";
+                        Caption = 'Event';
+                        trigger OnAction()
+                        begin
+                            ItemAvailFormsMgt.ShowItemAvailFromItem(Rec, ItemAvailFormsMgt.ByEvent);
+                        end;
+                    }
+                    action("Period")
+                    {
+                        Image = Period;
+                        Caption = 'Period';
+                        RunObject = Page "Item Availability by Periods";
+                        RunPageLink = "No." = FIELD("No."), "Global Dimension 1 Filter" = FIELD("Global Dimension 1 Filter"), "Global Dimension 2 Filter" = FIELD("Global Dimension 2 Filter"), "Location Filter" = FIELD("Location Filter"), "Drop Shipment Filter" = FIELD("Drop Shipment Filter"), "Variant Filter" = FIELD("Variant Filter");
+                    }
+                    action("V@riant")
+                    {
+                        Image = ItemVariant;
+                        Caption = 'Variant';
+                        RunObject = page "Item Availability by Variant";
+                        RunPageLink = "No." = FIELD("No."), "Global Dimension 1 Filter" = FIELD("Global Dimension 1 Filter"), "Global Dimension 2 Filter" = FIELD("Global Dimension 2 Filter"), "Location Filter" = FIELD("Location Filter"), "Drop Shipment Filter" = FIELD("Drop Shipment Filter"), "Variant Filter" = FIELD("Variant Filter");
+                    }
+                    action("Location")
+                    {
+                        Image = Warehouse;
+                        Caption = 'Location';
+                        RunObject = page "Item Availability by Location";
+                        RunPageLink = "No." = FIELD("No."), "Global Dimension 1 Filter" = FIELD("Global Dimension 1 Filter"), "Global Dimension 2 Filter" = FIELD("Global Dimension 2 Filter"), "Location Filter" = FIELD("Location Filter"), "Drop Shipment Filter" = FIELD("Drop Shipment Filter"), "Variant Filter" = FIELD("Variant Filter");
+                    }
+                    action("BOM Level")
+                    {
+                        Image = BOMLevel;
+                        Caption = 'BOM Level';
+                        trigger OnAction()
+                        begin
+                            ItemAvailFormsMgt.ShowItemAvailFromItem(Rec, ItemAvailFormsMgt.ByBOM);
+                        end;
+                    }
+                    action("Timeline")
+                    {
+                        Image = Timeline;
+                        Caption = 'Timeline';
+                        trigger OnAction()
+                        begin
+                            ShowTimelineFromItem(Rec);
+                        end;
+                    }
+                }
+                action("Inventory Overview")
+                {
+                    Image = BinLedger;
+                    Caption = 'Inventory Overview';
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    PromotedIsBig = true;
+                }
+            }
+            group("Master Data")
+            {
+                action("Variant")
+                {
+                    Image = ItemVariant;
+                    Caption = 'Variant';
+                    RunObject = page "Item Variants";
+                    RunPageLink = "Item No." = FIELD("No.");
+                }
+                action("Item Unit of Measure")
+                {
+                    Image = UnitOfMeasure;
+                    Caption = 'Unit of Measure';
+                    RunObject = page "Item Units of Measure";
+                    RunPageLink = "Item No." = FIELD("No.");
+                }
+                group("Dimensions")
+                {
+                    action("Dimension Single")
+                    {
+                        ApplicationArea = All;
+                        Caption = 'Dimension-Single';
+                        RunObject = page "Default Dimensions";
+                        RunPageLink = "Table ID" = CONST(27), "No." = FIELD("No.");
+                        Image = Dimensions;
+                    }
+                    action("Dimension Multiple")
+                    {
+                        ApplicationArea = All;
+                        Caption = 'Dimension-Multiple';
+                        Image = DimensionSets;
+                        trigger OnAction()
+                        var
+                            Item: Record Item;
+                            DefaultDimMultiple: Page "Default Dimensions-Multiple";
+                        begin
+                            CurrPage.SETSELECTIONFILTER(Item);
+                            //DefaultDimMultiple.SetMultiItem(Item);
+                            DefaultDimMultiple.RUNMODAL;
+                        end;
+                    }
+                }
+                action("Item Substitutions")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Substituti&ons';
+                    Image = ItemSubstitution;
+                    RunObject = page "Item Substitution Entry";
+                    RunPageLink = "Type" = CONST(Item), "No." = FIELD("No.");
+                }
+                action("Item Cross Re&ferences")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Cross References';
+                    Image = Change;
+                    RunObject = page "Item Cross Reference Entries";
+                    RunPageLink = "Item No." = FIELD("No.");
+                }
+                action("E&xtended Text")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Extended Text';
+                    Image = Text;
+                    RunObject = page "Extended Text List";
+                    RunPageView = SORTING("Table Name", "No.", "Language Code", "All Language Codes", "Starting Date", "Ending Date");
+                    RunPageLink = "Table Name" = CONST(Item), "No." = FIELD("No.");
+                }
+                action("Item Translation")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Translation';
+                    Image = Translations;
+                    RunObject = page "Item Translations";
+                    RunPageLink = "Item No." = FIELD("No."), "Variant Code" = CONST();
+                }
+                action("&Picture")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Picture';
+                    Image = Picture;
+                    RunObject = page "Item Picture";
+                    RunPageLink = "No." = FIELD("No."), "Date Filter" = FIELD("Date Filter"), "Global Dimension 1 Filter" = FIELD("Global Dimension 1 Filter"), "Global Dimension 2 Filter" = FIELD("Global Dimension 2 Filter"), "Location Filter" = FIELD("Location Filter"), "Drop Shipment Filter" = FIELD("Drop Shipment Filter"), "Variant Filter" = FIELD("Variant Filter");
+                }
+                action("Item Identifiers")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Identifiers';
+                    Image = BarCode;
+                    RunObject = page "Item Identifiers";
+                    RunPageView = SORTING("Item No.", "Variant Code", "Unit of Measure Code");
+                    RunPageLink = "Item No." = FIELD("No.");
+                }
+            }
+            group("Assembly/Production")
+            {
+                action("Structure")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Structure';
+                    Image = Hierarchy;
+                    trigger OnAction()
+                    var
+                        BOMStructure: Page "BOM Structure";
+                    begin
+                        BOMStructure.InitItem(Rec);
+                        BOMStructure.RUN;
+                    end;
+                }
+                action("Cost Shares")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Cost Shares';
+                    Image = CostBudget;
+                    trigger OnAction()
+                    var
+                        BOMCostShares: Page "BOM Cost Shares";
+                    begin
+                        BOMCostShares.InitItem(Rec);
+                        BOMCostShares.RUN;
+                    end;
+                }
+            }
+
+        }
+
 
 
     }
