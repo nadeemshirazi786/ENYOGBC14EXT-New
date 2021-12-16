@@ -617,36 +617,205 @@ page 14228832 "YOG Item List"
                     RunPageLink = "Item No." = FIELD("No.");
                 }
             }
-            group("Assembly/Production")
+            group("History")
             {
-                action("Structure")
+                group("Entries")
                 {
-                    ApplicationArea = All;
-                    Caption = 'Structure';
-                    Image = Hierarchy;
-                    trigger OnAction()
-                    var
-                        BOMStructure: Page "BOM Structure";
-                    begin
-                        BOMStructure.InitItem(Rec);
-                        BOMStructure.RUN;
-                    end;
+                    action("Ledger Entries")
+                    {
+                        ApplicationArea = All;
+                        Caption = 'Ledger Entries';
+                        Image = ItemLedger;
+                        Promoted = true;
+                        PromotedCategory = Process;
+                        RunObject = page "Item Ledger Entries";
+                        RunPageView = sorting("Item No.");
+                        RunPageLink = "Item No." = FIELD("No.");
+                    }
+                    action("&Reservation Entries")
+                    {
+                        ApplicationArea = All;
+                        Caption = 'Reservation Entries';
+                        Image = ReservationLedger;
+                        RunObject = page "Reservation Entries";
+                        RunPageView = SORTING("Item No.", "Variant Code", "Location Code", "Reservation Status");
+                        RunPageLink = "Reservation Status" = CONST(Reservation), "Item No." = FIELD("No.");
+
+                    }
+                    action("&Phys. Inventory Ledger Entries")
+                    {
+                        ApplicationArea = All;
+                        Caption = 'Phys. Inventory Ledger Entries';
+                        Image = PhysicalInventoryLedger;
+                        RunObject = page "Phys. Inventory Ledger Entries";
+                        RunPageView = sorting("Item No.");
+                        RunPageLink = "Item No." = field("No.");
+                    }
+                    action("&Value Entries")
+                    {
+                        ApplicationArea = All;
+                        Caption = 'Value Entries';
+                        Image = ValueLedger;
+                        RunObject = page "Value Entries";
+                        RunPageView = sorting("Item No.");
+                        RunPageLink = "Item No." = field("No.");
+                    }
+                    action("Item &Tracking Entries")
+                    {
+                        ApplicationArea = All;
+                        Caption = 'Item Tracking Entries';
+                        Image = ItemTrackingLedger;
+                        trigger OnAction()
+                        var
+                            ItemTrackingMgt: Codeunit "Item Tracking Management";
+                        begin
+                            //ItemTrackingMgt.CallItemTrackingEntryForm(3, '', "No.", '', '', '', '');
+                        end;
+                    }
+                    action("&Warehouse Entries")
+                    {
+                        ApplicationArea = All;
+                        Caption = '&Warehouse Entries';
+                        Image = BinLedger;
+                        RunObject = page "Warehouse Entries";
+                        RunPageView = SORTING("Item No.", "Bin Code", "Location Code", "Variant Code", "Unit of Measure Code", "Lot No.", "Serial No.", "Entry Type", Dedicated);
+                        RunPageLink = "Item No." = field("No.");
+                    }
                 }
-                action("Cost Shares")
+                group("Statistics")
+                {
+                    action("St@tistics")
+                    {
+                        ApplicationArea = All;
+                        Caption = 'Statistics';
+                        Image = Statistics;
+                        Promoted = true;
+                        PromotedCategory = Process;
+                        trigger OnAction()
+                        var
+                            ItemStatistics: Page "Item Statistics";
+                        begin
+                            ItemStatistics.SetItem(Rec);
+                            ItemStatistics.RUNMODAL;
+                        end;
+                    }
+                    action("Item Entry Statistics")
+                    {
+                        ApplicationArea = All;
+                        Caption = 'Entry Statistics';
+                        Image = EntryStatistics;
+                        RunObject = page "Item Entry Statistics";
+                        RunPageLink = "No." = FIELD("No."), "Date Filter" = FIELD("Date Filter"), "Global Dimension 1 Filter" = FIELD("Global Dimension 1 Filter"), "Global Dimension 2 Filter" = FIELD("Global Dimension 2 Filter"), "Location Filter" = FIELD("Location Filter"), "Drop Shipment Filter" = FIELD("Drop Shipment Filter"), "Variant Filter" = FIELD("Variant Filter");
+
+                    }
+                    action("T&urnover")
+                    {
+                        ApplicationArea = All;
+                        Caption = 'Turnover';
+                        Image = Turnover;
+                        RunObject = page "Item Turnover";
+                        RunPageLink = "No." = FIELD("No."), "Global Dimension 1 Filter" = FIELD("Global Dimension 1 Filter"), "Global Dimension 2 Filter" = FIELD("Global Dimension 2 Filter"), "Location Filter" = FIELD("Location Filter"), "Drop Shipment Filter" = FIELD("Drop Shipment Filter"), "Variant Filter" = FIELD("Variant Filter");
+
+                    }
+                }
+            }
+            group("Sales")
+            {
+                action("&Orders")
                 {
                     ApplicationArea = All;
-                    Caption = 'Cost Shares';
-                    Image = CostBudget;
+                    Caption = 'Orders';
+                    Image = Document;
+                    RunObject = page "Sales Orders";
+                    RunPageView = SORTING("Document Type", Type, "No.");
+                    RunPageLink = Type = CONST(Item), "No." = FIELD("No.");
+                }
+                action("Returns Orders")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Returns Orders';
+                    Image = ReturnOrder;
+                    RunObject = page "Sales Return Orders";
+                    RunPageView = SORTING("Document Type", Type, "No.");
+                    RunPageLink = Type = CONST(Item), "No." = FIELD("No.");
+                }
+            }
+            group("&Purchases")
+            {
+                action("Ven&dors")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Vendors';
+                    Image = Vendor;
+                    RunObject = page "Item Vendor Catalog";
+                    RunPageView = sorting("Item No.");
+                    RunPageLink = "Item No." = field("No.");
+                }
+                action("&Purchase Orders")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Orders';
+                    Image = Document;
+                    RunObject = page "Purchase Orders";
+                    RunPageView = SORTING("Document Type", Type, "No.");
+                    RunPageLink = Type = CONST(Item), "No." = FIELD("No.");
+                }
+                action("Purchase Returns Orders")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Returns Orders';
+                    Image = ReturnOrder;
+                    RunObject = page "Purchase Return Orders";
+                    RunPageView = SORTING("Document Type", Type, "No.");
+                    RunPageLink = Type = CONST(Item), "No." = FIELD("No.");
+                }
+            }
+            group("Warehouse")
+            {
+                action("Item Bin Contents")
+                {
+                    ApplicationArea = All;
+                    Caption = '&Bin Contents';
+                    Image = BinContent;
+                    RunObject = page "Item Bin Contents";
+                    RunPageView = sorting("Item No.");
+                    RunPageLink = "Item No." = field("No.");
+                }
+                action("Stockkeepin&g Units List")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Stockkeeping Units';
+                    Image = SKU;
+                    RunObject = page "Stockkeeping Unit List";
+                    RunPageView = sorting("Item No.");
+                    RunPageLink = "Item No." = field("No.");
+                }
+                action("Warehouse Overview")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Warehouse Overview';
+                    Image = Warehouse;
+                    //RunObject = page Warehouse o
+
+                }
+            }
+            group("Resource")
+            {
+                action("Skilled R&esources")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Skilled Resources';
+                    Image = ResourceSkills;
                     trigger OnAction()
                     var
-                        BOMCostShares: Page "BOM Cost Shares";
+                        ResourceSkill: Record "Resource Skill";
                     begin
-                        BOMCostShares.InitItem(Rec);
-                        BOMCostShares.RUN;
+                        CLEAR(SkilledResourceList);
+                        SkilledResourceList.Initialize(ResourceSkill.Type::Item, "No.", Description);
+                        SkilledResourceList.RUNMODAL;
                     end;
                 }
             }
-
         }
 
 
