@@ -561,7 +561,7 @@ page 14228832 "YOG Item List"
                             DefaultDimMultiple: Page "Default Dimensions-Multiple";
                         begin
                             CurrPage.SETSELECTIONFILTER(Item);
-                            //DefaultDimMultiple.SetMultiItem(Item);
+                            DefaultDimMultiple.SetMultiItem(Item);
                             DefaultDimMultiple.RUNMODAL;
                         end;
                     }
@@ -669,7 +669,7 @@ page 14228832 "YOG Item List"
                         var
                             ItemTrackingMgt: Codeunit "Item Tracking Management";
                         begin
-                            //ItemTrackingMgt.CallItemTrackingEntryForm(3, '', "No.", '', '', '', '');
+                            CallItemTrackingEntryFormELA(3, '', "No.", '', '', '', '');
                         end;
                     }
                     action("&Warehouse Entries")
@@ -795,7 +795,7 @@ page 14228832 "YOG Item List"
                     ApplicationArea = All;
                     Caption = 'Warehouse Overview';
                     Image = Warehouse;
-                    //RunObject = page Warehouse o
+                    RunObject = page "Warehouse Overview ELA";
 
                 }
             }
@@ -817,7 +817,63 @@ page 14228832 "YOG Item List"
                 }
             }
         }
-
+        area(Reporting)
+        {
+            action("Inventory - List")
+            {
+                ApplicationArea = All;
+                Caption = 'Inventory - List';
+                Image = Report;
+                Promoted = true;
+                PromotedCategory = Report;
+                RunObject = report "Item List";
+            }
+            action("Item/Vendor Catalog")
+            {
+                ApplicationArea = All;
+                Caption = 'Item/Vendor Catalog';
+                Image = Report;
+                Promoted = true;
+                PromotedCategory = Report;
+                RunObject = report "Item/Vendor Catalog";
+            }
+            action("Phys. Inventory List")
+            {
+                ApplicationArea = All;
+                Caption = 'Phys. Inventory List';
+                Image = Report;
+                Promoted = true;
+                PromotedCategory = Report;
+                RunObject = report "Phys. Inventory List";
+            }
+            action("Price List")
+            {
+                ApplicationArea = All;
+                Caption = 'Price List';
+                Image = Report;
+                Promoted = true;
+                PromotedCategory = Report;
+                RunObject = report "List Price Sheet";
+            }
+            action("Inventory Cost and Price List")
+            {
+                ApplicationArea = All;
+                Caption = 'Inventory Cost and Price List';
+                Image = Report;
+                Promoted = true;
+                PromotedCategory = Report;
+                RunObject = report "Item Cost and Price List";
+            }
+            action("Inventory - Top 10 List")
+            {
+                ApplicationArea = All;
+                Caption = 'Inventory - Top 10 List';
+                Image = Report;
+                Promoted = true;
+                PromotedCategory = Report;
+                RunObject = report "Top __ Inventory Items";
+            }
+        }
 
 
     }
@@ -880,8 +936,52 @@ page 14228832 "YOG Item List"
                     SETFILTER("Item Status ELA", '<>%1', "Item Status ELA"::Closed);
                 END;
         END;
-        //</JF3978MG>
+
     END;
+
+    procedure CallItemTrackingEntryFormELA(SourceType: Option "","Customer",Vendor,"Item"; SourceNo: Code[20]; ItemNo: Code[20]; VariantCode: Code[20]; SerialNo: Code[20]; LotNo: Code[20]; LocationCode: Code[10])
+    var
+        ItemLedgEntry: Record "Item Ledger Entry";
+        TempItemLedgEntry: Record "Item Ledger Entry";
+        Item: Record Item;
+        Window: Dialog;
+        Text004: TextConst ENU = 'Counting records...';
+    begin
+        // Used when calling Item Tracking from Item, Stockkeeping Unit, Customer, Vendor and information card:
+        Window.OPEN(Text004);
+
+        IF SourceNo <> '' THEN BEGIN
+            ItemLedgEntry.SETCURRENTKEY("Source Type", "Source No.", "Item No.", "Variant Code");
+            ItemLedgEntry.SETRANGE("Source No.", SourceNo);
+            ItemLedgEntry.SETRANGE("Source Type", SourceType);
+        END ELSE
+            ItemLedgEntry.SETCURRENTKEY("Item No.", Open, "Variant Code");
+
+        IF LocationCode <> '' THEN
+            ItemLedgEntry.SETRANGE("Location Code", LocationCode);
+
+        IF ItemNo <> '' THEN BEGIN
+            Item.GET(ItemNo);
+            Item.TESTFIELD("Item Tracking Code");
+            ItemLedgEntry.SETRANGE("Item No.", ItemNo);
+        END;
+        IF SourceType = 0 THEN
+            ItemLedgEntry.SETRANGE("Variant Code", VariantCode);
+        IF SerialNo <> '' THEN
+            ItemLedgEntry.SETRANGE("Serial No.", SerialNo);
+        IF LotNo <> '' THEN
+            ItemLedgEntry.SETRANGE("Lot No.", LotNo);
+
+        IF ItemLedgEntry.FINDSET THEN
+            REPEAT
+                IF (ItemLedgEntry."Serial No." <> '') OR (ItemLedgEntry."Lot No." <> '') THEN BEGIN
+                    TempItemLedgEntry := ItemLedgEntry;
+                    TempItemLedgEntry.INSERT;
+                END
+            UNTIL ItemLedgEntry.NEXT = 0;
+        Window.CLOSE;
+        PAGE.RUNMODAL(PAGE::"Item Tracking Entries", TempItemLedgEntry);
+    end;
 
     VAR
         SkilledResourceList: Page "Skilled Resource List";
