@@ -426,6 +426,18 @@ tableextension 14229603 "Sales & Receivables Setup ELA" extends "Sales & Receiva
         {
             Caption = 'Use Over Shipping Approvals';
         }
+        field(14229327; "Use Ord Sht Item CustNo Filter ELA"; Boolean)
+        {
+            Caption = 'Use Ord Sht Item CustNo Filter';
+        }
+        field(14229328; "Use Ship Date as Order Date ELA"; Boolean)
+        {
+            Caption = 'Use Ship Date as Order Date';
+        }
+        field(14229329; "Test Ord. Sht. Dup. Ext. Doc. ELA"; Boolean)
+        {
+            Caption = 'Test Ord. Sht. Dup. Ext. Doc.';
+        }
 
     }
     var

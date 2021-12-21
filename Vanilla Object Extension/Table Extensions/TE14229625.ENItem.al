@@ -349,7 +349,12 @@ tableextension 14229625 "EN Item ELA" extends Item
             end;
 
         }
+        field(51008; "Customer No. Filter ELA"; Code[20])
+        {
+            Caption = 'Customer No. Filter';
+        }
     }
+
     procedure TrackAlternateUnits(): Boolean
     begin
         EXIT("Alternate Unit of Measure" <> '');
