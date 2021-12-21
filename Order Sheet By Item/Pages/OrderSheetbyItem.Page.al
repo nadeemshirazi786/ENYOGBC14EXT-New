@@ -101,8 +101,7 @@ page 14228811 "Order Sheet by Item"
                         IF ApplicationManagement.MakeDateFilter(gtxtDateFilter) = 0 THEN;
                         grecOrderSheetItem.SETFILTER("Date Filter", gtxtDateFilter);
                         gtxtDateFilter := grecOrderSheetItem.GETFILTER("Date Filter");
-
-                        // refreshSubform; TBR
+                        refreshSubform;
                     end;
                 }
                 field(gtxtLocationFilter; gtxtLocationFilter)
