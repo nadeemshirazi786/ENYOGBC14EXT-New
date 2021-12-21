@@ -1,4 +1,4 @@
-tableextension 14229652 "Item Croess Refernece Ext" extends "Item Cross Reference"
+tableextension 14229653 "Item Croess Refernece ELA" extends "Item Cross Reference"
 {
     fields
     {

@@ -324,7 +324,7 @@ page 14228811 "Order Sheet by Item"
 
         MatrixRecord.SETRANGE("Order Sheet Batch Name", gcodBatchName);
 
-        IF grecSRSetup."Use Ord Sht Item CustNo Filter ELA" = TRUE THEN BEGIN
+        IF grecSRSetup."Use Ord Sht Item CustNo Fltr ELA" = TRUE THEN BEGIN
             IF gcodCustomerNo = '' THEN BEGIN
                 MatrixRecord.SETRANGE("Ship-to Code");
             END;
