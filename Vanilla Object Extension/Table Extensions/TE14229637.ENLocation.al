@@ -11,6 +11,7 @@ tableextension 14229637 "EN LT Location EXT ELA" extends Location
         {
             DataClassification = ToBeClassified;
         }
+        
     }
 
     procedure LocationType(): Integer

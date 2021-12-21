@@ -17,6 +17,10 @@
             "enableLongRunningSqlStatements": true,
             "enableSqlInformationDebugger": true,
             "schemaUpdateMode": "ForceSync" 
+<<<<<<< HEAD
+=======
+            
+>>>>>>> main
         }
     
     ]
