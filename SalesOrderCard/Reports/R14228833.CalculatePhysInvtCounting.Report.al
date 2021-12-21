@@ -88,7 +88,6 @@ report 14228833 "Calc. Phys. Invt. Count. ELA"
                         ApplicationArea = Warehouse;
                         Caption = 'Calculate Inventory by';
                         OptionCaption = 'Location,Loc./Bin/Lot/Serial No.,Loc./Lot/Serial No.';
-                        Visible = gblnCalcInvBy;
                     }
                 }
             }
@@ -104,6 +103,7 @@ report 14228833 "Calc. Phys. Invt. Count. ELA"
             SortMethodVisible := true;
             PrintPerItemEnable := true;
             ShowQtyCalcEnable := true;
+            gblnCalcInvBy := true;
         end;
 
         trigger OnOpenPage()
@@ -116,6 +116,7 @@ report 14228833 "Calc. Phys. Invt. Count. ELA"
             PrintPerItemEnable := PrintDoc;
             SortMethodVisible := SourceJnl = SourceJnl::WhseJnl;
             PrintPerItemVisible := SourceJnl = SourceJnl::WhseJnl;
+            gblnCalcInvBy := SourceJnl = SourceJnl::ItemJnl;
         end;
     }
 

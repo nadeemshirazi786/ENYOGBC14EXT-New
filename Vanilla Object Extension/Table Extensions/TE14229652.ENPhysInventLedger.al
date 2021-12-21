@@ -1,4 +1,4 @@
-tableextension 14229652 "Phys. Invt. Journal ELA" extends "Phys. Inventory Ledger Entry"
+tableextension 14229652 "Phys. Invt. Ledger ELA" extends "Phys. Inventory Ledger Entry"
 {
     fields
     {

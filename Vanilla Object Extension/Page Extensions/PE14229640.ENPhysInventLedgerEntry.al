@@ -2,7 +2,13 @@ pageextension 14229640 "Phys. Invnt. Ldgr. Entries ELA" extends "Phys. Inventory
 {
     layout
     {
-        // Add changes to page layout here
+        addafter("Qty. (Calculated)")
+        {
+            field("Qty. (Phys. Count Detail)"; "Qty. (Phys. Count Detail)")
+            {
+                ApplicationArea = All;
+            }
+        }
     }
 
     actions

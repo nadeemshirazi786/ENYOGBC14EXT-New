@@ -4,6 +4,19 @@ pageextension 14229638 "Phys. Inventory Journal ELA" extends "Phys. Inventory Jo
     {
         addafter(CalculateCountingPeriod)
         {
+            // action("Calculate Inventory Counting Period")
+            // {
+            //     ApplicationArea = All;
+
+            //     trigger OnAction()
+            //     var
+            //         PhysInvtCountMgt: Codeunit "Phys. Invt. Count.-Management";
+            //     begin
+            //         PhysInvtCountMgt.InitFromItemJnl(Rec);
+            //         PhysInvtCountMgt.RUN;
+            //         CLEAR(PhysInvtCountMgt);
+            //     end;
+            // }
             action("Calc. Inventory by Loc./Bin/Lot/Serial No.")
             {
                 ApplicationArea = All;

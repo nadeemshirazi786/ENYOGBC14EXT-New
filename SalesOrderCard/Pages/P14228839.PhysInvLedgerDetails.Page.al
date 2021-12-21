@@ -3,6 +3,7 @@ page 14228839 "Phys. Inv. Ledger Details ELA"
 
     PageType = List;
     SourceTable = "Phys. Inv. Ledger Detail ELA";
+    Caption = 'Phys. Inv. Ledger Details';
 
     layout
     {

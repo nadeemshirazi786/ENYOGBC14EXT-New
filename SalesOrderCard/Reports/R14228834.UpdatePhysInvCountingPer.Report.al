@@ -1,15 +1,9 @@
 report 14228834 "Update Phys Inv. Counting Per."
 {
-    // Copyright Axentia Solutions Corp.  1999-2009.
-    // By opening this object you acknowledge that this object includes confidential information and intellectual
-    // property of Axentia Solutions Corp. and that this work is protected by Canadian, U.S. and international
-    // copyright laws and agreements.
-    // 
-    // JF2297MG
-    //   20090116 - new routine to update Next Counting Period for items/skus
-
     Caption = 'Update Phys. Inv. Counting Period';
     ProcessingOnly = true;
+    UsageCategory = ReportsAndAnalysis;
+    ApplicationArea = all;
 
     dataset
     {

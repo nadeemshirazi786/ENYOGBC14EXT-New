@@ -3,7 +3,7 @@ page 14228840 "Phys. Inv. Journal Details ELA"
     DelayedInsert = true;
     PageType = List;
     SourceTable = "Phys. Inv. Journal Detail ELA";
-
+    Caption = 'Phys. Inv. Journal Details';
     layout
     {
         area(content)
