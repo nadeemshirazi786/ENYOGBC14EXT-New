@@ -34,7 +34,13 @@ pageextension 14229638 "Phys. Inventory Journal ELA" extends "Phys. Inventory Jo
                     CurrPage.UPDATE;
                 end;
             }
+
         }
+        // modify(CalculateCountingPeriod)
+        // {
+        //     ApplicationArea = All;
+
+        // }
     }
 
 }
