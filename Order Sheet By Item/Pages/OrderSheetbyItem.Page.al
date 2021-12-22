@@ -403,7 +403,6 @@ page 14228811 "Order Sheet by Item"
         CurrentCaptionOrdinal: Integer;
         Steps: Integer;
         ltxtColumnCaption: Text[1024];
-        gblnUseMultiFieldColumnCaption: Boolean;
         gblnUseDateNameCaption: Boolean;
         Text001: TextConst ENU = 'The previous column set could not be found.';
     begin
@@ -510,7 +509,7 @@ page 14228811 "Order Sheet by Item"
         IF loptFieldClass = loptFieldClass::Flowfield THEN
             lfrfFieldRef.CALCFIELD;
 
-        EXIT(FORMAT(lfrfFieldRef.VALUE)); //</IB32019AO> </JF47970CK>
+        EXIT(FORMAT(lfrfFieldRef.VALUE));
     end;
 
     var

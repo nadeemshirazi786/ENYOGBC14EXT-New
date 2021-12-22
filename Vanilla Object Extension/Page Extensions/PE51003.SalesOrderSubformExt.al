@@ -20,6 +20,10 @@ pageextension 51003 "Sales Order Subform Ext" extends "Sales Order Subform"
             {
                 Editable = false;
             }
+            field("Original Order Qty. ELA"; "Original Order Qty. ELA")
+            {
+                ApplicationArea = All;
+            }
             field("UOM Size Code"; isGetUomSizeCode)
             {
 
