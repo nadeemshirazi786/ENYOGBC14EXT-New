@@ -370,7 +370,7 @@ page 14228811 "Order Sheet by Item"
                 END;
         END;
 
-        MatrixMgm.GenerateMatrixData(RecRef, SetWanted, MaximumNoOfCaptions, MATRIX_CaptionFieldNo, PrimaryKeyFirstCaptionInCurrSe,
+        GenerateMatrixData(RecRef, SetWanted, MaximumNoOfCaptions, MATRIX_CaptionFieldNo, PrimaryKeyFirstCaptionInCurrSe,
                         MATRIX_CaptionSet, MATRIX_ColumnSet, MATRIX_CurrSetLength);
 
         IF MATRIX_CurrSetLength > 0 THEN
@@ -398,18 +398,124 @@ page 14228811 "Order Sheet by Item"
         UpdateMatrixSubform();
     end;
 
-    procedure SetMultiFieldColumnCaption(pintFieldNo1: Integer; pintFieldNo2: Integer; pintFieldNo3: Integer)
-    var
+    procedure GenerateMatrixData(var RecRef: RecordRef; SetWanted: Option Initial,Previous,Same,Next,PreviousColumn,NextColumn; MaximumSetLength: Integer; CaptionFieldNo: Integer; var PKFirstRecInCurrSet: Text[1024]; var CaptionSet: ARRAY[32] OF Text; var CaptionRange: Text[1024]; var CurrSetLength: Integer)
+    Var
+        CurrentCaptionOrdinal: Integer;
+        Steps: Integer;
+        ltxtColumnCaption: Text[1024];
         gblnUseMultiFieldColumnCaption: Boolean;
-        gintCaptionFieldNo1: Integer;
-        gintCaptionFieldNo2: Integer;
-        gintCaptionFieldNo3: Integer;
+        gblnUseDateNameCaption: Boolean;
+        Text001: TextConst ENU = 'The previous column set could not be found.';
     begin
 
+        CLEAR(CaptionSet);
+        CaptionRange := '';
+        CurrSetLength := 0;
+
+        IF RecRef.ISEMPTY THEN BEGIN
+            PKFirstRecInCurrSet := '';
+            EXIT;
+        END;
+
+        CASE SetWanted OF
+            SetWanted::Initial:
+                RecRef.FINDFIRST;
+            SetWanted::Previous:
+                BEGIN
+                    RecRef.SETPOSITION(PKFirstRecInCurrSet);
+                    RecRef.GET(RecRef.RECORDID);
+                    Steps := RecRef.NEXT(-MaximumSetLength);
+                    IF NOT (Steps IN [-MaximumSetLength, 0]) THEN
+                        ERROR(Text001);
+                END;
+            SetWanted::Same:
+                BEGIN
+                    RecRef.SETPOSITION(PKFirstRecInCurrSet);
+                    RecRef.GET(RecRef.RECORDID);
+                END;
+            SetWanted::Next:
+                BEGIN
+                    RecRef.SETPOSITION(PKFirstRecInCurrSet);
+                    RecRef.GET(RecRef.RECORDID);
+                    IF NOT (RecRef.NEXT(MaximumSetLength) = MaximumSetLength) THEN BEGIN
+                        RecRef.SETPOSITION(PKFirstRecInCurrSet);
+                        RecRef.GET(RecRef.RECORDID);
+                    END;
+                END;
+            SetWanted::PreviousColumn:
+                BEGIN
+                    RecRef.SETPOSITION(PKFirstRecInCurrSet);
+                    RecRef.GET(RecRef.RECORDID);
+                    Steps := RecRef.NEXT(-1);
+                    IF NOT (Steps IN [-1, 0]) THEN
+                        ERROR(Text001);
+                END;
+            SetWanted::NextColumn:
+                BEGIN
+                    RecRef.SETPOSITION(PKFirstRecInCurrSet);
+                    RecRef.GET(RecRef.RECORDID);
+                    IF NOT (RecRef.NEXT(1) = 1) THEN BEGIN
+                        RecRef.SETPOSITION(PKFirstRecInCurrSet);
+                        RecRef.GET(RecRef.RECORDID);
+                    END;
+                END;
+        END;
+
+        PKFirstRecInCurrSet := RecRef.GETPOSITION;
+
+        REPEAT
+            CurrSetLength := CurrSetLength + 1;
+
+            //<JF9158MG>
+
+            IF gblnUseMultiFieldColumnCaption THEN BEGIN
+                ltxtColumnCaption := GetFieldCaptionValue(RecRef, gintCaptionFieldNo1);
+
+                IF gintCaptionFieldNo2 <> 0 THEN
+                    ltxtColumnCaption += ' (' + GetFieldCaptionValue(RecRef, gintCaptionFieldNo2) + ')';
+
+                IF gintCaptionFieldNo3 <> 0 THEN
+                    ltxtColumnCaption += ' (' + GetFieldCaptionValue(RecRef, gintCaptionFieldNo3) + ')';
+            END ELSE BEGIN
+                ltxtColumnCaption := GetFieldCaptionValue(RecRef, CaptionFieldNo);
+            END;
+
+            CaptionSet[CurrSetLength] := ltxtColumnCaption;
+        //</JF9158MG>
+        UNTIL (CurrSetLength = MaximumSetLength) OR (RecRef.NEXT <> 1);
+
+        IF CurrSetLength = 1 THEN
+            CaptionRange := CaptionSet[1]
+        ELSE
+            CaptionRange := CaptionSet[1] + '..' + CaptionSet[CurrSetLength];
+
+    end;
+
+    procedure SetMultiFieldColumnCaption(pintFieldNo1: Integer; pintFieldNo2: Integer; pintFieldNo3: Integer)
+    begin
         gblnUseMultiFieldColumnCaption := TRUE;
         gintCaptionFieldNo1 := pintFieldNo1;
         gintCaptionFieldNo2 := pintFieldNo2;
         gintCaptionFieldNo3 := pintFieldNo3;
     end;
-}
 
+    procedure GetFieldCaptionValue(var prrfRecRef: RecordRef; pintFieldNo: Integer): Text
+    var
+        lfrfFieldRef: FieldRef;
+        loptFieldClass: Option Normal,FlowFilter,Flowfield;
+    begin
+        lfrfFieldRef := prrfRecRef.FIELD(pintFieldNo);
+        EVALUATE(loptFieldClass, FORMAT(lfrfFieldRef.CLASS));
+
+        IF loptFieldClass = loptFieldClass::Flowfield THEN
+            lfrfFieldRef.CALCFIELD;
+
+        EXIT(FORMAT(lfrfFieldRef.VALUE)); //</IB32019AO> </JF47970CK>
+    end;
+
+    var
+        gblnUseMultiFieldColumnCaption: Boolean;
+        gintCaptionFieldNo1: Integer;
+        gintCaptionFieldNo2: Integer;
+        gintCaptionFieldNo3: Integer;
+}

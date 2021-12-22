@@ -26,6 +26,7 @@ page 14228813 "Order Sheet By Item Matrix"
             repeater(Control1)
             {
                 ShowCaption = false;
+
                 field("Item No."; "Item No.")
                 {
 
@@ -89,15 +90,17 @@ page 14228813 "Order Sheet By Item Matrix"
                     DecimalPlaces = 0 : 5;
                     Visible = Field1Visible;
 
+                    trigger OnValidate()
+                    begin
+                        MatrixOnValidate(1);
+                    end;
+
                     trigger OnDrillDown()
                     begin
                         MatrixOnDrillDown(1);
                     end;
 
-                    trigger OnValidate()
-                    begin
-                        MatrixOnValidate(1);
-                    end;
+
                 }
                 field(Field2; MATRIX_CellData[2])
                 {

@@ -33,6 +33,22 @@ page 14228817 "Order Sheet Items"
             repeater(Control1101769000)
             {
                 ShowCaption = false;
+                field("Customer No. Filter";"Customer No. Filter")
+                {
+
+                }
+                field("Date Filter";"Date Filter")
+                {
+
+                }
+                field("Location Filter";"Location Filter")
+                {
+
+                }
+                field("Ship-to Code Filter";"Ship-to Code Filter")
+                {
+                    
+                }
                 field("Order Sheet Batch Name"; "Order Sheet Batch Name")
                 {
 
