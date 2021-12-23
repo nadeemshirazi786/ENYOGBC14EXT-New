@@ -62,8 +62,6 @@ codeunit 51005 "User-Defined Fields Mgmt. ELA"
                         gcodBottleDepositAcct := '';
                 end;
             end;
-
-
         END ELSE BEGIN
             IF grecLocation.GET(precSalesHeader."Location Code") THEN BEGIN
                 lrecSalesLine.Reset();
@@ -72,7 +70,7 @@ codeunit 51005 "User-Defined Fields Mgmt. ELA"
                 lrecSalesLine.SetRange(Type, lrecSalesLine.Type::Item);
                 lrecSalesLine.SetRange("Bottle Deposit", true);
                 if lrecSalesLine.FindFirst() then begin
-                    if grecState.Get(precSalesHeader."Sell-to County") then begin
+                    if grecState.Get(grecLocation.County) then begin
                         gcodBottleDepositAcct := grecState."Bottle Deposit Account";
                     end else
                         gcodBottleDepositAcct := '';
@@ -126,15 +124,13 @@ codeunit 51005 "User-Defined Fields Mgmt. ELA"
                 lrecPurchLine.SetRange(Type, lrecPurchLine.Type::Item);
                 lrecPurchLine.SetRange("Bottle Deposit", true);
                 if lrecPurchLine.FindFirst() then begin
-                    if grecState.Get(precPurchHeader."Buy-from County") then begin
+                    if grecState.Get(grecLocation.County) then begin
                         lcodBottleDepositAcct := grecState."Bottle Deposit Account";
                     end else
                         lcodBottleDepositAcct := '';
                 end;
             end;
         END;
-
-
         lrecPurchLine.Reset();
         lrecPurchLine.SETRANGE("Document Type", precPurchHeader."Document Type");
         lrecPurchLine.SETRANGE("Document No.", precPurchHeader."No.");

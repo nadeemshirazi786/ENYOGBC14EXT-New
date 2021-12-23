@@ -569,38 +569,52 @@ tableextension 14229627 "EN Purchase  Line ELA" extends "Purchase Line"
         ldecDecimalVariable: Decimal;
         UDCalc: Codeunit "UD Calculations ELA";
         recBottleSetup: Record "Bottle Deposit Setup";
+        lrecLocation: Record Location;
     begin
         IF NOT recPurchLine."Bottle Deposit" then
             exit;
         IF (recPurchLine."No." = '') AND (recPurchLine.Type <> recPurchLine.Type::Item) then
             exit;
         IF recHeader.GET(recPurchLine."Document Type", recPurchLine."Document No.") then begin
-            recBottleSetup.Reset();
-            recBottleSetup.SetRange("Item No.", recPurchLine."No.");
-            recBottleSetup.SetFilter("Bottle Deposit State", '<>%1', '');
-            if recBottleSetup.FindFirst() then begin
-                IF recBottleSetup.Get(recPurchLine."No.", recHeader."Buy-from County") then begin
-                    ldecDecimalVariable := UDCalc.jfUOMConvert(
-                                          recPurchLine."No.",
-                                          recPurchLine."Unit of Measure Code",
-                                          'EA',
-                                          recBottleSetup."Bottle Deposit Amount");
-                    ptxtResult := FORMAT(ROUND(ldecDecimalVariable, 0.01, '>'));
-                end else
-                    ptxtResult := Format(0);
-            END ELSE begin
-                IF recState.Get(recHeader."Buy-from County") then begin
-                    ldecDecimalVariable := UDCalc.jfUOMConvert(
-                                          recPurchLine."No.",
-                                          recPurchLine."Unit of Measure Code",
-                                          'EA',
-                                          recState."Bottle Deposit ELA");
-                    ptxtResult := FORMAT(ROUND(ldecDecimalVariable, 0.01, '>'));
-                end else
-                    ptxtResult := FORMAT(0);
+            IF recHeader."Shipment Method Code" <> 'PICKUP' then begin
+                recBottleSetup.Reset();
+                recBottleSetup.SetRange("Item No.", recPurchLine."No.");
+                recBottleSetup.SetFilter("Bottle Deposit State", '<>%1', '');
+                if recBottleSetup.FindFirst() then begin
+                    IF recBottleSetup.Get(recPurchLine."No.", recHeader."Buy-from County") then begin
+                        ldecDecimalVariable := UDCalc.jfUOMConvert(
+                                              recPurchLine."No.",
+                                              recPurchLine."Unit of Measure Code",
+                                              'EA',
+                                              recBottleSetup."Bottle Deposit Amount");
+                        ptxtResult := FORMAT(ROUND(ldecDecimalVariable, 0.01, '>'));
+                    end else
+                        ptxtResult := Format(0);
+                END ELSE begin
+                    IF recState.Get(recHeader."Buy-from County") then begin
+                        ldecDecimalVariable := UDCalc.jfUOMConvert(
+                                              recPurchLine."No.",
+                                              recPurchLine."Unit of Measure Code",
+                                              'EA',
+                                              recState."Bottle Deposit ELA");
+                        ptxtResult := FORMAT(ROUND(ldecDecimalVariable, 0.01, '>'));
+                    end;
+                end;
+            end ELSE begin
+                IF lrecLocation.GET(recHeader."Location Code") THEN begin
+                    if recState.Get(lrecLocation.County) then begin
+                        ldecDecimalVariable := UDCalc.jfUOMConvert(
+                                  recPurchLine."No.",
+                                  recPurchLine."Unit of Measure Code",
+                                  'EA',
+                                  recState."Bottle Deposit ELA");
+                        ptxtResult := FORMAT(ROUND(ldecDecimalVariable, 0.01, '>'));
+
+                    end else
+                        ptxtResult := FORMAT(0);
+                end;
             end;
         end;
-
     end;
 
     procedure CostInAlternateUnitsELA(): Boolean

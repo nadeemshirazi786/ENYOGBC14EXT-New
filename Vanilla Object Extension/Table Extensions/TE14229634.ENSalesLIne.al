@@ -782,39 +782,50 @@ tableextension 14229634 "EN Sales Line ELA" extends "Sales Line"
         ldecDecimalVariable: Decimal;
         UDCalc: Codeunit "UD Calculations ELA";
         recBottleState: Record "Bottle Deposit Setup";
+        lrecLocation: Record Location;
     begin
         IF NOT recSalesLine."Bottle Deposit" then
             exit;
         IF (recSalesLine."No." = '') AND (recSalesLine.Type <> recSalesLine.Type::Item) then
             exit;
         IF recHeader.GET(recSalesLine."Document Type", recSalesLine."Document No.") then begin
-            recBottleState.Reset();
-            recBottleState.SetRange("Item No.", recSalesLine."No.");
-            recBottleState.SetFilter("Bottle Deposit State", '<>%1', '');
-            if recBottleState.FindFirst() then begin
-                IF recBottleState.Get(recSalesLine."No.", recHeader."Sell-to County") then begin
-                    ldecDecimalVariable := UDCalc.jfUOMConvert(
-                                          recSalesLine."No.",
-                                          recSalesLine."Unit of Measure Code",
-                                          'EA',
-                                          recBottleState."Bottle Deposit Amount");
-                    ptxtResult := FORMAT(ROUND(ldecDecimalVariable, 0.01, '>'));
+            if recHeader."Shipment Method Code" <> 'PICKUP' then begin
+                recBottleState.Reset();
+                recBottleState.SetRange("Item No.", recSalesLine."No.");
+                recBottleState.SetFilter("Bottle Deposit State", '<>%1', '');
+                if recBottleState.FindFirst() then begin
+                    IF recBottleState.Get(recSalesLine."No.", recHeader."Sell-to County") then begin
+                        ldecDecimalVariable := UDCalc.jfUOMConvert(
+                                              recSalesLine."No.",
+                                              recSalesLine."Unit of Measure Code",
+                                              'EA',
+                                              recBottleState."Bottle Deposit Amount");
+                        ptxtResult := FORMAT(ROUND(ldecDecimalVariable, 0.01, '>'));
+                    end else
+                        ptxtResult := Format(0);
+                end else begin
+                    if recState.Get(recHeader."Sell-to County") then begin
+                        ldecDecimalVariable := UDCalc.jfUOMConvert(
+                                              recSalesLine."No.",
+                                              recSalesLine."Unit of Measure Code",
+                                              'EA',
+                                              recState."Bottle Deposit ELA");
+                        ptxtResult := FORMAT(ROUND(ldecDecimalVariable, 0.01, '>'));
+                    end;
+                end;
+            end ELSE begin
+                IF lrecLocation.GET(recHeader."Location Code") THEN begin
+                    if recState.Get(lrecLocation.County) then begin
+                        ldecDecimalVariable := UDCalc.jfUOMConvert(
+                                  recSalesLine."No.",
+                                  recSalesLine."Unit of Measure Code",
+                                  'EA',
+                                  recState."Bottle Deposit ELA");
+                        ptxtResult := FORMAT(ROUND(ldecDecimalVariable, 0.01, '>'));
+                    end;
                 end else
-                    ptxtResult := Format(0);
-
-            end else begin
-                if recState.Get(recHeader."Sell-to County") then begin
-                    ldecDecimalVariable := UDCalc.jfUOMConvert(
-                                          recSalesLine."No.",
-                                          recSalesLine."Unit of Measure Code",
-                                          'EA',
-                                          recState."Bottle Deposit ELA");
-                    ptxtResult := FORMAT(ROUND(ldecDecimalVariable, 0.01, '>'));
-                end ELSE
                     ptxtResult := FORMAT(0);
-
             end;
-
         end;
     end;
 
