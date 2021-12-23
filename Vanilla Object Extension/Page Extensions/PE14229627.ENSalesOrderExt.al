@@ -5,6 +5,18 @@ pageextension 14228858 "EN Sales Order Ext" extends "Sales Order"
 {
     layout
     {
+        modify("Shipment Date")
+        {
+            ApplicationArea = all;
+            trigger OnAfterValidate()
+            begin
+                IF "Shipment Date" <> xRec."Shipment Date" then begin
+                    Validate("Posting Date","Shipment Date");
+                    Validate("Document Date","Shipment Date");
+                end;
+                CurrPage.Update(true);
+            end;
+        }
         // Add changes to page layout here
         addafter("Attached Documents")
         {

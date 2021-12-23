@@ -635,6 +635,8 @@ tableextension 14229600 "EN Sales Header ELA" extends "Sales Header"
     trigger OnAfterInsert()
     begin
         "Date Order Created ELA" := WorkDate();
+        "Posting Date" := "Shipment Date";
+        "Document Date" := "Shipment Date";
     end;
 
 }
