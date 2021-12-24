@@ -12,7 +12,6 @@ tableextension 14229648 "Whse Shpt Hdr ELA" extends "Warehouse Shipment Header"
             Caption = 'Pallet Code';
         }
     }
-
     
     var
         myInt: Integer;

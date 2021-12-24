@@ -173,4 +173,5 @@ codeunit 14228831 "User-Def Events ELA"
         END;
         IsHandled := true;
     end;
+
 }
