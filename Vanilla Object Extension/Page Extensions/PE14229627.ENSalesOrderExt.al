@@ -11,10 +11,10 @@ pageextension 14228858 "EN Sales Order Ext" extends "Sales Order"
             trigger OnAfterValidate()
             begin
                 IF "Shipment Date" <> xRec."Shipment Date" then begin
-                    Validate("Posting Date","Shipment Date");
-                    Validate("Document Date","Shipment Date");
+                    Validate("Posting Date", "Shipment Date");
+                    Validate("Document Date", "Shipment Date");
                 end;
-                CurrPage.Update(true);
+                ShipmentDateOnAfterValidate;
             end;
         }
         // Add changes to page layout here
@@ -147,5 +147,10 @@ pageextension 14228858 "EN Sales Order Ext" extends "Sales Order"
 
 
     }
+
+    procedure ShipmentDateOnAfterValidate()
+    begin
+        CurrPage.UPDATE(TRUE);
+    end;
 
 }
