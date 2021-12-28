@@ -42,6 +42,13 @@ tableextension 14229634 "EN Sales Line ELA" extends "Sales Line"
             end;
 
         }
+        field(14228885; "Backorder Tolerance % ELA"; Decimal)
+        {
+            Caption = 'Backorder Tolerance %';
+            DecimalPlaces = 0:5;
+            BlankZero = true;
+            DataClassification = ToBeClassified;
+        }
         field(14228900; "Supply Chain Group Code ELA"; Code[10])
         {
             Caption = 'Supply Chain Group Code';

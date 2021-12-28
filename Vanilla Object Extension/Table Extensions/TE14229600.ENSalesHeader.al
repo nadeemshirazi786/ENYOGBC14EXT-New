@@ -151,6 +151,26 @@ tableextension 14229600 "EN Sales Header ELA" extends "Sales Header"
             DataClassification = ToBeClassified;
             TableRelation = Location;
         }
+        field(14228898; "Backorder Tolerance % ELA"; Decimal)
+        {
+            Caption = 'Backorder Tolerance %';
+            DecimalPlaces = 0 : 5;
+            BlankZero = true;
+            DataClassification = ToBeClassified;
+            trigger OnValidate()
+            var
+                lrecSalesLine: Record "Sales Line";
+                gjfText034: TextConst ENU = 'Backorder Tolerance % was changed. Do you want to update the lines?';
+            begin
+                IF "Backorder Tolerance % ELA" <> xRec."Backorder Tolerance % ELA" THEN BEGIN
+                    lrecSalesLine.SETRANGE(lrecSalesLine."Document Type", "Document Type"::Order);
+                    lrecSalesLine.SETRANGE(lrecSalesLine."Document No.", "No.");
+                    IF NOT lrecSalesLine.ISEMPTY THEN
+                        IF CONFIRM(gjfText034, TRUE) THEN
+                            jfUpdateBackorderTolerance
+                END;
+            end;
+        }
         field(14228900; "Supply Chain Group Code ELA"; Code[10])
         {
             Caption = 'Supply Chain Group Code';
@@ -259,6 +279,12 @@ tableextension 14229600 "EN Sales Header ELA" extends "Sales Header"
                 CustItemChargeMgt.AddOrderSurcharges(Rec, FALSE);
                 "Delivery Zone Code ELA" := ShipToAddr."Delivery Zone Code ELA";
                 "Shipping Instructions ELA" := ShipToAddr."Shipping Instructions ELA";
+                IF ShipToAddr."Backorder Tolerance % ELA" <> 0 THEN
+                    VALIDATE("Backorder Tolerance % ELA", ShipToAddr."Backorder Tolerance % ELA")
+                ELSE BEGIN
+                    GetCust("Sell-to Customer No.");
+                    VALIDATE("Backorder Tolerance % ELA", Cust."Backorder Tolerance % ELA");
+                END;
                 UpdateOrderRuleGroup;
 
                 IF (("Document Type" = "Document Type"::Order) OR ("Document Type" = "Document Type"::"Credit Memo") OR ("Document Type" = "Document Type"::"Return Order"))//<PD31395MK>
@@ -276,6 +302,10 @@ tableextension 14229600 "EN Sales Header ELA" extends "Sales Header"
                 END;
                 "Shipping Instructions ELA" := Cust."Shipping Instructions ELA";
                 "Delivery Zone Code ELA" := Cust."Delivery Zone Code ELA";
+
+                IF Cust."Backorder Tolerance % ELA" <> 0 THEN
+                    VALIDATE("Backorder Tolerance % ELA", Cust."Backorder Tolerance % ELA");
+
             end;
         }
         modify("Sell-to Customer No.")
@@ -623,6 +653,20 @@ tableextension 14229600 "EN Sales Header ELA" extends "Sales Header"
         EXIT(FALSE);
     end;
 
+    procedure jfUpdateBackorderTolerance()
+    var
+        lrecSalesLine: Record "Sales Line";
+    begin
+        lrecSalesLine.RESET;
+        lrecSalesLine.SETRANGE("Document Type", "Document Type"::Order);
+        lrecSalesLine.SETRANGE("Document No.", "No.");
+        lrecSalesLine.SETRANGE(Type, lrecSalesLine.Type::Item);
+        IF lrecSalesLine.FINDFIRST THEN
+            REPEAT
+                lrecSalesLine."Backorder Tolerance %" := "Backorder Tolerance % ELA";
+                lrecSalesLine.MODIFY;
+            UNTIL lrecSalesLine.NEXT = 0;
+    end;
 
     procedure CashDrawerCheckELA()
 

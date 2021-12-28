@@ -21,7 +21,7 @@ codeunit 51006 "User Def. Custom Events ELA"
                 IF recBottleDeposit."Bottle Deposit - Sales" then begin
                     recBottleState.Reset();
                     recBottleState.SetRange("Item No.", SalesLine."No.");
-                    recBottleState.SetFilter("Bottle Deposit State", '<>%1', '');
+                    recBottleState.SetFilter("Bottle Deposit State", '=%1', SalesHeader."Sell-to County");
                     if recBottleState.FindFirst() then begin
                         if recBottleState.Get(SalesLine."No.", SalesHeader."Sell-to County") then
                             SalesLine.Validate("Bottle Deposit", true);
@@ -267,7 +267,7 @@ codeunit 51006 "User Def. Custom Events ELA"
                 IF recBottleDeposit."Bottle Deposit - Purchase" then begin
                     recBottleState.Reset();
                     recBottleState.SetRange("Item No.", PurchLine."No.");
-                    recBottleState.SetFilter("Bottle Deposit State", '<>%1', '');
+                    recBottleState.SetFilter("Bottle Deposit State", '=%1', PurchHeader."Buy-from County");
                     if recBottleState.FindFirst() then begin
                         if recBottleState.Get(PurchLine."No.", PurchHeader."Buy-from County") then
                             PurchLine.Validate("Bottle Deposit", true);

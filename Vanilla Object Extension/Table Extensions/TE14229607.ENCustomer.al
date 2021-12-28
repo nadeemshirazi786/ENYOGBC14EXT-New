@@ -82,7 +82,14 @@ tableextension 14229607 "EN Customer ELA" extends "Customer"
             Caption = 'Use Backorder Tolerance';
             DataClassification = ToBeClassified;
         }
-        field(14228882; "Req. Ship-To on Sale Doc ELA"; Boolean)
+        field(14228882; "Backorder Tolerance % ELA"; Decimal)
+        {
+            Caption = 'Backorder Tolerance %';
+            DecimalPlaces = 0:5;
+            BlankZero = true;
+            DataClassification = ToBeClassified;
+        }
+        field(14228883; "Req. Ship-To on Sale Doc ELA"; Boolean)
         {
             Caption = 'Require Ship-to on Sales Docs';
             DataClassification = ToBeClassified;

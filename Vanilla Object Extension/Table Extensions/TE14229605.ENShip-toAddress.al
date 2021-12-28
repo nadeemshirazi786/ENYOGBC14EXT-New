@@ -7,6 +7,13 @@ tableextension 14229605 "EN Ship-to Address ELa" extends "Ship-to Address"
             Caption = 'Use Backorder Tolerance';
             DataClassification = ToBeClassified;
         }
+        field(14228881; "Backorder Tolerance % ELA"; Decimal)
+        {
+            Caption = 'Backorder Tolerance %';
+            DecimalPlaces = 0:5;
+            BlankZero = true;
+            DataClassification = ToBeClassified;
+        }
         field(14228810; "Shipping Instructions ELA"; Text[80])
         {
             Caption = 'Shipping Instructions';
@@ -28,11 +35,12 @@ tableextension 14229605 "EN Ship-to Address ELa" extends "Ship-to Address"
             end;
         }
 
-        field(14228881; "Cash and Carry Location ELA"; Code[10])
+        field(14228882; "Cash and Carry Location ELA"; Code[10])
         {
             Caption = 'Cash and Carry Location';
             DataClassification = ToBeClassified;
         }
+
         field(14228850; "Ship-To Price Group"; Code[10])
         {
             Caption = 'Ship-To Price Group';

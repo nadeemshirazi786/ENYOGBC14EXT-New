@@ -181,20 +181,24 @@ codeunit 14228831 "User-Def Events ELA"
         WarehouseShipmentHeader.MODIFY;
     end;
 
-    [EventSubscriber(ObjectType::Codeunit, 5763, 'OnInitSourceDocumentHeaderOnBeforeSalesHeaderModify', '', true, true)]
-    local procedure BeforeSalesHeaderModify(var WarehouseShipmentHeader: Record "Warehouse Shipment Header"; var SalesHeader: Record "Sales Header"; var ModifyHeader: Boolean)
+    [EventSubscriber(ObjectType::Codeunit, 5763, 'OnBeforePostSourceDocument', '', true, true)]
+    local procedure OnBeforePostSourceDocument(var WhseShptLine: Record "Warehouse Shipment Line"; var SalesHeader: Record "Sales Header")
     var
-    SalesRelease: Codeunit 414;
+        WhseShptHeader: Record "Warehouse Shipment Header";
+        SalesRelease: Codeunit "Release Sales Document";
     begin
-        IF (SalesHeader."Posting Date" = 0D) OR
-           (SalesHeader."Posting Date" < WarehouseShipmentHeader."Posting Date")
-        THEN BEGIN
-          SalesRelease.Reopen(SalesHeader);
-          SalesHeader.SetHideValidationDialog(TRUE);
-          SalesHeader.VALIDATE("Posting Date",WarehouseShipmentHeader."Posting Date");
-          SalesRelease.RUN(SalesHeader);
-          ModifyHeader := TRUE;
-        END;
+        IF WhseShptHeader.Get(WhseShptLine."No.") then begin
+            IF (SalesHeader."Posting Date" = 0D) OR
+                   (SalesHeader."Posting Date" <= WhseShptHeader."Posting Date")
+                THEN BEGIN
+                SalesRelease.Reopen(SalesHeader);
+                SalesHeader.SetHideValidationDialog(TRUE);
+                SalesHeader.VALIDATE("Posting Date", SalesHeader."Shipment Date");
+                SalesHeader.Validate("Document Date", SalesHeader."Posting Date");
+                SalesHeader.Modify(true);
+                SalesRelease.RUN(SalesHeader);
+            END;
+        end;
     end;
 
 }

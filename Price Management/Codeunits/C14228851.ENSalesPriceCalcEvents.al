@@ -108,6 +108,7 @@ codeunit 14228851 "EN Sales Price Calc Events"
     begin
         SalesLine."Sales Price UOM ELA" := SalesLine.GetSalesPriceUOM;
         SalesLine."Pallet Code ELA" := SalesHeader."Pallet Code ELA";
+        SalesLine."Backorder Tolerance % ELA" := SalesHeader."Backorder Tolerance % ELA";
     end;
     /// <summary>
     /// OnAfterAssignItemValues.
