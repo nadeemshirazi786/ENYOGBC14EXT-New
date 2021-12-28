@@ -174,4 +174,27 @@ codeunit 14228831 "User-Def Events ELA"
         IsHandled := true;
     end;
 
+    [EventSubscriber(ObjectType::Report, 5753, 'OnAfterCreateShptHeader', '', true, true)]
+    local procedure OnAfterCreateShptHeader(var WarehouseShipmentHeader: Record "Warehouse Shipment Header"; WarehouseRequest: Record "Warehouse Request")
+    begin
+        WarehouseShipmentHeader."Shipment Date" := WarehouseRequest."Shipment Date";
+        WarehouseShipmentHeader.MODIFY;
+    end;
+
+    [EventSubscriber(ObjectType::Codeunit, 5763, 'OnInitSourceDocumentHeaderOnBeforeSalesHeaderModify', '', true, true)]
+    local procedure BeforeSalesHeaderModify(var WarehouseShipmentHeader: Record "Warehouse Shipment Header"; var SalesHeader: Record "Sales Header"; var ModifyHeader: Boolean)
+    var
+    SalesRelease: Codeunit 414;
+    begin
+        IF (SalesHeader."Posting Date" = 0D) OR
+           (SalesHeader."Posting Date" < WarehouseShipmentHeader."Posting Date")
+        THEN BEGIN
+          SalesRelease.Reopen(SalesHeader);
+          SalesHeader.SetHideValidationDialog(TRUE);
+          SalesHeader.VALIDATE("Posting Date",WarehouseShipmentHeader."Posting Date");
+          SalesRelease.RUN(SalesHeader);
+          ModifyHeader := TRUE;
+        END;
+    end;
+
 }
