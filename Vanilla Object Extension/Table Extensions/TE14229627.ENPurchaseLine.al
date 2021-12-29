@@ -34,6 +34,7 @@ tableextension 14229627 "EN Purchase  Line ELA" extends "Purchase Line"
             begin
                 GetLocation("Location Code");
                 UpdateLotTracking(false);
+                JfOverReceive();
             end;
         }
         modify("Return Qty. Shipped")
@@ -266,6 +267,14 @@ tableextension 14229627 "EN Purchase  Line ELA" extends "Purchase Line"
         field(51008; "Bottle Deposit"; Boolean)
         {
             DataClassification = ToBeClassified;
+        }
+        field(5109; "Approved by ELA"; Code[50])
+        {
+            Caption = 'Approved by';
+        }
+        field(51010; "Original Order Qty. ELA"; Decimal)
+        {
+            Caption = 'Original Order Qty.';
         }
     }
 
@@ -616,6 +625,72 @@ tableextension 14229627 "EN Purchase  Line ELA" extends "Purchase Line"
              //AltQtyMgmt.TestWhseDataEntry("Location Code", Direction::Inbound);
     end;
 
+    procedure JfOverReceive()
+    var
+        lrecPurchHeader: Record "Purchase Header";
+        lrecPurchSetup: Record "Purchases & Payables Setup";
+        //lcduApprovePurch:Codeunit "Purch.-Approve";
+        lblnWasReleased: Boolean;
+        lcduRelPurchDoc: Codeunit "Release Purchase Document";
+        ldecQtyToRec: Decimal;
+        ljfText000: TextConst ENU = 'Purchase %1 No. %2 was reopened due to tax differences. Please release the document.';
+    begin
+
+        lrecPurchSetup.GET;
+        IF lrecPurchSetup."Allow Over Receiving ELA" THEN BEGIN
+            IF "Document Type" = "Document Type"::Order THEN BEGIN
+                IF (ABS("Qty. to Receive") > ABS("Outstanding Quantity")) THEN BEGIN
+                    ldecQtyToRec := "Qty. to Receive";
+
+                    lrecPurchHeader.GET("Document Type", "Document No.");
+
+                    IF (lrecPurchHeader."Tax Area Code" <> '') AND (lrecPurchHeader.Status = lrecPurchHeader.Status::Released) THEN BEGIN
+                        lcduRelPurchDoc.Reopen(lrecPurchHeader);
+                        lblnWasReleased := TRUE;
+                        CLEAR(PurchHeader);
+
+                        GET("Document Type", "Document No.", "Line No.");
+                    END;
+
+                    // IF lrecPurchSetup."Use Over Receiving Approvals" THEN BEGIN
+                    //     "Approved By" := lcduApprovePurch.jfcbApproveOverReceive(Rec);
+                    // END ELSE BEGIN
+                    //     "Approved By" := USERID;
+                    // END;tbr
+
+                    gblnOverReceive := TRUE;
+                    gblnSuspendPriceCalc := TRUE;
+
+                    VALIDATE(Quantity, ldecQtyToRec + "Quantity Received");
+
+                    IF CurrFieldNo = FIELDNO("Qty. to Receive") THEN
+                        VALIDATE("Qty. to Receive", ldecQtyToRec);
+
+                    gblnSuspendPriceCalc := FALSE;
+                    gblnOverReceive := FALSE;
+
+                    UpdateAmounts;
+
+                    IF lblnWasReleased THEN
+                        MESSAGE(ljfText000, "Document Type", "Document No.");
+                END;
+            END;
+        END;
+        //</JF00026CB>
+    end;
+
+    procedure SuspendUpdateDirectUnitCost(pblnSuspendPriceCalc: Boolean)
+    begin
+
+        gblnSuspendPriceCalc := pblnSuspendPriceCalc;
+    end;
+
+    procedure jfAllowQtyChangeWhse()
+    begin
+        gblnAllowQtyToChg := TRUE;
+        gblnOverReceive := TRUE;
+    end;
+
     trigger OnInsert()
     begin
         UpdateLotTracking(true);
@@ -645,4 +720,8 @@ tableextension 14229627 "EN Purchase  Line ELA" extends "Purchase Line"
         ProcessFns: Codeunit "Process 800 Functions ELA";
         Text046: Textconst ENU = '%3 will not update %1 when changing %2 because a prepayment invoice has been posted. Do you want to continue?';
         SKU: Record "Stockkeeping Unit";
+        PurchHeader: Record "Purchase Header";
+        gblnOverReceive: Boolean;
+        gblnSuspendPriceCalc: Boolean;
+        gblnAllowQtyToChg: Boolean;
 }
