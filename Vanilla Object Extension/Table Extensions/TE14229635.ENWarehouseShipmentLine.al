@@ -68,13 +68,28 @@ tableextension 14229635 "EN LT WhseShpmtLine EXT ELA" extends "Warehouse Shipmen
 
     end;
 
+    procedure AllowZeroQuantity(pblnAllowZeroQty: Boolean)
+    begin
+        gblnAllowZeroQty := pblnAllowZeroQty;
+    end;
 
+    procedure BypassStatusCheck(pblnBypassStatusCheck: Boolean)
+    begin
+        gblnBypassStatusCheck := pblnBypassStatusCheck;
+    end;
 
+    procedure jfFromWhsePost(pblnFromWhsePost: Boolean)
+    begin
+        gblnFromWhsePost := pblnFromWhsePost;
+    end;
 
     var
         PurchLine: Record "Purchase Line";
         TransLine: Record "Transfer Line";
         SalesLine: Record "Sales Line";
         QtyToShipAlt: Decimal;
+        gblnAllowZeroQty: Boolean;
+        gblnBypassStatusCheck: Boolean;
+        gblnFromWhsePost: Boolean;
 
 }

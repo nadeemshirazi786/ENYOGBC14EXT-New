@@ -45,7 +45,7 @@ tableextension 14229634 "EN Sales Line ELA" extends "Sales Line"
         field(14228885; "Backorder Tolerance % ELA"; Decimal)
         {
             Caption = 'Backorder Tolerance %';
-            DecimalPlaces = 0:5;
+            DecimalPlaces = 0 : 5;
             BlankZero = true;
             DataClassification = ToBeClassified;
         }
@@ -1262,6 +1262,16 @@ tableextension 14229634 "EN Sales Line ELA" extends "Sales Line"
         END;
     END;
 
+    procedure jfmgAllowQtyChangeWhse()
+    begin
+        gblnAllowQtyToChg := TRUE;
+        gblnOverShip := TRUE;
+    end;
+
+    procedure jfBypassPlanningWarning()
+    begin
+        gblnBypassPlanningWarning := TRUE;
+    end;
 
     var
         gblnSuspendPriceCalc: Boolean;
@@ -1287,6 +1297,9 @@ tableextension 14229634 "EN Sales Line ELA" extends "Sales Line"
         ItemCategory: Record "Item Category";
         CusttItemSurchargeMgt: Codeunit "EN Delivery Charge Mgt";
         DimMgt: Codeunit DimensionManagement;
+        gblnAllowQtyToChg: Boolean;
+        gblnOverShip: Boolean;
+        gblnBypassPlanningWarning: Boolean;
 
     trigger OnInsert()
     begin
