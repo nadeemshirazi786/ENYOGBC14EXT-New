@@ -5,6 +5,16 @@ codeunit 14228832 "Func. Backorder Tolr. ELA"
 
     end;
 
+    [EventSubscriber(ObjectType::Table, 5767, 'OnBeforeValidateQtyToHandle', '', true, true)]
+    local procedure BeforeValidateQtyToHandle(var WarehouseActivityLine: Record "Warehouse Activity Line")
+    begin
+        IF WarehouseActivityLine."Action Type" = WarehouseActivityLine."Action Type"::Take THEN BEGIN
+            WarehouseActivityLine.jfSetUpdatePlaceLine(TRUE);
+        END;
+
+        WarehouseActivityLine.jfUpdatePlaceLine(WarehouseActivityLine.FIELDNO("Qty. to Handle"));
+    end;
+
     [EventSubscriber(ObjectType::Codeunit, 88, 'OnBeforeReleaseSalesDoc', '', true, true)]
     local procedure BeforeReleaseSalesDoc(var SalesHeader: Record "Sales Header")
     begin
@@ -72,6 +82,60 @@ codeunit 14228832 "Func. Backorder Tolr. ELA"
 
             UNTIL WarehouseShipmentLine.NEXT = 0;
         END;
+    end;
+
+    [EventSubscriber(ObjectType::Codeunit, 5763, 'OnBeforeDeleteUpdateWhseShptLine', '', true, true)]
+    local procedure BeforeDeleteUpdateWhseShptLine(WhseShptLine: Record "Warehouse Shipment Line")
+    var
+        lrecWhseActivityLine: Record "Warehouse Activity Line";
+        lrecWhseActivityLine1: Record "Warehouse Activity Line";
+        lrecWhseActivityHeader: Record "Warehouse Activity Header";
+        loptActivityType: Integer;
+        lcodNo: Code[20];
+    begin
+        IF WhseShptLine."Qty. Outstanding" = WhseShptLine."Qty. to Ship" THEN BEGIN
+            lrecWhseActivityLine.RESET;
+
+            lrecWhseActivityLine.SETCURRENTKEY("Whse. Document No.", "Whse. Document Type");
+            lrecWhseActivityLine.SETRANGE("Whse. Document Type", lrecWhseActivityLine."Activity Type"::Pick);
+            lrecWhseActivityLine.SETRANGE("Whse. Document No.", WhseShptLine."No.");
+            lrecWhseActivityLine.SETRANGE("Whse. Document Line No.", WhseShptLine."Line No.");
+
+            IF NOT lrecWhseActivityLine.ISEMPTY THEN BEGIN
+                IF lrecWhseActivityLine.FINDSET(TRUE) THEN
+                    REPEAT
+                        CLEAR(loptActivityType);
+                        CLEAR(lcodNo);
+
+                        lrecWhseActivityLine.SETRANGE("Activity Type", lrecWhseActivityLine."Activity Type");
+                        lrecWhseActivityLine.SETRANGE("No.", lrecWhseActivityLine."No.");
+                        lrecWhseActivityLine.SETRANGE("Line No.", lrecWhseActivityLine."Line No.");
+
+                        IF lrecWhseActivityLine.FINDLAST THEN BEGIN
+                            loptActivityType := lrecWhseActivityLine."Activity Type";
+                            lcodNo := lrecWhseActivityLine."No.";
+
+                            lrecWhseActivityLine.DELETEALL(TRUE);
+
+                            lrecWhseActivityLine1.RESET;
+
+                            lrecWhseActivityLine1.SETRANGE("Activity Type", loptActivityType);
+                            lrecWhseActivityLine1.SETRANGE("No.", lcodNo);
+
+                            IF lrecWhseActivityLine1.ISEMPTY THEN BEGIN
+                                IF lrecWhseActivityHeader.GET(loptActivityType, lcodNo) THEN
+                                    lrecWhseActivityHeader.DELETE(TRUE);
+                            END;
+                        END;
+
+                        lrecWhseActivityLine.SETRANGE("Activity Type");
+                        lrecWhseActivityLine.SETRANGE("No.");
+                        lrecWhseActivityLine.SETRANGE("Line No.");
+                    UNTIL lrecWhseActivityLine.NEXT = 0;
+            END;
+            WhseShptLine.DELETE;
+
+        end;
     end;
 
     procedure jfCheckSalesBackorder(VAR precSalesHeader: Record "Sales Header")
