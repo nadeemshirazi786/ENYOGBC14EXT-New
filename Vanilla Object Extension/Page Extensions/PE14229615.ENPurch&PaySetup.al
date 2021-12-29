@@ -55,6 +55,13 @@ pageextension 14229615 "EN Purch. & Pay. Setup" extends "Purchases & Payables Se
                 ApplicationArea = All;
             }
         }
+        addfirst(General)
+        {
+            field("Allow Over Receiving ELA"; "Allow Over Receiving ELA")
+            {
+                Caption = 'Allow Over Receiving';
+            }
+        }
         addlast(content)
         {
 
