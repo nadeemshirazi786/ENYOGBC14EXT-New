@@ -248,6 +248,10 @@ tableextension 14229619 "Purchases & Payables Setup ELA" extends "Purchases & Pa
             TableRelation = "Global Group ELA";
             DataClassification = ToBeClassified;
         }
+        field(51007; "Allow Over Receiving ELA"; Boolean)
+        {
+            Caption = 'Allow Over Receiving';
+        }
     }
 
 
