@@ -216,6 +216,14 @@ tableextension 14229624 "EN LT Vendor EXT ELA" extends Vendor
             end;
 
         }
+        field(51007; "Use Over-Receiving Tolerance ELA"; boolean)
+        {
+            Caption = 'Use Over-Receiving Tolerance';
+        }
+        field(51008; "Over-Receiving Tolerance % ELA"; Decimal)
+        {
+            Caption = 'Over-Receiving Tolerance %';
+        }
     }
 
 }

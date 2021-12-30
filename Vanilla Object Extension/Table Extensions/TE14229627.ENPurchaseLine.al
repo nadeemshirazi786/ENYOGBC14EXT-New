@@ -643,7 +643,7 @@ tableextension 14229627 "EN Purchase  Line ELA" extends "Purchase Line"
     var
         lrecPurchHeader: Record "Purchase Header";
         lrecPurchSetup: Record "Purchases & Payables Setup";
-        //lcduApprovePurch:Codeunit "Purch.-Approve";
+        WhseRcptLine: Record "Warehouse Receipt Line";
         lblnWasReleased: Boolean;
         lcduRelPurchDoc: Codeunit "Release Purchase Document";
         ldecQtyToRec: Decimal;
@@ -666,11 +666,11 @@ tableextension 14229627 "EN Purchase  Line ELA" extends "Purchase Line"
                         GET("Document Type", "Document No.", "Line No.");
                     END;
 
-                    // IF lrecPurchSetup."Use Over Receiving Approvals" THEN BEGIN
-                    //     "Approved By" := lcduApprovePurch.jfcbApproveOverReceive(Rec);
-                    // END ELSE BEGIN
-                    //     "Approved By" := USERID;
-                    // END;tbr
+                    IF lrecPurchSetup."Use Over Receiving Approvals ELA" THEN BEGIN
+                        "Approved By ELA" := jfcbApproveOverReceive(Rec)
+                    END ELSE BEGIN
+                        "Approved By ELA" := USERID;
+                    END;
 
                     gblnOverReceive := TRUE;
                     gblnSuspendPriceCalc := TRUE;
@@ -691,6 +691,146 @@ tableextension 14229627 "EN Purchase  Line ELA" extends "Purchase Line"
             END;
         END;
         //</JF00026CB>
+    end;
+
+    procedure jfcbApproveOverReceive(precPurchLine: Record "Purchase Line"): Code[20]
+    var
+        ldecPercentChange: Decimal;
+        lrecPurchApproval: Record "Purchasing Approval Setup";
+        lrecApprovalGroupUser: Record "Approval Group User";
+        lrecPurchLine: Record "Purchase Line";
+        lrecVendor: Record Vendor;
+        lfrmApprove: Page "Approval Authorization";
+        lcodUserID: Code[20];
+        lblnPassedUsercheck: Boolean;
+        lblnPassedVendorcheck: Boolean;
+        lconError001: TextConst ENU = 'You are not authorized to %1.';
+        lconError002: TextConst ENU = 'The combination of User ID and Password was incorrect.';
+        lconText001: TextConst ENU = 'over receive this quantity';
+        lJFText000: TextConst ENU = 'Vendor No. %1 is not authorized to %2';
+    begin
+
+        ldecPercentChange := ((precPurchLine."Qty. to Receive" + precPurchLine."Quantity Received") - precPurchLine."Original Order Qty. ELA"
+        )
+                              / precPurchLine."Original Order Qty. ELA" * 100;
+
+        jfmgSetApprovalRuleSource;
+
+        lblnPassedUserCheck := FALSE;
+        lblnPassedVendorCheck := FALSE;
+
+        IF gblnCheckUser THEN BEGIN
+            //Find User record
+            lrecPurchApproval.SETRANGE(Type, lrecPurchApproval.Type::User);
+            lrecPurchApproval.SETFILTER(Code, UPPERCASE(USERID));
+            lrecPurchApproval.SETRANGE("Allow Over Receive", TRUE);
+            lrecPurchApproval.SETFILTER("Over Receiving Tolerance (%)", '>= %1', ldecPercentChange);
+
+            IF lrecPurchApproval.FIND('-') THEN BEGIN
+                IF NOT gblnCheckVendor THEN BEGIN
+                    EXIT(UPPERCASE(USERID));
+                END ELSE BEGIN
+                    lblnPassedUserCheck := TRUE;
+                END;
+            END ELSE BEGIN
+                //Find any groups the user might belong to
+                lrecPurchApproval.SETRANGE(Type, lrecPurchApproval.Type::Group);
+                lrecPurchApproval.SETRANGE(Code);
+
+                IF lrecPurchApproval.FIND('-') THEN BEGIN
+                    REPEAT
+                        lrecApprovalGroupUser.SETRANGE("Approval Group", lrecPurchApproval.Code);
+                        lrecApprovalGroupUser.SETRANGE(User, UPPERCASE(USERID));
+
+                        IF lrecApprovalGroupUser.FIND('-') THEN BEGIN
+                            IF NOT gblnCheckVendor THEN BEGIN
+                                EXIT(UPPERCASE(USERID));
+                            END ELSE BEGIN
+                                lblnPassedUserCheck := TRUE;
+                            END;
+                        END;
+                    UNTIL lrecPurchApproval.NEXT = 0;
+                END;
+            END;
+        END ELSE BEGIN
+            lblnPassedUserCheck := TRUE;
+        END;
+
+        IF gblnCheckVendor THEN BEGIN
+            lrecVendor.GET(precPurchLine."Buy-from Vendor No.");
+
+            IF NOT lrecVendor."Use Over-Receiving Tolerance ELA" THEN BEGIN
+                lblnPassedVendorCheck := TRUE;
+            END ELSE BEGIN
+                IF lrecVendor."Over-Receiving Tolerance % ELA" >= ldecPercentChange THEN BEGIN
+                    lblnPassedVendorCheck := TRUE;
+                END;
+            END;
+        END ELSE BEGIN
+            lblnPassedVendorCheck := TRUE;
+        END;
+
+        IF lblnPassedUserCheck AND lblnPassedVendorCheck THEN
+            EXIT(UPPERCASE(USERID));
+
+        //-- Provide for a user override only if the vendor has already passed approval and we are allowing user level approvals
+        IF (gblnCheckUser) AND (lblnPassedVendorCheck) THEN BEGIN
+
+            //<JF12228AC>
+            // no user override for RF devices
+            IF NOT GUIALLOWED THEN BEGIN
+                //%1 may not be greater than %2.
+                ERROR(jfText030, precPurchLine.FIELDCAPTION("Qty. to Receive"),
+                                  precPurchLine.FIELDCAPTION("Outstanding Quantity"));
+            END;
+            //</JF12228AC>
+
+            CLEAR(lfrmApprove);
+            lfrmApprove.jfSetDescription(lconText001);
+
+            IF lfrmApprove.RUNMODAL = ACTION::OK THEN BEGIN
+                lcodUserID := lfrmApprove.jfReturnUserID;
+                IF lcodUserID <> '' THEN BEGIN
+                    lrecPurchApproval.RESET;
+                    lrecPurchApproval.SETRANGE(Type, lrecPurchApproval.Type::User);
+                    lrecPurchApproval.SETFILTER(Code, lcodUserID);
+                    lrecPurchApproval.SETRANGE("Allow Over Receive", TRUE);
+                    lrecPurchApproval.SETFILTER("Over Receiving Tolerance (%)", '>= %1', ldecPercentChange);
+                    IF lrecPurchApproval.FIND('-') THEN
+                        EXIT(lcodUserID)
+                    ELSE
+                        ERROR(lconError001, lconText001);
+                END ELSE
+                    ERROR(lconError002);
+            END ELSE
+                ERROR(lconError001, lconText001);
+        END ELSE BEGIN
+            ERROR(lJFText000, precPurchLine."Buy-from Vendor No.", lconText001);
+        END;
+    end;
+
+    procedure jfmgSetApprovalRuleSource()
+    begin
+
+        grecPurchSetup.GET;
+
+        CASE grecPurchSetup."Over Rcv. Approval Rule Source ELA" OF
+            grecPurchSetup."Over Rcv. Approval Rule Source ELA"::User:
+                BEGIN
+                    gblnCheckUser := TRUE;
+                    gblnCheckVendor := FALSE;
+                END;
+            grecPurchSetup."Over Rcv. Approval Rule Source ELA"::"Buy-From Vendor":
+                BEGIN
+                    gblnCheckUser := FALSE;
+                    gblnCheckVendor := TRUE;
+                END;
+            grecPurchSetup."Over Rcv. Approval Rule Source ELA"::"User & Buy-From Vendor":
+                BEGIN
+                    gblnCheckUser := TRUE;
+                    gblnCheckVendor := TRUE;
+                END;
+        END;
     end;
 
     procedure SuspendUpdateDirectUnitCost(pblnSuspendPriceCalc: Boolean)
@@ -720,6 +860,10 @@ tableextension 14229627 "EN Purchase  Line ELA" extends "Purchase Line"
         ExtraChargeSummary: record "EN Extra Charge Summary";
         ExtraChargeMgt: Codeunit "EN Extra Charge Management";
         ItemUOM: Record "Item Unit of Measure";
+        grecPurchSetup: Record "Purchases & Payables Setup";
+        gblnCheckVendor: Boolean;
+        gblnCheckUser: Boolean;
+        jfText030: TextConst ENU = '%1 may not be greater than %2.';
         myInt: Integer;
         Item: Record Item;
         QtyToHandle: Boolean;

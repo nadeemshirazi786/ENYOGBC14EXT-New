@@ -55,11 +55,19 @@ pageextension 14229615 "EN Purch. & Pay. Setup" extends "Purchases & Payables Se
                 ApplicationArea = All;
             }
         }
-        addfirst(General)
+        addlast(General)
         {
             field("Allow Over Receiving ELA"; "Allow Over Receiving ELA")
             {
                 Caption = 'Allow Over Receiving';
+            }
+            field("Use Over Receiving Approvals ELA"; "Use Over Receiving Approvals ELA")
+            {
+                Caption = 'Use Over Receiving Approvals';
+            }
+            field("Over Rcv. Approval Rule Source ELA"; "Over Rcv. Approval Rule Source ELA")
+            {
+                Caption = 'Over Rcv. Approval Rule Source';
             }
         }
         addlast(content)
@@ -195,6 +203,7 @@ pageextension 14229615 "EN Purch. & Pay. Setup" extends "Purchases & Payables Se
                 {
                     Caption = 'Global Group 5 Code';
                 }
+
             }
         }
     }

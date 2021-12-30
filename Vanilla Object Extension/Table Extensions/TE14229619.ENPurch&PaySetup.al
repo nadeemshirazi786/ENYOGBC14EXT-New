@@ -252,6 +252,15 @@ tableextension 14229619 "Purchases & Payables Setup ELA" extends "Purchases & Pa
         {
             Caption = 'Allow Over Receiving';
         }
+        field(51008; "Over Rcv. Approval Rule Source ELA"; Option)
+        {
+            Caption = 'Over Rcv. Approval Rule Source';
+            OptionMembers = User,"Buy-From Vendor","User & Buy-From Vendor";
+        }
+        field(51009; "Use Over Receiving Approvals ELA"; Boolean)
+        {
+            Caption = 'Use Over Receiving Approvals';
+        }
     }
 
 
