@@ -133,7 +133,6 @@ tableextension 14229647 "EN Whse Receipt Line Ext" extends "Warehouse Receipt Li
 
     begin
 
-        //<JF00026CB>
         IF "Qty. to Receive" = 0 THEN
             EXIT;
 
@@ -143,76 +142,50 @@ tableextension 14229647 "EN Whse Receipt Line Ext" extends "Warehouse Receipt Li
                 lrecPurchHeader.GET("Source Subtype", "Source No.");
 
                 IF (ABS("Qty. to Receive") > ABS("Qty. Outstanding")) THEN BEGIN
-                    //IF lrecPurchSetup."Use Over Receiving Approvals" THEN BEGIN
-                    //  lcodUserID := lcduApprovePurch.jfcbApproveOverReceiveWhse(Rec);
-                END;
+                    IF lrecPurchSetup."Use Over Receiving Approvals ELA" THEN BEGIN
+                        lcodUserID := jfcbApproveOverReceiveWhse(Rec);
+                    END;
 
-                IF (lrecPurchHeader."Tax Area Code" <> '') AND (lrecPurchHeader.Status = lrecPurchHeader.Status::Released) THEN BEGIN
-                    lblnWasReleased := TRUE;
-                    lcduRelPurchDoc.Reopen(lrecPurchHeader);
-                END;
+                    IF (lrecPurchHeader."Tax Area Code" <> '') AND (lrecPurchHeader.Status = lrecPurchHeader.Status::Released) THEN BEGIN
+                        lblnWasReleased := TRUE;
+                        lcduRelPurchDoc.Reopen(lrecPurchHeader);
+                    END;
 
-                gblnOverReceive := TRUE;
-                VALIDATE(Quantity, "Qty. to Receive" + "Qty. Received");
-                gblnOverReceive := FALSE;
-                IF lrecPurchLine.GET("Source Subtype", "Source No.", "Source Line No.") THEN BEGIN
-                    lrecPurchLine.SuspendUpdateDirectUnitCost(TRUE);
-                    lrecPurchLine.jfAllowQtyChangeWhse;
-                    lrecPurchLine.VALIDATE(Quantity, Quantity);
-                    lrecPurchLine."Approved By ELA" := lcodUserID;
-                    lrecPurchLine.UpdateAmounts;
-                    lrecPurchLine.MODIFY;
-                END;
-
-                IF lblnWasReleased THEN BEGIN
-                    lcduRelPurchDoc.RUN(lrecPurchHeader);
-                END;
-            END ELSE BEGIN
-                IF lrecPurchLine.GET("Source Subtype", "Source No.", "Source Line No.") THEN BEGIN
-                    IF (lrecPurchLine."Original Order Qty. ELA" <> 0) AND
-                       (lrecPurchLine.Quantity <> lrecPurchLine."Original Order Qty. ELA")
-                    THEN BEGIN
-                        IF (lrecPurchHeader."Tax Area Code" <> '') AND (lrecPurchHeader.Status = lrecPurchHeader.Status::Released) THEN BEGIN
-                            lblnWasReleased := TRUE;
-                            lcduRelPurchDoc.Reopen(lrecPurchHeader);
-                            lrecPurchHeader.MODIFY;
-                        END;
-
-                        lrecPurchLine.GET(lrecPurchLine."Document Type", lrecPurchLine."Document No.", lrecPurchLine."Line No.");
-
-                        lrecPurchLine.jfAllowQtyChangeWhse;
+                    gblnOverReceive := TRUE;
+                    VALIDATE(Quantity, "Qty. to Receive" + "Qty. Received");
+                    gblnOverReceive := FALSE;
+                    IF lrecPurchLine.GET("Source Subtype", "Source No.", "Source Line No.") THEN BEGIN
                         lrecPurchLine.SuspendUpdateDirectUnitCost(TRUE);
+                        lrecPurchLine.jfAllowQtyChangeWhse;
+                        lrecPurchLine.VALIDATE(Quantity, Quantity);
+                        lrecPurchLine."Approved By ELA" := lcodUserID;
+                        lrecPurchLine.UpdateAmounts;
+                        lrecPurchLine.MODIFY;
+                    END;
 
-
-                        IF lrecPurchLine."Quantity Received" <> 0 THEN BEGIN
-                            IF lrecPurchLine."Quantity Received" + "Qty. to Receive" <> lrecPurchLine.Quantity THEN BEGIN
-                                lrecPurchLine.VALIDATE(Quantity, lrecPurchLine."Quantity Received" + "Qty. to Receive");
-                                lrecPurchLine."Approved By ELA" := lcodUserID;
-                                lrecPurchLine.UpdateAmounts;
-                                lrecPurchLine.MODIFY;
-
-                                gblnOverReceive := TRUE;
-                                ldecQtyToReceive := "Qty. to Receive";
-                                VALIDATE(Quantity, lrecPurchLine.Quantity);
-                                VALIDATE("Qty. to Receive", ldecQtyToReceive);
-                                gblnOverReceive := FALSE;
-
+                    IF lblnWasReleased THEN BEGIN
+                        lcduRelPurchDoc.RUN(lrecPurchHeader);
+                    END;
+                END ELSE BEGIN
+                    IF lrecPurchLine.GET("Source Subtype", "Source No.", "Source Line No.") THEN BEGIN
+                        IF (lrecPurchLine."Original Order Qty. ELA" <> 0) AND
+                           (lrecPurchLine.Quantity <> lrecPurchLine."Original Order Qty. ELA")
+                        THEN BEGIN
+                            IF (lrecPurchHeader."Tax Area Code" <> '') AND (lrecPurchHeader.Status = lrecPurchHeader.Status::Released) THEN BEGIN
+                                lblnWasReleased := TRUE;
+                                lcduRelPurchDoc.Reopen(lrecPurchHeader);
+                                lrecPurchHeader.MODIFY;
                             END;
-                        END ELSE BEGIN
-                            IF (ABS("Qty. to Receive") <= lrecPurchLine."Original Order Qty. ELA") THEN BEGIN
-                                lrecPurchLine.VALIDATE(Quantity, lrecPurchLine."Original Order Qty. ELA");
-                                lrecPurchLine."Approved By ELA" := lcodUserID;
-                                lrecPurchLine.UpdateAmounts;
-                                lrecPurchLine.MODIFY;
 
-                                gblnOverReceive := TRUE;
-                                ldecQtyToReceive := "Qty. to Receive";
-                                VALIDATE(Quantity, lrecPurchLine.Quantity);
-                                VALIDATE("Qty. to Receive", ldecQtyToReceive);
-                                gblnOverReceive := FALSE;
-                            END ELSE BEGIN
-                                IF NOT gblnOverReceive THEN BEGIN
-                                    lrecPurchLine.VALIDATE(Quantity, "Qty. to Receive");
+                            lrecPurchLine.GET(lrecPurchLine."Document Type", lrecPurchLine."Document No.", lrecPurchLine."Line No.");
+
+                            lrecPurchLine.jfAllowQtyChangeWhse;
+                            lrecPurchLine.SuspendUpdateDirectUnitCost(TRUE);
+
+
+                            IF lrecPurchLine."Quantity Received" <> 0 THEN BEGIN
+                                IF lrecPurchLine."Quantity Received" + "Qty. to Receive" <> lrecPurchLine.Quantity THEN BEGIN
+                                    lrecPurchLine.VALIDATE(Quantity, lrecPurchLine."Quantity Received" + "Qty. to Receive");
                                     lrecPurchLine."Approved By ELA" := lcodUserID;
                                     lrecPurchLine.UpdateAmounts;
                                     lrecPurchLine.MODIFY;
@@ -222,24 +195,198 @@ tableextension 14229647 "EN Whse Receipt Line Ext" extends "Warehouse Receipt Li
                                     VALIDATE(Quantity, lrecPurchLine.Quantity);
                                     VALIDATE("Qty. to Receive", ldecQtyToReceive);
                                     gblnOverReceive := FALSE;
+
+                                END;
+                            END ELSE BEGIN
+                                IF (ABS("Qty. to Receive") <= lrecPurchLine."Original Order Qty. ELA") THEN BEGIN
+                                    lrecPurchLine.VALIDATE(Quantity, lrecPurchLine."Original Order Qty. ELA");
+                                    lrecPurchLine."Approved By ELA" := lcodUserID;
+                                    lrecPurchLine.UpdateAmounts;
+                                    lrecPurchLine.MODIFY;
+
+                                    gblnOverReceive := TRUE;
+                                    ldecQtyToReceive := "Qty. to Receive";
+                                    VALIDATE(Quantity, lrecPurchLine.Quantity);
+                                    VALIDATE("Qty. to Receive", ldecQtyToReceive);
+                                    gblnOverReceive := FALSE;
+                                END ELSE BEGIN
+                                    IF NOT gblnOverReceive THEN BEGIN
+                                        lrecPurchLine.VALIDATE(Quantity, "Qty. to Receive");
+                                        lrecPurchLine."Approved By ELA" := lcodUserID;
+                                        lrecPurchLine.UpdateAmounts;
+                                        lrecPurchLine.MODIFY;
+
+                                        gblnOverReceive := TRUE;
+                                        ldecQtyToReceive := "Qty. to Receive";
+                                        VALIDATE(Quantity, lrecPurchLine.Quantity);
+                                        VALIDATE("Qty. to Receive", ldecQtyToReceive);
+                                        gblnOverReceive := FALSE;
+                                    END;
                                 END;
                             END;
-                        END;
 
-                        IF lblnWasReleased THEN BEGIN
-                            lcduRelPurchDoc.RUN(lrecPurchHeader);
-                            lrecPurchHeader.MODIFY;
+                            IF lblnWasReleased THEN BEGIN
+                                lcduRelPurchDoc.RUN(lrecPurchHeader);
+                                lrecPurchHeader.MODIFY;
+                            END;
                         END;
                     END;
                 END;
             END;
         END;
+        //</JF00026CB>
     END;
-    //</JF00026CB>
-    //end;
+
+    procedure jfcbApproveOverReceiveWhse(precWhseRcptLine: Record "Warehouse Receipt Line"): Code[20]
+    var
+        ldecPercentChange: Decimal;
+        lrecPurchApproval: Record "Purchasing Approval Setup";
+        lrecApprovalGroupUser: Record "Approval Group User";
+        lrecPurchLine: Record "Purchase Line";
+        lrecVendor: Record Vendor;
+        lfrmApprove: Page "Approval Authorization";
+        lcodUserID: Code[20];
+        lblnPassedUsercheck: Boolean;
+        lblnPassedVendorcheck: Boolean;
+        lconError001: TextConst ENU = 'You are not authorized to %1.';
+        lconError002: TextConst ENU = 'The combination of User ID and Password was incorrect.';
+        lconText001: TextConst ENU = 'over receive this quantity';
+        lJFText000: TextConst ENU = 'Vendor No. %1 is not authorized to %2';
+
+    begin
+
+        IF NOT lrecPurchLine.GET(precWhseRcptLine."Source Subtype", precWhseRcptLine."Source No.", precWhseRcptLine."Source Line No.") THEN
+            EXIT('');
+
+        ldecPercentChange :=
+          ((precWhseRcptLine."Qty. to Receive" + precWhseRcptLine."Qty. Received") -
+          lrecPurchLine."Original Order Qty. ELA") / lrecPurchLine."Original Order Qty. ELA" * 100;
+
+        jfmgSetApprovalRuleSource;
+
+        lblnPassedUsercheck := FALSE;
+        lblnPassedVendorCheck := FALSE;
+
+        IF gblnCheckUser THEN BEGIN
+            //Find User record
+            lrecPurchApproval.SETRANGE(Type, lrecPurchApproval.Type::User);
+            lrecPurchApproval.SETFILTER(Code, UPPERCASE(USERID));
+            lrecPurchApproval.SETRANGE("Allow Over Receive", TRUE);
+            lrecPurchApproval.SETFILTER("Over Receiving Tolerance (%)", '>= %1', ldecPercentChange);
+
+            IF lrecPurchApproval.FIND('-') THEN BEGIN
+                IF NOT gblnCheckVendor THEN BEGIN
+                    EXIT(UPPERCASE(USERID));
+                END ELSE BEGIN
+                    lblnPassedUsercheck := TRUE;
+                END;
+            END ELSE BEGIN
+                //Find any groups the user might belong to
+                lrecPurchApproval.SETRANGE(Type, lrecPurchApproval.Type::Group);
+                lrecPurchApproval.SETRANGE(Code);
+
+                IF lrecPurchApproval.FIND('-') THEN BEGIN
+                    REPEAT
+                        lrecApprovalGroupUser.SETRANGE("Approval Group", lrecPurchApproval.Code);
+                        lrecApprovalGroupUser.SETRANGE(User, UPPERCASE(USERID));
+
+                        IF lrecApprovalGroupUser.FIND('-') THEN BEGIN
+                            IF NOT gblnCheckVendor THEN BEGIN
+                                EXIT(UPPERCASE(USERID));
+                            END ELSE BEGIN
+                                lblnPassedUsercheck := TRUE;
+                            END;
+                        END;
+                    UNTIL lrecPurchApproval.NEXT = 0;
+                END;
+            END;
+        END ELSE BEGIN
+            lblnPassedUsercheck := TRUE;
+        END;
+
+        IF gblnCheckVendor THEN BEGIN
+            lrecVendor.GET(lrecPurchLine."Buy-from Vendor No.");
+
+            IF NOT lrecVendor."Use Over-Receiving Tolerance ELA" THEN BEGIN
+                lblnPassedVendorCheck := TRUE;
+            END ELSE BEGIN
+                IF lrecVendor."Over-Receiving Tolerance % ELA" >= ldecPercentChange THEN BEGIN
+                    lblnPassedVendorCheck := TRUE;
+                END;
+            END;
+        END ELSE BEGIN
+            lblnPassedVendorCheck := TRUE;
+        END;
+
+        IF lblnPassedUsercheck AND lblnPassedVendorCheck THEN
+            EXIT(UPPERCASE(USERID));
+
+        //-- Provide for a user override only if the vendor has already passed approval and we are allowing user level approvals
+        IF (gblnCheckUser) AND (lblnPassedVendorCheck) THEN BEGIN
+
+            //<JF12228AC>
+            // no user override for RF devices
+            IF NOT GUIALLOWED THEN BEGIN
+                //%1 may not be greater than %2.
+                ERROR(jfText030, precWhseRcptLine.FIELDCAPTION("Qty. to Receive"),
+                                  precWhseRcptLine.FIELDCAPTION("Qty. Outstanding"));
+            END;
+            //</JF12228AC>
+
+            CLEAR(lfrmApprove);
+            lfrmApprove.jfSetDescription(lconText001);
+
+            IF lfrmApprove.RUNMODAL = ACTION::OK THEN BEGIN
+                lcodUserID := lfrmApprove.jfReturnUserID;
+                IF lcodUserID <> '' THEN BEGIN
+                    lrecPurchApproval.RESET;
+                    lrecPurchApproval.SETRANGE(Type, lrecPurchApproval.Type::User);
+                    lrecPurchApproval.SETFILTER(Code, lcodUserID);
+                    lrecPurchApproval.SETRANGE("Allow Over Receive", TRUE);
+                    lrecPurchApproval.SETFILTER("Over Receiving Tolerance (%)", '>= %1', ldecPercentChange);
+
+                    IF lrecPurchApproval.FIND('-') THEN
+                        EXIT(lcodUserID)
+                    ELSE
+                        ERROR(lconError001, lconText001);
+                END ELSE
+                    ERROR(lconError002);
+            END ELSE
+                ERROR(lconError001, lconText001);
+        END ELSE BEGIN
+            ERROR(lJFText000, lrecPurchLine."Buy-from Vendor No.", lconText001);
+        END;
+
+    end;
+
+    procedure jfmgSetApprovalRuleSource()
+    begin
+        grecPurchSetup.GET;
+        CASE grecPurchSetup."Over Rcv. Approval Rule Source ELA" OF
+            grecPurchSetup."Over Rcv. Approval Rule Source ELA"::User:
+                BEGIN
+                    gblnCheckUser := TRUE;
+                    gblnCheckVendor := FALSE;
+                END;
+            grecPurchSetup."Over Rcv. Approval Rule Source ELA"::"Buy-From Vendor":
+                BEGIN
+                    gblnCheckUser := FALSE;
+                    gblnCheckVendor := TRUE;
+                END;
+            grecPurchSetup."Over Rcv. Approval Rule Source ELA"::"User & Buy-From Vendor":
+                BEGIN
+                    gblnCheckUser := TRUE;
+                    gblnCheckVendor := TRUE;
+                END;
+        END;
+    end;
 
     var
         gblnFromReceiveQty: Boolean;
         gblnOverReceive: boolean;
+        gblnCheckUser: Boolean;
+        gblnCheckVendor: Boolean;
+        grecPurchSetup: Record "Purchases & Payables Setup";
+        JfText030: TextConst ENU = '%1 may not be greater than %2.';
         gjfText000: Label 'Variable weight items must be fully received.';
 }
