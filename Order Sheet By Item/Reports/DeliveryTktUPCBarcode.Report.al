@@ -909,7 +909,7 @@ report 14228811 "Delivery Tkt UPC Barcode"
                                     lintLineNo := "Line No.";
                                 END;
                                 lrecSalesLine.GET("Document Type", "Document No.", lintLineNo);
-                                gtxtBotDep := lrecSalesLine.jfGetUDCalculation('85_BOTTLE');
+                                gtxtBotDep := lrecSalesLine.GetBottleAmount(lrecSalesLine);
                                 //</IB54312AZ>
 
                                 IF EVALUATE(BotDep, gtxtBotDep) THEN BEGIN

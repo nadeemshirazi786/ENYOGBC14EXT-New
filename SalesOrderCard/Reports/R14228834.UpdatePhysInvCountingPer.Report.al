@@ -1,4 +1,4 @@
-report 14228834 "Update Phys Inv. Counting Per."
+report 14228834 "Update Phys Inv. Count. Per."
 {
     Caption = 'Update Phys. Inv. Counting Period';
     ProcessingOnly = true;

@@ -5,14 +5,20 @@ codeunit 14228832 "Func. Backorder Tolr. ELA"
 
     end;
 
-    [EventSubscriber(ObjectType::Table, 5767, 'OnBeforeValidateQtyToHandle', '', true, true)]
-    local procedure BeforeValidateQtyToHandle(var WarehouseActivityLine: Record "Warehouse Activity Line")
+    [EventSubscriber(ObjectType::Table, 37, 'OnBeforeVerifyReservedQty', '', true, true)]
+    local procedure BeforeVerifyReservedQty(var SalesLine: Record "Sales Line")
     begin
-        IF WarehouseActivityLine."Action Type" = WarehouseActivityLine."Action Type"::Take THEN BEGIN
-            WarehouseActivityLine.jfSetUpdatePlaceLine(TRUE);
-        END;
+        SalesLine.BeforeVerifyReservedQty();
+    end;
 
-        WarehouseActivityLine.jfUpdatePlaceLine(WarehouseActivityLine.FIELDNO("Qty. to Handle"));
+    [EventSubscriber(ObjectType::Table, 5767, 'OnBeforeValidateQtyToHandle', '', true, true)]
+    local procedure BeforeValidateQtyToHandle(var WarehouseActivityLine: Record "Warehouse Activity Line"; var IsHandled: Boolean)
+    begin
+        // IF WarehouseActivityLine."Action Type" = WarehouseActivityLine."Action Type"::Take THEN BEGIN
+        //     WarehouseActivityLine.jfSetUpdatePlaceLine(true);
+        // END;
+        IsHandled := true;
+        //WarehouseActivityLine.jfUpdatePlaceLine(WarehouseActivityLine.FIELDNO("Qty. to Handle"));
     end;
 
     [EventSubscriber(ObjectType::Codeunit, 88, 'OnBeforeReleaseSalesDoc', '', true, true)]
@@ -136,6 +142,15 @@ codeunit 14228832 "Func. Backorder Tolr. ELA"
             WhseShptLine.DELETE;
 
         end;
+    end;
+
+    [EventSubscriber(ObjectType::Codeunit, 5764, 'OnAfterConfirmPost', '', true, true)]
+    local procedure AfterConfirmPost(WhseShipmentLine: Record "Warehouse Shipment Line")
+    var
+        WhseShptHdr: Record "Warehouse Shipment Header";
+    begin
+        if WhseShptHdr.Get(WhseShipmentLine."No.") then
+            jfdoOpenPostedShipment(WhseShptHdr);
     end;
 
     procedure jfCheckSalesBackorder(VAR precSalesHeader: Record "Sales Header")
@@ -398,6 +413,13 @@ codeunit 14228832 "Func. Backorder Tolr. ELA"
         END;
     end;
 
+    procedure jfdoOpenPostedShipment(WhseShptHeader: Record "Warehouse Shipment Header")
     var
-        myInt: Integer;
+        lrecPostedWhseShpt: Record "Posted Whse. Shipment Header";
+    begin
+        IF lrecPostedWhseShpt.GET(WhseShptHeader."Shipping No.") THEN
+            PAGE.RUN(PAGE::"Posted Whse. Shipment", lrecPostedWhseShpt);
+    end;
+
+
 }

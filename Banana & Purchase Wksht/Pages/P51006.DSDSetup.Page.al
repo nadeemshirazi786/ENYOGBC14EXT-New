@@ -4,6 +4,7 @@ page 51006 "DSD Setup"
     ApplicationArea = all;
     UsageCategory = Administration;
     SourceTable = "DSD Setup";
+    Editable = true;
 
     layout
     {

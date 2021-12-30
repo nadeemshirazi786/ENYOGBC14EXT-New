@@ -2,7 +2,20 @@ tableextension 14229654 "Warehouse Activity Line" extends "Warehouse Activity Li
 {
     fields
     {
-        // Add changes to table fields here
+        modify("Qty. to Handle")
+        {
+            trigger OnAfterValidate()
+            begin
+                IF "Action Type" ="Action Type"::Take THEN BEGIN
+                    jfSetUpdatePlaceLine(true);
+                END;
+
+                jfUpdatePlaceLine(FIELDNO("Qty. to Handle"));
+
+
+
+            end;
+        }
     }
 
     procedure jfSetUpdatePlaceLine(pblnSet: Boolean)

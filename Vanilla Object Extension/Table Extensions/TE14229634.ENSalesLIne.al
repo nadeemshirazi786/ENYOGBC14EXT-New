@@ -441,7 +441,13 @@ tableextension 14229634 "EN Sales Line ELA" extends "Sales Line"
                 end;
             end;
         }
-
+        modify("Qty. to Ship")
+        {
+            trigger OnAfterValidate()
+            begin
+                jfmgOverShip;
+            end;
+        }
 
     }
     procedure WarehouseLineQuantityELA(QtyBase: Decimal; QtyAlt: Decimal; QtyToInvBase: Decimal)
@@ -777,9 +783,27 @@ tableextension 14229634 "EN Sales Line ELA" extends "Sales Line"
     begin
     end;
 
-    procedure jfGetUDCalculation(pcodUDCalcCode: Code[20]) rtxtUDCalcVal: Text[30]
 
+    procedure jfmgOverShip()
+    var
+        lrecSalesSetup: Record "Sales & Receivables Setup";
     begin
+        lrecSalesSetup.GET;
+
+        IF lrecSalesSetup."Allow Over Shipping ELA" THEN BEGIN
+            IF "Document Type" = "Document Type"::Order THEN BEGIN
+                IF (ABS("Qty. to Ship") > ABS("Outstanding Quantity")) THEN BEGIN
+                    // IF lrecSalesSetup."Use Over Shipping Approval ELA" THEN BEGIN
+                    //     //"Approved By ELA" := lcduApproveSales.jfmgApproveOverShip(Rec);
+                    // END ELSE BEGIN
+                    //     "Approved By" := USERID;
+                    // END;
+                    gblnOverShip := TRUE;
+                    VALIDATE(Quantity, "Qty. to Ship" + "Quantity Shipped");
+                    gblnOverShip := FALSE;
+                END;
+            END;
+        END;
     end;
 
     procedure GetBottleAmount(recSalesLine: Record "Sales Line") ptxtResult: Text[250]
@@ -1271,6 +1295,14 @@ tableextension 14229634 "EN Sales Line ELA" extends "Sales Line"
     procedure jfBypassPlanningWarning()
     begin
         gblnBypassPlanningWarning := TRUE;
+    end;
+
+    procedure BeforeVerifyReservedQty()
+    var
+        WhseValidateSourceLine: Codeunit "Whse. Validate Source Line";
+    begin
+        IF NOT gblnAllowQtyToChg THEN
+            WhseValidateSourceLine.SalesLineVerifyChange(Rec, xRec);
     end;
 
     var
