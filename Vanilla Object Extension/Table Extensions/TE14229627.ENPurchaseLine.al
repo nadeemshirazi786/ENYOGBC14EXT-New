@@ -9,6 +9,7 @@ tableextension 14229627 "EN Purchase  Line ELA" extends "Purchase Line"
                 ItemUOM: Record "Item Unit of Measure";
                 Item: Record Item;
             begin
+
                 IF (xRec.Quantity <> Quantity) OR (xRec."Quantity (Base)" <> "Quantity (Base)") THEN
                     UpdateLotTracking(false);
                 IF (Type = Type::Item) AND ("No." <> '') THEN BEGIN
@@ -19,6 +20,9 @@ tableextension 14229627 "EN Purchase  Line ELA" extends "Purchase Line"
                         "Pallet Count ELA" := 0;
                 END;
                 "Qty. Secondary (Base UOM) ELA" := "Quantity (Base)";
+                "Original Order Qty. ELA" := Quantity;
+
+
             end;
         }
         modify("Qty. to Invoice")
@@ -34,7 +38,7 @@ tableextension 14229627 "EN Purchase  Line ELA" extends "Purchase Line"
             begin
                 GetLocation("Location Code");
                 UpdateLotTracking(false);
-                JfOverReceive();
+                //  JfOverReceive();
             end;
         }
         modify("Return Qty. Shipped")
@@ -857,6 +861,7 @@ tableextension 14229627 "EN Purchase  Line ELA" extends "Purchase Line"
     end;
 
     var
+        WhseValidateSourceLine: Codeunit "Whse. Validate Source Line";
         ExtraChargeSummary: record "EN Extra Charge Summary";
         ExtraChargeMgt: Codeunit "EN Extra Charge Management";
         ItemUOM: Record "Item Unit of Measure";

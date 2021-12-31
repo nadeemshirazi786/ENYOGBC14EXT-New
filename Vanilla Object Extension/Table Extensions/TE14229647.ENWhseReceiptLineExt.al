@@ -109,10 +109,34 @@ tableextension 14229647 "EN Whse Receipt Line Ext" extends "Warehouse Receipt Li
         {
             trigger OnAfterValidate()
             begin
-                JfOverReceive();
+
+                IF (NOT gblnFromReceiveQty) OR (gblnOverReceive) THEN
+                    "Receiving Quantity ELA" := jfCalcReceivingQty("Qty. to Receive (Base)");
             end;
         }
+
     }
+    procedure jfCalcReceivingQty(Qty: Decimal): Decimal
+    var
+        lrecItem: Record Item;
+        lrecUOM: Record "Unit of Measure";
+        ldecConversion: Decimal;
+        ldecBaseQty: Decimal;
+        lcduUOMConstant: Codeunit "EN UOM Management";
+    begin
+
+        TESTFIELD("Receiving UOM ELA");
+
+        lrecItem.GET("Item No.");
+        lrecUOM.GET("Receiving UOM ELA");
+
+        ldecConversion := lcduUOMConstant.GetConversion(lrecItem, lrecUOM);
+
+        IF ldecConversion = 0 THEN
+            ldecConversion := 1;
+
+        EXIT(ROUND(Qty * ldecConversion, 0.00001));
+    end;
 
     procedure CalcQty(QtyBase: Decimal): Decimal
     begin

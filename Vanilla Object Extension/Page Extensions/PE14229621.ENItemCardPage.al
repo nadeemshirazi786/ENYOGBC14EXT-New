@@ -119,6 +119,15 @@ pageextension 14229621 "EN LT ItemCard EXT ELA" extends "Item Card"
                 {
                     Caption = 'Ad 2 Code';
                 }
+
+            }
+
+        }
+        addlast(Purchase)
+        {
+            field("Receiving Unit of Measure ELA"; "Receiving Unit of Measure ELA")
+            {
+                Caption = 'Receiving Unit Of Measure';
             }
         }
     }

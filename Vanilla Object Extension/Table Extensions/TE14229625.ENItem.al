@@ -353,6 +353,11 @@ tableextension 14229625 "EN Item ELA" extends Item
         {
             Caption = 'Customer No. Filter';
         }
+        field(51009; "Receiving Unit of Measure ELA"; Code[20])
+        {
+            Caption = 'Receiving Unit of Measure';
+            TableRelation = "Item Unit of Measure".Code WHERE("Item No." = FIELD("No."));
+        }
     }
 
     procedure TrackAlternateUnits(): Boolean
