@@ -6,7 +6,7 @@ tableextension 14229654 "Warehouse Activity Line" extends "Warehouse Activity Li
         {
             trigger OnAfterValidate()
             begin
-                IF "Action Type" ="Action Type"::Take THEN BEGIN
+                IF "Action Type" = "Action Type"::Take THEN BEGIN
                     jfSetUpdatePlaceLine(true);
                 END;
 
@@ -98,6 +98,12 @@ tableextension 14229654 "Warehouse Activity Line" extends "Warehouse Activity Li
 
         lrecWhseActivityLine.MODIFY;
     end;
+
+    procedure jfUpdateIsFromPosting(pblnIsPosting: Boolean)
+    begin
+        gblnIsPosting := pblnIsPosting;
+    end;
+
 
     var
         gblnIsPosting: Boolean;

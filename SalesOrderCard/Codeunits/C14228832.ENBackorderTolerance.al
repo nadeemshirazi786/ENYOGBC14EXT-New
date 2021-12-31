@@ -153,6 +153,39 @@ codeunit 14228832 "Func. Backorder Tolr. ELA"
             jfdoOpenPostedShipment(WhseShptHdr);
     end;
 
+    [EventSubscriber(ObjectType::Codeunit, 7307, 'OnBeforeUpdateWhseDocHeader', '', true, true)]
+    local procedure BeforeUpdateWhseDocHeader(var WarehouseActivityLine: Record "Warehouse Activity Line"; var IsHandled: Boolean)
+    var
+        QtyDiff: Decimal;
+        QtyBaseDiff: Decimal;
+        WhseActvtLine: Record "Warehouse Activity Line";
+    begin
+        //WhseActvtLine := WarehouseActivityLine;
+        IF ROUND(WarehouseActivityLine."Qty. Outstanding", 0.00001, '=') = WarehouseActivityLine."Qty. to Handle" THEN
+            WarehouseActivityLine.DELETE
+        ELSE BEGIN
+
+            WarehouseActivityLine.jfUpdateIsFromPosting(TRUE);
+
+
+            QtyDiff := WarehouseActivityLine."Qty. Outstanding" - WarehouseActivityLine."Qty. to Handle";
+            QtyBaseDiff := WarehouseActivityLine."Qty. Outstanding (Base)" - WarehouseActivityLine."Qty. to Handle (Base)";
+            WarehouseActivityLine.VALIDATE("Qty. Outstanding", QtyDiff);
+            IF WarehouseActivityLine."Qty. Outstanding (Base)" > QtyBaseDiff THEN // round off error- qty same, not base qty
+                WarehouseActivityLine."Qty. Outstanding (Base)" := QtyBaseDiff;
+            WarehouseActivityLine.VALIDATE("Qty. to Handle", QtyDiff);
+            IF WarehouseActivityLine."Qty. to Handle (Base)" > QtyBaseDiff THEN // round off error- qty same, not base qty
+                WarehouseActivityLine."Qty. to Handle (Base)" := QtyBaseDiff;
+
+
+            WarehouseActivityLine.VALIDATE(
+              "Qty. Handled", WarehouseActivityLine.Quantity - WarehouseActivityLine."Qty. Outstanding");
+            Commit();
+            WarehouseActivityLine.MODIFY;
+            //IsHandled := true;
+        END;
+    end;
+
     procedure jfCheckSalesBackorder(VAR precSalesHeader: Record "Sales Header")
     var
         lrecCustomer: Record Customer;
