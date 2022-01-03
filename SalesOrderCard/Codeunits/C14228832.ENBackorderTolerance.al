@@ -91,7 +91,7 @@ codeunit 14228832 "Func. Backorder Tolr. ELA"
     end;
 
     [EventSubscriber(ObjectType::Codeunit, 5763, 'OnBeforeDeleteUpdateWhseShptLine', '', true, true)]
-    local procedure BeforeDeleteUpdateWhseShptLine(WhseShptLine: Record "Warehouse Shipment Line")
+    local procedure BeforeDeleteUpdateWhseShptLine(WhseShptLine: Record "Warehouse Shipment Line"; var DeleteWhseShptLine: Boolean)
     var
         lrecWhseActivityLine: Record "Warehouse Activity Line";
         lrecWhseActivityLine1: Record "Warehouse Activity Line";
@@ -99,6 +99,7 @@ codeunit 14228832 "Func. Backorder Tolr. ELA"
         loptActivityType: Integer;
         lcodNo: Code[20];
     begin
+        Message(FORMAT(DeleteWhseShptLine));
         IF WhseShptLine."Qty. Outstanding" = WhseShptLine."Qty. to Ship" THEN BEGIN
             lrecWhseActivityLine.RESET;
 
@@ -153,7 +154,7 @@ codeunit 14228832 "Func. Backorder Tolr. ELA"
             jfdoOpenPostedShipment(WhseShptHdr);
     end;
 
-    [EventSubscriber(ObjectType::Codeunit, 7307, 'OnBeforeUpdateWhseDocHeader', '', true, true)]
+    //[EventSubscriber(ObjectType::Codeunit, 7307, 'OnBeforeUpdateWhseDocHeader', '', true, true)]
     local procedure BeforeUpdateWhseDocHeader(var WarehouseActivityLine: Record "Warehouse Activity Line"; var IsHandled: Boolean)
     var
         QtyDiff: Decimal;
@@ -180,8 +181,8 @@ codeunit 14228832 "Func. Backorder Tolr. ELA"
 
             WarehouseActivityLine.VALIDATE(
               "Qty. Handled", WarehouseActivityLine.Quantity - WarehouseActivityLine."Qty. Outstanding");
-            Commit();
-            WarehouseActivityLine.MODIFY;
+            //Commit();
+            //WarehouseActivityLine.MODIFY;
             //IsHandled := true;
         END;
     end;
