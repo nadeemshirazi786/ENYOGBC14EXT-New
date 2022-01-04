@@ -5,10 +5,24 @@ codeunit 14228832 "Func. Backorder Tolr. ELA"
 
     end;
 
+    [EventSubscriber(ObjectType::Table, 37, 'OnAfterAssignHeaderValues', '', true, true)]
+    local procedure AfterAssignHeaderValues(var SalesLine: Record "Sales Line"; SalesHeader: Record "Sales Header")
+    begin
+        SalesLine."Backorder Tolerance % ELA" := SalesHeader."Backorder Tolerance % ELA";
+    end;
+
     [EventSubscriber(ObjectType::Table, 37, 'OnBeforeVerifyReservedQty', '', true, true)]
     local procedure BeforeVerifyReservedQty(var SalesLine: Record "Sales Line")
     begin
         SalesLine.BeforeVerifyReservedQty();
+    end;
+
+    [EventSubscriber(ObjectType::Table, 37, 'OnBeforeVerifyReservedQty', '', true, true)]
+    local procedure OnBeforeVerifyReservedQty(var SalesLine: Record "Sales Line"; xSalesLine: Record "Sales Line")
+    begin
+        // IF  
+        //         EXIT;
+        // end;
     end;
 
     [EventSubscriber(ObjectType::Table, 5767, 'OnBeforeValidateQtyToHandle', '', true, true)]
@@ -99,7 +113,7 @@ codeunit 14228832 "Func. Backorder Tolr. ELA"
         loptActivityType: Integer;
         lcodNo: Code[20];
     begin
-        Message(FORMAT(DeleteWhseShptLine));
+        //Message(FORMAT(DeleteWhseShptLine));
         IF WhseShptLine."Qty. Outstanding" = WhseShptLine."Qty. to Ship" THEN BEGIN
             lrecWhseActivityLine.RESET;
 
@@ -404,7 +418,7 @@ codeunit 14228832 "Func. Backorder Tolr. ELA"
                     IF lblnFoundTolerance THEN BEGIN
 
                         IF ROUND((1 - ("Qty. to Ship" + lrecSalesLine."Quantity Shipped") / lrecSalesLine.Quantity) * 100, 0.00001)
-                                   <= lrecSalesLine."Backorder Tolerance %" THEN BEGIN
+                                   <= lrecSalesLine."Backorder Tolerance % ELA" THEN BEGIN
                             //</JF12270DT>
 
                             //-- Update Whse. Shipment Line
@@ -412,7 +426,7 @@ codeunit 14228832 "Func. Backorder Tolr. ELA"
                             BypassStatusCheck(TRUE);
 
                             ldecQtyToShip := "Qty. to Ship";
-
+                            precWhseShptLine.SuspendStatusCheck(TRUE);
                             VALIDATE(Quantity, "Qty. to Ship");
                             VALIDATE("Qty. to Ship", ldecQtyToShip);
                             MODIFY;

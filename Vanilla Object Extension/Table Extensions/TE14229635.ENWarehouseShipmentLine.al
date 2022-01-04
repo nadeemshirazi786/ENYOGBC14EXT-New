@@ -1,5 +1,17 @@
 tableextension 14229635 "EN LT WhseShpmtLine EXT ELA" extends "Warehouse Shipment Line"
 {
+    fields
+    {
+        modify(Quantity)
+        {
+            trigger OnBeforeValidate()
+            begin
+                // IF NOT gblnAllowZeroQty THEN
+                IF gblnBypassStatusCheck THEN
+                    EXIT;
+            end;
+        }
+    }
     procedure SetLotQuantity(LotNo: Code[20])
     begin
         GetSourceDocumentLine(SalesLine, PurchLine, TransLine);
@@ -81,6 +93,11 @@ tableextension 14229635 "EN LT WhseShpmtLine EXT ELA" extends "Warehouse Shipmen
     procedure jfFromWhsePost(pblnFromWhsePost: Boolean)
     begin
         gblnFromWhsePost := pblnFromWhsePost;
+    end;
+
+    procedure BypassBooleanTestRelease(): Boolean
+    begin
+        exit(true);
     end;
 
     var
