@@ -17,22 +17,25 @@ codeunit 14228832 "Func. Backorder Tolr. ELA"
         SalesLine.BeforeVerifyReservedQty();
     end;
 
-    [EventSubscriber(ObjectType::Table, 37, 'OnBeforeVerifyReservedQty', '', true, true)]
-    local procedure OnBeforeVerifyReservedQty(var SalesLine: Record "Sales Line"; xSalesLine: Record "Sales Line")
+    [EventSubscriber(ObjectType::Codeunit, 5777, 'OnBeforeVerifyFieldNotChanged', '', true, true)]
+    local procedure OnBeforeVerifyFieldNotChanged(var IsHandled: Boolean; NewRecRef: RecordRef)
+    var
+        MyFieldRef: FieldRef;
+        MarkBackorder: Boolean;
     begin
-        // IF  
-        //         EXIT;
-        // end;
+        MyFieldRef := NewRecRef.Field(14228870);
+        MarkBackorder := MyFieldRef.Value;
+        IF MarkBackorder then
+            IsHandled := true;
     end;
 
-    [EventSubscriber(ObjectType::Table, 5767, 'OnBeforeValidateQtyToHandle', '', true, true)]
-    local procedure BeforeValidateQtyToHandle(var WarehouseActivityLine: Record "Warehouse Activity Line"; var IsHandled: Boolean)
+    [EventSubscriber(ObjectType::Codeunit, 5764, 'OnAfterConfirmPost', '', true, true)]
+    local procedure OnAfterConfirmPost(WhseShipmentLine: Record "Warehouse Shipment Line")
+    var
+        WhseShptHdr: Record "Warehouse Shipment Header";
     begin
-        // IF WarehouseActivityLine."Action Type" = WarehouseActivityLine."Action Type"::Take THEN BEGIN
-        //     WarehouseActivityLine.jfSetUpdatePlaceLine(true);
-        // END;
-        IsHandled := true;
-        //WarehouseActivityLine.jfUpdatePlaceLine(WarehouseActivityLine.FIELDNO("Qty. to Handle"));
+        IF WhseShptHdr.Get(WhseShipmentLine."No.") then
+        jfdoOpenPostedShipment(WhseShptHdr);
     end;
 
     [EventSubscriber(ObjectType::Codeunit, 88, 'OnBeforeReleaseSalesDoc', '', true, true)]
@@ -113,7 +116,6 @@ codeunit 14228832 "Func. Backorder Tolr. ELA"
         loptActivityType: Integer;
         lcodNo: Code[20];
     begin
-        //Message(FORMAT(DeleteWhseShptLine));
         IF WhseShptLine."Qty. Outstanding" = WhseShptLine."Qty. to Ship" THEN BEGIN
             lrecWhseActivityLine.RESET;
 

@@ -6,14 +6,11 @@ tableextension 14229654 "Warehouse Activity Line" extends "Warehouse Activity Li
         {
             trigger OnAfterValidate()
             begin
-                // IF "Action Type" = "Action Type"::Take THEN BEGIN
-                //     jfSetUpdatePlaceLine(true);
-                // END;
+                IF "Action Type" = "Action Type"::Take THEN BEGIN
+                    jfSetUpdatePlaceLine(true);
+                END;
 
-                // jfUpdatePlaceLine(FIELDNO("Qty. to Handle"));
-
-
-
+                jfUpdatePlaceLine(FIELDNO("Qty. to Handle"));
             end;
         }
     }

@@ -100,6 +100,14 @@ tableextension 14229635 "EN LT WhseShpmtLine EXT ELA" extends "Warehouse Shipmen
         exit(true);
     end;
 
+    procedure jfdoOpenPostedShipment(WhseShptHeader: Record "Warehouse Shipment Header")
+    var
+        lrecPostedWhseShpt: Record "Posted Whse. Shipment Header";
+    begin
+        IF lrecPostedWhseShpt.GET(WhseShptHeader."Shipping No.") THEN
+            PAGE.RUN(PAGE::"Posted Whse. Shipment", lrecPostedWhseShpt);
+    end;
+
     var
         PurchLine: Record "Purchase Line";
         TransLine: Record "Transfer Line";

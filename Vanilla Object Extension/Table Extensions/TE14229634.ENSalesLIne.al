@@ -298,6 +298,10 @@ tableextension 14229634 "EN Sales Line ELA" extends "Sales Line"
             DecimalPlaces = 0 : 5;
 
         }
+        field(14228870; "Mark Backorder"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
         modify("No.")
         {
             trigger OnAfterValidate()
@@ -1289,6 +1293,7 @@ tableextension 14229634 "EN Sales Line ELA" extends "Sales Line"
     procedure jfmgAllowQtyChangeWhse()
     begin
         gblnAllowQtyToChg := TRUE;
+        "Mark Backorder" := gblnAllowQtyToChg;
         gblnOverShip := TRUE;
     end;
 
