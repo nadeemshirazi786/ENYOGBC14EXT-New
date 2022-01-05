@@ -24,9 +24,13 @@ codeunit 50050 "Event Subscriber"
     [EventSubscriber(ObjectType::Codeunit, 5777, 'OnBeforeVerifyFieldNotChanged', '', true, true)]
     local procedure VerifyFieldNotChanged(FieldNumber: Integer; NewRecRef: RecordRef; OldRecRef: RecordRef; var IsHandled: Boolean)
     var
-        PurLine: Record "Purchase Line";
+        MyFieldRef: FieldRef;
+        AllowOverReceiving: Boolean;
     begin
+        MyFieldRef := NewRecRef.Field(51011);
+        AllowOverReceiving := MyFieldRef.Value;
+        if AllowOverReceiving then
+            IsHandled := true;
     end;
-
 
 }

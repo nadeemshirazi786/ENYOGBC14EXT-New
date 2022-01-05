@@ -701,16 +701,7 @@ tableextension 14229627 "EN Purchase  Line ELA" extends "Purchase Line"
         //</JF00026CB>
     end;
 
-    procedure FieldNotChanged(var IsHandled: Boolean; NewRecRef: RecordRef)
-    var
-        MyFieldRef: FieldRef;
-        AllowOverReceiving: Boolean;
-    begin
-        MyFieldRef := NewRecRef.Field(51011);
-        AllowOverReceiving := MyFieldRef.Value;
-        if AllowOverReceiving then
-            IsHandled := true;
-    end;
+
 
     procedure jfcbApproveOverReceive(precPurchLine: Record "Purchase Line"): Code[20]
     var
