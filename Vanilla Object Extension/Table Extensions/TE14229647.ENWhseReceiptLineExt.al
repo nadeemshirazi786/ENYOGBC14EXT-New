@@ -105,6 +105,7 @@ tableextension 14229647 "EN Whse Receipt Line Ext" extends "Warehouse Receipt Li
                 END;
             end;
         }
+
         modify("Qty. to Receive")
         {
             trigger OnAfterValidate()
@@ -404,6 +405,7 @@ tableextension 14229647 "EN Whse Receipt Line Ext" extends "Warehouse Receipt Li
                 END;
         END;
     end;
+
 
     var
         gblnFromReceiveQty: Boolean;

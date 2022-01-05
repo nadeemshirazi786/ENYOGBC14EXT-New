@@ -6,7 +6,7 @@ codeunit 50050 "Event Subscriber"
         WarehouseReceiptLine.JfOverReceive();
     end;
 
-    [EventSubscriber(ObjectType::Table, 39, 'OnValidateQtyToReceiveOnAfterInitQty', '', true, true)]
+    [EventSubscriber(ObjectType::Table, 39, 'OnValidateQtyToReceiveOnAfterCheck', '', true, true)]
     local procedure QtyToReceiveOnAfterCheck(CallingFieldNo: Integer; var PurchaseLine: Record "Purchase Line")
     begin
         PurchaseLine.JfOverReceive();
@@ -19,6 +19,13 @@ codeunit 50050 "Event Subscriber"
     begin
         grecItem.GET(WhseReceiptLine."Item No.");
         WhseReceiptLine."Receiving UOM ELA" := grecItem."Receiving Unit of Measure ELA";
+    end;
+
+    [EventSubscriber(ObjectType::Codeunit, 5777, 'OnBeforeVerifyFieldNotChanged', '', true, true)]
+    local procedure VerifyFieldNotChanged(FieldNumber: Integer; NewRecRef: RecordRef; OldRecRef: RecordRef; var IsHandled: Boolean)
+    var
+        PurLine: Record "Purchase Line";
+    begin
     end;
 
 

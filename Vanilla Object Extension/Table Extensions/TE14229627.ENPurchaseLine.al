@@ -280,6 +280,10 @@ tableextension 14229627 "EN Purchase  Line ELA" extends "Purchase Line"
         {
             Caption = 'Original Order Qty.';
         }
+        field(51011; "AllowReceiving"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     procedure GetLocation("Location Code": Code[10])
@@ -697,6 +701,17 @@ tableextension 14229627 "EN Purchase  Line ELA" extends "Purchase Line"
         //</JF00026CB>
     end;
 
+    procedure FieldNotChanged(var IsHandled: Boolean; NewRecRef: RecordRef)
+    var
+        MyFieldRef: FieldRef;
+        AllowOverReceiving: Boolean;
+    begin
+        MyFieldRef := NewRecRef.Field(51011);
+        AllowOverReceiving := MyFieldRef.Value;
+        if AllowOverReceiving then
+            IsHandled := true;
+    end;
+
     procedure jfcbApproveOverReceive(precPurchLine: Record "Purchase Line"): Code[20]
     var
         ldecPercentChange: Decimal;
@@ -846,6 +861,7 @@ tableextension 14229627 "EN Purchase  Line ELA" extends "Purchase Line"
     procedure jfAllowQtyChangeWhse()
     begin
         gblnAllowQtyToChg := TRUE;
+        AllowReceiving := gblnAllowQtyToChg;
         gblnOverReceive := TRUE;
     end;
 
