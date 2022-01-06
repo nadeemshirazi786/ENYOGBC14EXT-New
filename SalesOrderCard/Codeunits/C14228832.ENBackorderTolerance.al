@@ -29,10 +29,12 @@ codeunit 14228832 "Func. Backorder Tolr. ELA"
         MyFieldRef: FieldRef;
         MarkBackorder: Boolean;
     begin
-        MyFieldRef := NewRecRef.Field(14228870);
-        MarkBackorder := MyFieldRef.Value;
-        IF MarkBackorder then
-            IsHandled := true;
+        IF NewRecRef.Number() = 37 then begin
+            MyFieldRef := NewRecRef.Field(14228870);
+            MarkBackorder := MyFieldRef.Value;
+            IF MarkBackorder then
+                IsHandled := true;
+        end;
     end;
 
     [EventSubscriber(ObjectType::Codeunit, 88, 'OnBeforeReleaseSalesDoc', '', true, true)]
@@ -157,6 +159,7 @@ codeunit 14228832 "Func. Backorder Tolr. ELA"
         IF lrecPostedWhseShpt.FindFirst() then
             PAGE.RUN(PAGE::"Posted Whse. Shipment", lrecPostedWhseShpt);
     end;
+
     procedure jfCheckSalesBackorder(VAR precSalesHeader: Record "Sales Header")
     var
         lrecCustomer: Record Customer;

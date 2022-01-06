@@ -27,10 +27,13 @@ codeunit 50050 "Event Subscriber"
         MyFieldRef: FieldRef;
         AllowOverReceiving: Boolean;
     begin
-        MyFieldRef := NewRecRef.Field(51011);
-        AllowOverReceiving := MyFieldRef.Value;
-        if AllowOverReceiving then
-            IsHandled := true;
+        //IF FieldNumber = 51011 then
+        IF NewRecRef.Number() = 39 then begin
+            MyFieldRef := NewRecRef.Field(51011);
+            AllowOverReceiving := MyFieldRef.Value;
+            if AllowOverReceiving then
+                IsHandled := true;
+        end;
     end;
 
 }
