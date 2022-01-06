@@ -769,7 +769,7 @@ tableextension 14229627 "EN Purchase  Line ELA" extends "Purchase Line"
         IF gblnCheckVendor THEN BEGIN
             lrecVendor.GET(precPurchLine."Buy-from Vendor No.");
 
-            IF NOT lrecVendor."Use Over-Receiving Tolerance ELA" THEN BEGIN
+            IF NOT lrecVendor."Use Over-Rece. Tolerance ELA" THEN BEGIN
                 lblnPassedVendorCheck := TRUE;
             END ELSE BEGIN
                 IF lrecVendor."Over-Receiving Tolerance % ELA" >= ldecPercentChange THEN BEGIN
