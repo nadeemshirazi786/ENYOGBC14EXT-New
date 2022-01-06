@@ -84,13 +84,6 @@ tableextension 14229654 "Warehouse Activity Line" extends "Warehouse Activity Li
                 BEGIN
                     lrecWhseActivityLine.VALIDATE("Serial No.", "Serial No.");
                 END;
-        //     //<JF40834SHR>
-        //     FIELDNO("Container No."):
-        //         BEGIN
-        //             lrecWhseActivityLine.VALIDATE("Lot No.", "Lot No.");
-        //             lrecWhseActivityLine.VALIDATE("Serial No.", "Serial No.");
-        //         END;
-        // //</JF40834SHR>
         END;
 
         lrecWhseActivityLine.MODIFY;
