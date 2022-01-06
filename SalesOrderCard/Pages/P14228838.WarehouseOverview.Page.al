@@ -1,4 +1,4 @@
-page 23019749 "Warehouse Overview ELA"
+page 14228838 "Warehouse Overview ELA"
 {
     Caption = 'Warehouse Overview';
     DeleteAllowed = false;

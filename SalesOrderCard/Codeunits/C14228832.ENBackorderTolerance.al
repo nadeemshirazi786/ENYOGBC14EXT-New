@@ -5,6 +5,36 @@ codeunit 14228832 "Func. Backorder Tolr. ELA"
 
     end;
 
+    [EventSubscriber(ObjectType::Table, 5767, 'OnBeforeValidateQtyToHandle', '', true, true)]
+    local procedure OnBeforeValidateQtyToHandle(var IsHandled: Boolean)
+    begin
+        IsHandled := true;
+    end;
+
+    [EventSubscriber(ObjectType::Table, 37, 'OnAfterAssignHeaderValues', '', true, true)]
+    local procedure AfterAssignHeaderValues(var SalesLine: Record "Sales Line"; SalesHeader: Record "Sales Header")
+    begin
+        SalesLine."Backorder Tolerance % ELA" := SalesHeader."Backorder Tolerance % ELA";
+    end;
+
+    [EventSubscriber(ObjectType::Table, 37, 'OnBeforeVerifyReservedQty', '', true, true)]
+    local procedure BeforeVerifyReservedQty(var SalesLine: Record "Sales Line")
+    begin
+        SalesLine.BeforeVerifyReservedQty();
+    end;
+
+    [EventSubscriber(ObjectType::Codeunit, 5777, 'OnBeforeVerifyFieldNotChanged', '', true, true)]
+    local procedure OnBeforeVerifyFieldNotChanged(var IsHandled: Boolean; NewRecRef: RecordRef)
+    var
+        MyFieldRef: FieldRef;
+        MarkBackorder: Boolean;
+    begin
+        MyFieldRef := NewRecRef.Field(14228870);
+        MarkBackorder := MyFieldRef.Value;
+        IF MarkBackorder then
+            IsHandled := true;
+    end;
+
     [EventSubscriber(ObjectType::Codeunit, 88, 'OnBeforeReleaseSalesDoc', '', true, true)]
     local procedure BeforeReleaseSalesDoc(var SalesHeader: Record "Sales Header")
     begin
@@ -23,23 +53,19 @@ codeunit 14228832 "Func. Backorder Tolr. ELA"
         IF WarehouseShipmentLine.FINDSET(TRUE) THEN BEGIN
             REPEAT
                 jfCheckWhseShptLineTolerance(WarehouseShipmentLine);
-
                 //-- Remove line if Quantity = 0 (i.e. no backorders)
                 IF WarehouseShipmentLine.Quantity = 0 THEN BEGIN
                     lrecWhseShipLine.GET(WarehouseShipmentLine."No.", WarehouseShipmentLine."Line No.");
                     lrecWhseShipLine.DELETE;
                 END;
 
-                //<JF2927MG>
                 //-- For direct transfers, set Quantity = Qty. To Ship if Qty. To Ship < Quantity
                 IF WarehouseShipmentLine."Source Document" = WarehouseShipmentLine."Source Document"::"Outbound Transfer" THEN BEGIN
 
-                    //<JF32614SHR>
                     lrecTransHeader.GET(WarehouseShipmentLine."Source No.");
                     IF lrecTransHeader."Direct Transfer" THEN BEGIN
                         gblnDirectTransfer := TRUE;
                     END;
-                    //</JF32614SHR>
 
                     IF (WarehouseShipmentLine."Qty. to Ship" <> 0) AND (WarehouseShipmentLine."Qty. to Ship" < WarehouseShipmentLine.Quantity) THEN BEGIN
                         lrecTransHeader.GET(WarehouseShipmentLine."Source No.");
@@ -47,9 +73,7 @@ codeunit 14228832 "Func. Backorder Tolr. ELA"
                         IF lrecTransHeader."Direct Transfer" THEN BEGIN
                             lrecWhseShipLine.GET(WarehouseShipmentLine."No.", WarehouseShipmentLine."Line No.");
 
-                            //<JF23902MG>
                             lrecWhseShipLine.jfFromWhsePost(TRUE);
-                            //</JF23902MG>
 
                             lrecWhseShipLine.VALIDATE(Quantity, WarehouseShipmentLine."Qty. to Ship");
                             lrecWhseShipLine.VALIDATE("Qty. to Ship", lrecWhseShipLine.Quantity);
@@ -57,10 +81,7 @@ codeunit 14228832 "Func. Backorder Tolr. ELA"
                         END;
                     END;
                 END;
-                //</JF2927MG>
 
-
-                //<JF23902MG>
                 WarehouseShipmentLine.jfFromWhsePost(TRUE);
 
             // IF grecWhseSetup."Auto Calc Whse. Shpmt. Pallets" THEN BEGIN
@@ -68,12 +89,74 @@ codeunit 14228832 "Func. Backorder Tolr. ELA"
             //     WarehouseShipmentLine."No. of Pallets to Ship" := WarehouseShipmentLine.jxCalcNoStdPallets(FALSE, 0, FALSE);
             //     WarehouseShipmentLine.MODIFY;
             // END;
-            //</JF23902MG>
 
             UNTIL WarehouseShipmentLine.NEXT = 0;
         END;
     end;
 
+    [EventSubscriber(ObjectType::Codeunit, 5763, 'OnBeforeDeleteUpdateWhseShptLine', '', true, true)]
+    local procedure BeforeDeleteUpdateWhseShptLine(WhseShptLine: Record "Warehouse Shipment Line"; var DeleteWhseShptLine: Boolean)
+    var
+        lrecWhseActivityLine: Record "Warehouse Activity Line";
+        lrecWhseActivityLine1: Record "Warehouse Activity Line";
+        lrecWhseActivityHeader: Record "Warehouse Activity Header";
+        loptActivityType: Integer;
+        lcodNo: Code[20];
+    begin
+        IF DeleteWhseShptLine then begin
+            lrecWhseActivityLine.RESET;
+
+            lrecWhseActivityLine.SETCURRENTKEY("Whse. Document No.", "Whse. Document Type");
+            lrecWhseActivityLine.SETRANGE("Whse. Document Type", lrecWhseActivityLine."Activity Type"::Pick);
+            lrecWhseActivityLine.SETRANGE("Whse. Document No.", WhseShptLine."No.");
+            lrecWhseActivityLine.SETRANGE("Whse. Document Line No.", WhseShptLine."Line No.");
+
+            IF NOT lrecWhseActivityLine.ISEMPTY THEN BEGIN
+                IF lrecWhseActivityLine.FINDSET(TRUE) THEN
+                    REPEAT
+                        CLEAR(loptActivityType);
+                        CLEAR(lcodNo);
+
+                        lrecWhseActivityLine.SETRANGE("Activity Type", lrecWhseActivityLine."Activity Type");
+                        lrecWhseActivityLine.SETRANGE("No.", lrecWhseActivityLine."No.");
+                        lrecWhseActivityLine.SETRANGE("Line No.", lrecWhseActivityLine."Line No.");
+
+                        IF lrecWhseActivityLine.FINDLAST THEN BEGIN
+                            loptActivityType := lrecWhseActivityLine."Activity Type";
+                            lcodNo := lrecWhseActivityLine."No.";
+
+                            lrecWhseActivityLine.DELETEALL(TRUE);
+
+                            lrecWhseActivityLine1.RESET;
+
+                            lrecWhseActivityLine1.SETRANGE("Activity Type", loptActivityType);
+                            lrecWhseActivityLine1.SETRANGE("No.", lcodNo);
+
+                            IF lrecWhseActivityLine1.ISEMPTY THEN BEGIN
+                                IF lrecWhseActivityHeader.GET(loptActivityType, lcodNo) THEN
+                                    lrecWhseActivityHeader.DELETE(TRUE);
+                            END;
+                        END;
+
+                        lrecWhseActivityLine.SETRANGE("Activity Type");
+                        lrecWhseActivityLine.SETRANGE("No.");
+                        lrecWhseActivityLine.SETRANGE("Line No.");
+                    UNTIL lrecWhseActivityLine.NEXT = 0;
+            END;
+        end;
+    end;
+
+    [EventSubscriber(ObjectType::Page, 7335, 'OnAfterActionEvent', 'P&ost Shipment', true, true)]
+    local procedure OnAfterActionEvent(var Rec: Record "Warehouse Shipment Header")
+    var
+        lrecPostedWhseShpt: Record "Posted Whse. Shipment Header";
+        WhseShptHdr: Record "Warehouse Shipment Header";
+    begin
+        lrecPostedWhseShpt.Reset();
+        lrecPostedWhseShpt.SetRange("Whse. Shipment No.", Rec."No.");
+        IF lrecPostedWhseShpt.FindFirst() then
+            PAGE.RUN(PAGE::"Posted Whse. Shipment", lrecPostedWhseShpt);
+    end;
     procedure jfCheckSalesBackorder(VAR precSalesHeader: Record "Sales Header")
     var
         lrecCustomer: Record Customer;
@@ -291,7 +374,7 @@ codeunit 14228832 "Func. Backorder Tolr. ELA"
                     IF lblnFoundTolerance THEN BEGIN
 
                         IF ROUND((1 - ("Qty. to Ship" + lrecSalesLine."Quantity Shipped") / lrecSalesLine.Quantity) * 100, 0.00001)
-                                   <= lrecSalesLine."Backorder Tolerance %" THEN BEGIN
+                                   <= lrecSalesLine."Backorder Tolerance % ELA" THEN BEGIN
                             //</JF12270DT>
 
                             //-- Update Whse. Shipment Line
@@ -299,7 +382,7 @@ codeunit 14228832 "Func. Backorder Tolr. ELA"
                             BypassStatusCheck(TRUE);
 
                             ldecQtyToShip := "Qty. to Ship";
-
+                            precWhseShptLine.SuspendStatusCheck(TRUE);
                             VALIDATE(Quantity, "Qty. to Ship");
                             VALIDATE("Qty. to Ship", ldecQtyToShip);
                             MODIFY;
@@ -334,6 +417,12 @@ codeunit 14228832 "Func. Backorder Tolr. ELA"
         END;
     end;
 
+    procedure jfdoOpenPostedShipment()
     var
-        myInt: Integer;
+        lrecPostedWhseShpt: Record "Posted Whse. Shipment Header";
+    begin
+        // IF lrecPostedWhseShpt.GET(WhseShptHdr."Shipping No.") THEN
+        //     PAGE.RUN(PAGE::"Posted Whse. Shipment", lrecPostedWhseShpt);
+    end;
+
 }

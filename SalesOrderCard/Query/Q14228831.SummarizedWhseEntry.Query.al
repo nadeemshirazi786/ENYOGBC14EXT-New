@@ -1,4 +1,4 @@
-query 23019000 "Summarized Whse. Entry ELA"
+query 14228831 "Summarized Whse. Entry ELA"
 {
     elements
     {

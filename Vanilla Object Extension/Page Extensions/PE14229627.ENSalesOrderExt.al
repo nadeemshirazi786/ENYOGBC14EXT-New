@@ -30,6 +30,10 @@ pageextension 14228858 "EN Sales Order Ext" extends "Sales Order"
         }
         addlast("Shipping and Billing")
         {
+            field("Backorder Tolerance %"; "Backorder Tolerance % ELA")
+            {
+                ApplicationArea = All;
+            }
             field("Delivery Zone Code"; "Delivery Zone Code ELA")
             {
                 ApplicationArea = All;

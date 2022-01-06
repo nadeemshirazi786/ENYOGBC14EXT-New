@@ -79,6 +79,10 @@ pageextension 14228852 "EN Customer Card Ext" extends "Customer Card"
             {
                 ApplicationArea = All;
             }
+            field("Backorder Tolerance % ELA"; "Backorder Tolerance % ELA")
+            {
+                ApplicationArea = All;
+            }
             field("Direct Store Delivery"; "Direct Store Delivery")
             {
                 ApplicationArea = All;

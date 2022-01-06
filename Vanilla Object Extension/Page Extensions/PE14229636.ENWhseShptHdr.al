@@ -14,7 +14,7 @@ pageextension 14229636 "Whse Shpt ELA" extends "Warehouse Shipment"
 
     actions
     {
-        // Add changes to page actions here
+        
     }
 
     var

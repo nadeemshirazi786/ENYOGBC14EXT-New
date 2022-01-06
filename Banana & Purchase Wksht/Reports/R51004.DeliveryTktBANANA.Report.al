@@ -722,7 +722,7 @@ report 51004 "Delivery Tkt BANANA"
                                 END;
                             END;
 
-                            gtxtBotDep := TempSalesLine.jfGetUDCalculation('85_BOTTLE');
+                            gtxtBotDep := TempSalesLine.GetBottleAmount(TempSalesLine);
                             IF EVALUATE(BotDep, gtxtBotDep) THEN BEGIN
                                 BotDep := BotDep * TempSalesLine.Quantity;
                             END;

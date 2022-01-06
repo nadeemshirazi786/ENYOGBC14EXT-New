@@ -781,7 +781,7 @@ report 51006 "Banana Delivery Ticket"
                                 lintLineNo := TempSalesLine."Line No.";
                             END;
                             lrecSalesLine.GET(TempSalesLine."Document Type", TempSalesLine."Document No.", lintLineNo);
-                            gtxtBotDep := lrecSalesLine.jfGetUDCalculation('85_BOTTLE');
+                            gtxtBotDep := lrecSalesLine.GetBottleAmount(lrecSalesLine);
 
                             IF EVALUATE(BotDep, gtxtBotDep) THEN BEGIN
                                 BotDep := BotDep * TempSalesLine.Quantity;
