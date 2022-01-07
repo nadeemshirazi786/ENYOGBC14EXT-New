@@ -87,9 +87,10 @@ report 14228811 "Delivery Tkt UPC Barcode"
     //            - Fixed totals
     //            - Fixed header Salesperson and Invoice Date being cutoff
     DefaultLayout = RDLC;
-    RDLCLayout = './DeliveryTktUPCBarcode.rdlc';
-
-    Caption = 'Sales Order';
+    RDLCLayout = './DeliveryTktUPCBarcode.rdl';
+    ApplicationArea = All;
+    UsageCategory = ReportsAndAnalysis;
+    Caption = 'Delivery UPC Barcode';
     PreviewMode = PrintLayout;
 
     dataset
@@ -1118,7 +1119,7 @@ report 14228811 "Delivery Tkt UPC Barcode"
                     CLEAR(Cust);
 
                 FormatAddress.SalesHeaderSellTo(BillToAddress, "Sales Header");
-                FormatAddress.SalesHeaderShipTo(ShipToAddress,CustAddr, "Sales Header");
+                FormatAddress.SalesHeaderShipTo(ShipToAddress, CustAddr, "Sales Header");
 
                 IF NOT CurrReport.PREVIEW THEN BEGIN
                     IF ArchiveDocument THEN
