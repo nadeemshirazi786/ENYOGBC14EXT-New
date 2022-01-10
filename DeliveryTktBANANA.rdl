@@ -37,7 +37,7 @@
                                     <Width>2.15499cm</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>4.32186cm</Width>
+                                    <Width>4.98493cm</Width>
                                   </TablixColumn>
                                   <TablixColumn>
                                     <Width>1.67611cm</Width>
@@ -49,13 +49,13 @@
                                     <Width>1.64868cm</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>1.62669cm</Width>
+                                    <Width>1.27533cm</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>1.75269cm</Width>
+                                    <Width>1.69592cm</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>1.53562cm</Width>
+                                    <Width>1.28064cm</Width>
                                   </TablixColumn>
                                   <TablixColumn>
                                     <Width>1.41732cm</Width>
@@ -1338,20 +1338,23 @@ Shipped</Value>
                                               <Paragraph>
                                                 <TextRuns>
                                                   <TextRun>
-                                                    <Value>=Fields!TempSalesLineUPCCode.Value</Value>
+                                                    <Value>="*"+Fields!TempSalesLineUPCCode.Value+"*"</Value>
                                                     <Style>
-                                                      <FontFamily>BC C39 3 to 1 Narrow</FontFamily>
+                                                      <FontFamily>3 of 9 Barcode</FontFamily>
                                                       <FontSize>20pt</FontSize>
                                                     </Style>
                                                   </TextRun>
                                                 </TextRuns>
                                                 <Style>
-                                                  <TextAlign>Right</TextAlign>
+                                                  <TextAlign>Center</TextAlign>
                                                 </Style>
                                               </Paragraph>
                                             </Paragraphs>
                                             <rd:DefaultName>Textbox1</rd:DefaultName>
                                             <Style>
+                                              <Border>
+                                                <Style>None</Style>
+                                              </Border>
                                               <PaddingLeft>5pt</PaddingLeft>
                                               <PaddingRight>5pt</PaddingRight>
                                             </Style>
@@ -2029,7 +2032,7 @@ Shipped</Value>
                                 </Filter>
                               </Filters>
                               <Height>4.02065cm</Height>
-                              <Width>19.96279cm</Width>
+                              <Width>19.96275cm</Width>
                               <Style>
                                 <FontFamily>Segoe UI</FontFamily>
                                 <FontSize>8pt</FontSize>
@@ -4208,7 +4211,6 @@ Short</Value>
               <Value>=Code.axGetImage()</Value>
               <MIMEType>image/bmp</MIMEType>
               <Sizing>FitProportional</Sizing>
-              <Top>0in</Top>
               <Left>2.54994in</Left>
               <Height>0.75029in</Height>
               <Width>5.30941in</Width>

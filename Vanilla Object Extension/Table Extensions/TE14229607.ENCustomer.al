@@ -85,7 +85,7 @@ tableextension 14229607 "EN Customer ELA" extends "Customer"
         field(14228882; "Backorder Tolerance % ELA"; Decimal)
         {
             Caption = 'Backorder Tolerance %';
-            DecimalPlaces = 0:5;
+            DecimalPlaces = 0 : 5;
             BlankZero = true;
             DataClassification = ToBeClassified;
         }
@@ -363,6 +363,11 @@ tableextension 14229607 "EN Customer ELA" extends "Customer"
                     lrecDeliveryZone.TESTFIELD(Type, lrecDeliveryZone.Type::Standard);
                 END;
             end;
+        }
+        field(14228811; "Prices on Invoice ELA"; Boolean)
+        {
+            Caption = 'Prices on Invoice';
+            DataClassification = ToBeClassified;
         }
     }
 }

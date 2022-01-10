@@ -1,10 +1,9 @@
-report 14228811 "Delivery Tkt UPC Barcode"
+report 51013 "Delivery Tkt BANANA"
 {
-    // EN1.02 2020-07-14 FS
-    //   Moved Barode down
-    // EN1.01 220-06-12 FS
+    // EN1.00 20-07-31 FS
     //   Addition of Barcode in report + Fixes
     // --------------------------------------------------------
+    // 
     // Copyright Axentia Solutions Corp.  1999-2013.
     // By opening this object you acknowledge that this object includes confidential information and intellectual
     // property of Axentia Solutions Corp. and that this work is protected by Canadian, U.S. and international
@@ -62,42 +61,21 @@ report 14228811 "Delivery Tkt UPC Barcode"
     // 
     // </YOG42476AC>
     // 
-    // IS50345TZ
-    //   20150806 - modified layout to hide pricing fields in the Footer when UD Field 'Prices on Invoice' = FALSE
-    // IB50344SJD 20150910 - Added code to Skip Cust ledger entry if customer UDF flag "Print receivable" =False
+    // DP20150625
+    //   -Changed sort order to be Shipment Date, Order Template Location, Stop No.
     // 
     // DP20151001
     //   20151001  - legacy code set Qty Shipped to equal Quantity instead of zero for some reason. Changed it to show zero accordingly.
-    // 
-    // DP20151105
-    //   20151105  - just changed SORT of the Sales Header
-    // 
-    // DP20151113
-    //   20151113  - just removed some space in the header
-    // 
-    // IB55463EP  20160114 - Corrected record filtering of ledger line table (tablix2).
-    // IS54312AZ 20160128 - Added functions: ibGetUOMSizeDesc, ibGetUps, isGetCOO, ibGroupCOO, ibAddTEMPCOOLine, ibSkipSalesLine
-    // IB56923TZ 20160302 - Fixed Totals
-    // IB56733TK - Issue with report prices showing when printed using range for orders. The code done before woudn't apply. Fixed.
-    // DP20160328  - Hide Item Charge lines depending on 'Include IC in Unit Price'
-    // DP20160414  - Layout changes
-    //             - Take Bottle Deposit out of LineAmount value because was doubling in total. Instead, Layout column adds it in to line total.
-    // IB57709TZ 20160415 - fixed 'Cases Shipped' and 'Total Qty Short' fields.
-    // IB58450RTH - Fixed prices on shortage lines
-    //            - Fixed totals
-    //            - Fixed header Salesperson and Invoice Date being cutoff
     DefaultLayout = RDLC;
-    RDLCLayout = './DeliveryTktUPCBarcode.rdl';
+    RDLCLayout = './DeliveryTktBANANA.rdl';
     ApplicationArea = All;
     UsageCategory = ReportsAndAnalysis;
-    Caption = 'Delivery UPC Barcode';
-    PreviewMode = PrintLayout;
+    Caption = 'Sales Order';
 
     dataset
     {
         dataitem("Sales Header"; "Sales Header")
         {
-            CalcFields = Amount, "Amount Including VAT", "Invoice Discount Amount";
             DataItemTableView = SORTING("Shipment Date", "Order Template Location ELA", "Route Stop Sequence") WHERE("Document Type" = CONST(Order));
             PrintOnlyIfDetail = true;
             RequestFilterFields = "No.", "Sell-to Customer No.", "Bill-to Customer No.", "Ship-to Code", "No. Printed";
@@ -115,7 +93,7 @@ report 14228811 "Delivery Tkt UPC Barcode"
                 dataitem(SalesLineComments; "Sales Comment Line")
                 {
                     DataItemLink = "No." = FIELD("Document No."), "Document Line No." = FIELD("Line No.");
-                    DataItemTableView = SORTING("Document Type", "No.", "Document Line No.", "Line No.") WHERE("Document Type" = CONST(Order), "Print On Order Confirmation" = CONST(True));
+                    DataItemTableView = SORTING("Document Type", "No.", "Document Line No.", "Line No.") WHERE("Document Type" = CONST(Order), "Print On Order Confirmation" = CONST(true));
 
                     trigger OnAfterGetRecord()
                     begin
@@ -147,18 +125,7 @@ report 14228811 "Delivery Tkt UPC Barcode"
                     lrecItemTranslation: Record "Item Translation";
                     lrecItem: Record Item;
                 begin
-                    //<IB54312AZ>
-                    IF ibSkipSalesLine("Sales Line") THEN BEGIN
-                        CurrReport.SKIP;
-                    END;
-                    //</IB54312AZ>
-
-
                     TempSalesLine := "Sales Line";
-
-                    //<IB58450RTH>
-                    // TempSalesLine."EDI Line No." := TempSalesLine."Line No.";  // Need this later when looking for charge item lines TBR
-                    //<IB58450RTH>
 
                     //<JF00043MG>
                     IF Type = Type::Item THEN BEGIN
@@ -184,28 +151,22 @@ report 14228811 "Delivery Tkt UPC Barcode"
 
                     // YG0183B Begin
                     TempSalesLine."Drop Shipment" := FALSE; // used to mark the first short shipment line
-                    //<IB57709TZ>
-                    gdecQty := 0;
-                    IF TempSalesLine.Type = TempSalesLine.Type::Item THEN BEGIN
-                        gdecQty := TempSalesLine.Quantity;
-                        //</IB57709TZ>
-                        IF "Quantity Shipped" <> 0 THEN
-                            QtyShipped := "Quantity Shipped"
-                        ELSE
-                            //<DP20151001>
-                            //QtyShipped := 0;
-                            QtyShipped := Quantity;
-                        //</DP20151001>
-                        IF "Original Order Qty. ELA" <> QtyShipped THEN
-                            QtyShort := "Sales Line"."Original Order Qty. ELA" - QtyShipped
-                        ELSE
-                            QtyShort := 0;
-                        IF QtyShort > 0 THEN BEGIN
-                            TempSalesLine."Line No." := TempSalesLine."Line No." + 1000000000;
-                            IF FirstShort THEN BEGIN
-                                TempSalesLine."Drop Shipment" := TRUE;
-                                FirstShort := FALSE;
-                            END;
+                    IF "Quantity Shipped" <> 0 THEN
+                        QtyShipped := "Quantity Shipped"
+                    ELSE
+                        //<DP20151001>
+                        QtyShipped := 0;
+                    //QtyShipped := Quantity;
+                    //</DP20151001>
+                    IF "Original Order Qty. ELA" <> QtyShipped THEN
+                        QtyShort := "Sales Line"."Original Order Qty. ELA" - QtyShipped
+                    ELSE
+                        QtyShort := 0;
+                    IF QtyShort > 0 THEN BEGIN
+                        TempSalesLine."Line No." := TempSalesLine."Line No." + 1000000000;
+                        IF FirstShort THEN BEGIN
+                            TempSalesLine."Drop Shipment" := TRUE;
+                            FirstShort := FALSE;
                         END;
                     END;
                     // YG0183B End
@@ -514,18 +475,6 @@ report 14228811 "Delivery Tkt UPC Barcode"
                     column(IsFirstShortLine_VariableAbuse; TempSalesLine."Drop Shipment")
                     {
                     }
-                    column(gblnShowCustLedger; gblnShowCustLedger)
-                    {
-                    }
-                    column(SalesHeaderAmount; "Sales Header".Amount)
-                    {
-                    }
-                    column(SalesHeaderAmountIncludingVAT; "Sales Header"."Amount Including VAT")
-                    {
-                    }
-                    column(SalesHeaderInvoiceDiscountAmount; "Sales Header"."Invoice Discount Amount")
-                    {
-                    }
                     dataitem(SalesLine; "Integer")
                     {
                         DataItemTableView = SORTING(Number);
@@ -541,7 +490,7 @@ report 14228811 "Delivery Tkt UPC Barcode"
                         column(TempSalesLineUOM; TempSalesLine."Unit of Measure")
                         {
                         }
-                        column(TempSalesLineQuantity; gdecQty)
+                        column(TempSalesLineQuantity; TempSalesLine.Quantity)
                         {
                             DecimalPlaces = 0 : 5;
                         }
@@ -663,7 +612,7 @@ report 14228811 "Delivery Tkt UPC Barcode"
                         column(TempSalesLineDescription2; TempSalesLine."Description 2")
                         {
                         }
-                        column(grecUOMSize_Description; gtxtGetUOMSizeDescription)
+                        column(grecUOMSize_Description; grecUOMSize.Description)
                         {
                         }
                         column(TempSalesLineOriginalOrderQty; TempSalesLine."Original Order Qty. ELA")
@@ -689,9 +638,6 @@ report 14228811 "Delivery Tkt UPC Barcode"
                         {
                         }
                         column(DescText; DescText)
-                        {
-                        }
-                        column(COOList; gcodCOOList)
                         {
                         }
                         dataitem(AsmLoop; "Integer")
@@ -758,8 +704,6 @@ report 14228811 "Delivery Tkt UPC Barcode"
                         var
                             SalesLine: Record "Sales Line";
                             lrecItemUOM: Record "Item Unit of Measure";
-                            lrecSalesLine: Record "Sales Line";
-                            lintLineNo: Integer;
                         begin
 
                             //<AX00015JJ>
@@ -775,12 +719,6 @@ report 14228811 "Delivery Tkt UPC Barcode"
                                     FIND('-')
                                 ELSE
                                     NEXT;
-
-                                //<IB54312AZ>
-                                IF ibSkipSalesLine(TempSalesLine) THEN BEGIN
-                                    CurrReport.SKIP;
-                                END;
-                                //</IB54312AZ>
 
                                 IF Type = 0 THEN BEGIN
                                     "No." := '';
@@ -807,14 +745,6 @@ report 14228811 "Delivery Tkt UPC Barcode"
 
                                 AmountExclInvDisc := "Line Amount";
 
-                                //<IB54312AZ>
-                                IF (Type = TempSalesLine.Type::Item) THEN BEGIN
-                                    gtxtGetUOMSizeDescription := ibGetUOMSizeDesc("No.", "Unit of Measure Code");
-                                    UPCCode := ibGetUps("No.", "Unit of Measure Code", "Variant Code");
-                                END ELSE BEGIN
-                                    CLEAR(gtxtGetUOMSizeDescription);
-                                END;
-                                //</IB54312AZ>
 
                                 //<JF00008DO>
                                 IF (Type = Type::"Charge (Item)") AND ("Attached to Line No." <> 0) AND "Include IC in Unit Price ELA" THEN
@@ -841,10 +771,7 @@ report 14228811 "Delivery Tkt UPC Barcode"
 
                                 grecSalesLine.SETRANGE("Document Type", "Document Type");
                                 grecSalesLine.SETRANGE("Document No.", "Document No.");
-                                //<IB58450RTH>
-                                //grecSalesLine.SETRANGE("Attached to Line No.", "Line No.");
-                                // grecSalesLine.SETRANGE("Attached to Line No.","EDI Line No."); // Looks odd, but this is the 'real' line number TBR
-                                //</IB58450RTH>                                                  // "Sales Line" OnAfterGetRecord where line numbers are mucked with
+                                grecSalesLine.SETRANGE("Attached to Line No.", "Line No.");
                                 grecSalesLine.SETRANGE(Type, grecSalesLine.Type::"Charge (Item)");
                                 grecSalesLine.SETRANGE("Include IC in Unit Price ELA", TRUE);
                                 IF grecSalesLine.FIND('-') THEN BEGIN
@@ -901,59 +828,31 @@ report 14228811 "Delivery Tkt UPC Barcode"
                                     CLEAR(grecUOMSize);
                                 END;
 
-                                //<IB54312AZ>
-                                //gtxtBotDep := jfGetUDCalculation('85_BOTTLE');
-                                CLEAR(BotDep);
-                                IF "Line No." > 1000000000 THEN BEGIN
-                                    lintLineNo := "Line No." - 1000000000;
-                                END ELSE BEGIN
-                                    lintLineNo := "Line No.";
-                                END;
-                                lrecSalesLine.GET("Document Type", "Document No.", lintLineNo);
-                                gtxtBotDep := lrecSalesLine.jfGetUDCalculation('85_BOTTLE');
-                                //</IB54312AZ>
-
+                                gtxtBotDep := jfGetUDCalculation('85_BOTTLE');
                                 IF EVALUATE(BotDep, gtxtBotDep) THEN BEGIN
                                     BotDep := BotDep * Quantity;
                                 END;
-                                //<DP20160414>
-                                //AmountExclInvDisc += BotDep;
-                                //</DP20160414>
+                                AmountExclInvDisc += BotDep;
 
-                                //<IB54312AZ>
-                                //CLEAR( UPCCode );
-                                //IF lrecItemUOM.GET("No.","Unit of Measure Code") THEN BEGIN
-                                //  UPCCode := lrecItemUOM."Std. Pack UPC/EAN Number";
-                                //END;
-                                UPCCode := ibGetUps("No.", "Unit of Measure Code", "Variant Code");
-
-                                grecTEMPItemLedgerCOO.RESET;
-                                grecTEMPItemLedgerCOO.DELETEALL;
-                                CLEAR(gcodCOOList);
-                                //<IB57709TZ>
-                                gdecQty := 0;
-                                IF TempSalesLine.Type = TempSalesLine.Type::Item THEN BEGIN
-                                    gdecQty := TempSalesLine.Quantity;
-                                    //</IB57709TZ>
-                                    ibGroupCOO();
-                                    //</IB54312AZ>
-                                    IF TempSalesLine."Quantity Shipped" <> 0 THEN
-                                        QtyShipped := TempSalesLine."Quantity Shipped"
-                                    ELSE
-                                        QtyShipped := TempSalesLine.Quantity;
-                                    IF TempSalesLine."Original Order Qty. ELA" <> QtyShipped THEN
-                                        QtyShort := TempSalesLine."Original Order Qty. ELA" - QtyShipped
-                                    ELSE
-                                        QtyShort := 0;
-                                    IF QtyShort < 0 THEN // YG0175B
-                                        QtyShort := 0;     // YG0175B
+                                CLEAR(UPCCode);
+                                IF lrecItemUOM.GET("No.", "Unit of Measure Code") THEN BEGIN
+                                    UPCCode := lrecItemUOM."Std. Pack UPC/EAN Number";
                                 END;
-                                //<DP20160414>
-                                gblnShowSalesLine :=
-                                  (TempSalesLine."Include IC in Unit Price ELA" <> TRUE)
-                                  AND (COPYSTR(TempSalesLine.Description, 1, 6) <> 'Bottle');
-                                //</DP20160414>
 
+                                IF TempSalesLine."Quantity Shipped" <> 0 THEN
+                                    QtyShipped := TempSalesLine."Quantity Shipped"
+                                ELSE
+                                    QtyShipped := TempSalesLine.Quantity;
+                                IF TempSalesLine."Original Order Qty. ELA" <> QtyShipped THEN
+                                    QtyShort := TempSalesLine."Original Order Qty. ELA" - QtyShipped
+                                ELSE
+                                    QtyShort := 0;
+                                IF QtyShort < 0 THEN // YG0175B
+                                    QtyShort := 0;     // YG0175B
+
+                                gblnShowSalesLine :=
+                                  (COPYSTR(TempSalesLine.Description, 1, 6) <> 'Pallet')
+                                  AND (TempSalesLine.Type <> 0); // YG0256A
 
                                 CurrReport.SHOWOUTPUT(TempSalesLine.Type = 0); // YG0256A
 
@@ -1082,6 +981,7 @@ report 14228811 "Delivery Tkt UPC Barcode"
                     END;
                 END;
 
+
                 //<JF00043MG>
                 /*
                 CurrReport.LANGUAGE := Language.GetLanguageID("Language Code");
@@ -1119,7 +1019,7 @@ report 14228811 "Delivery Tkt UPC Barcode"
                     CLEAR(Cust);
 
                 FormatAddress.SalesHeaderSellTo(BillToAddress, "Sales Header");
-                FormatAddress.SalesHeaderShipTo(ShipToAddress, CustAddr, "Sales Header");
+                SalesHeaderShipTo(ShipToAddress, "Sales Header");
 
                 IF NOT CurrReport.PREVIEW THEN BEGIN
                     IF ArchiveDocument THEN
@@ -1183,10 +1083,8 @@ report 14228811 "Delivery Tkt UPC Barcode"
 
                 //<JF12952>
                 gblnShowPrices := FALSE;
-                gblnShowCustLedger := FALSE; ////<IB50344SJD>
-                IF grecUserDefCust.GET("Sell-to Customer No.") THEN BEGIN
-                    gblnShowPrices := grecUserDefCust."Prices on Invoice";
-                    gblnShowCustLedger := grecUserDefCust."Print Receivables";////<IB50344SJD>
+                IF Cust.GET("Sell-to Customer No.") THEN BEGIN
+                    gblnShowPrices := Cust."Prices on Invoice ELA";
                 END;
                 //</JF12952>
 
@@ -1204,9 +1102,7 @@ report 14228811 "Delivery Tkt UPC Barcode"
                 END;
                 //</YOG42476AC>
 
-                CALCFIELDS(Amount, "Invoice Discount Amount", "Amount Including VAT");     //<IB64538JJX>
-
-                SalesNoBarcode := '*' + COPYSTR(FORMAT("No."), 3, 7) + '*'; //EN1.01
+                SalesNoBarcode := '*' + COPYSTR(FORMAT("No."), 3, 7) + '*'; //EN1.00
 
             end;
 
@@ -1362,7 +1258,6 @@ report 14228811 "Delivery Tkt UPC Barcode"
         CompanyAddress: array[8] of Text[50];
         BillToAddress: array[8] of Text[50];
         ShipToAddress: array[8] of Text[50];
-        CustAddr: array[8] of Text[50];
         CopyTxt: Text[10];
         PrintCompany: Boolean;
         PrintFooter: Boolean;
@@ -1454,7 +1349,7 @@ report 14228811 "Delivery Tkt UPC Barcode"
         gtxtUnitPriceCaption: Text;
         gtxtBottleDepositCaption: Text;
         gtxtTotalCaption: Text;
-        grecUOMSize: Record "EN Unit of Measure Size";
+        grecUOMSize: Record "Item Unit of Measure Size";
         QtyShort: Decimal;
         QtyShipped: Decimal;
         BotDep: Decimal;
@@ -1468,11 +1363,6 @@ report 14228811 "Delivery Tkt UPC Barcode"
         gblnShowDescLine: Boolean;
         DescText: Text[100];
         Signature: Record "EN Sales Order Signature";
-        gblnShowCustLedger: Boolean;
-        gtxtGetUOMSizeDescription: Text[80];
-        grecTEMPItemLedgerCOO: Record "Item Ledger Country of Origin" temporary;
-        gcodCOOList: Code[250];
-        gdecQty: Decimal;
 
     [Scope('Internal')]
     procedure GetUnitOfMeasureDescr(UOMCode: Code[10]): Text[10]
@@ -1623,154 +1513,14 @@ report 14228811 "Delivery Tkt UPC Barcode"
             gintDetailLineNo := 0;
     end;
 
-    [Scope('Internal')]
-    procedure ibGetUOMSizeDesc(pcodItemNo: Code[20]; pcodUoMCode: Code[10]): Text[80]
+    procedure SalesHeaderShipTo(VAR AddrArray: ARRAY[8] OF Text[50]; VAR SalesHeader: Record "Sales Header")
     var
-        lrecItemUOM: Record "Item Unit of Measure";
-        lrecUoMSize: Record "Unit Of Measure Size ELA";
+        FormatAddress: Codeunit "Format Address";
     begin
-        //<IB54312AZ>
-        IF lrecItemUOM.GET(pcodItemNo, pcodUoMCode) THEN BEGIN
-            IF lrecUoMSize.GET(lrecItemUOM."Item UOM Size Code ELA") THEN BEGIN
-                EXIT(lrecUoMSize.Description);
-            END;
-        END;
-        EXIT('');
-        //</IB54312AZ>
-    end;
-
-    [Scope('Internal')]
-    procedure ibGetUps(pcodItemNo: Code[20]; pcodUoMCode: Code[10]; pcodVariantCode: Code[10]): Text[50]
-    var
-        lrecItemCrossRefer: Record "Item Cross Reference";
-    begin
-        //<IB54312AZ>
-        lrecItemCrossRefer.SETRANGE("Item No.", pcodItemNo);
-        lrecItemCrossRefer.SETRANGE("Variant Code", pcodVariantCode);
-        lrecItemCrossRefer.SETRANGE("Unit of Measure", pcodUoMCode);
-        lrecItemCrossRefer.SETRANGE("Cross-Reference Type", lrecItemCrossRefer."Cross-Reference Type"::"Bar Code");
-        lrecItemCrossRefer.SETRANGE(Status, lrecItemCrossRefer.Status::Approved);
-        IF lrecItemCrossRefer.FINDFIRST THEN BEGIN
-            EXIT(lrecItemCrossRefer."Cross-Reference No.");
-        END;
-
-        EXIT('');
-        //</IB54312AZ>
-    end;
-
-    [Scope('Internal')]
-    procedure isGetCOO(pcodItemNo: Code[20]; pcodLotNo: Code[20]): Text[20]
-    var
-        lrecItemCOO: Record "Item Ledger Country of Origin";
-        lrecTrackingCOO: Record "Tracking Country of Origin";
-    begin
-        //<IB54312AZ>
-        IF pcodItemNo = '' THEN EXIT('');
-        IF pcodLotNo = '' THEN EXIT('');
-        WITH lrecItemCOO DO BEGIN
-            SETFILTER("Item No.", pcodItemNo);
-            SETFILTER("Lot No.", pcodLotNo);
-            SETFILTER("Country/Region Code", '<>%1', '');
-            IF FINDFIRST THEN
-                EXIT("Country/Region Code");
-        END;
-        WITH lrecTrackingCOO DO BEGIN
-            SETFILTER("Item No.", pcodItemNo);
-            SETFILTER("Lot No.", pcodLotNo);
-            SETFILTER("Country/Region Code", '<>%1', '');
-            IF FINDFIRST THEN
-                EXIT("Country/Region Code");
-        END;
-        EXIT('');
-        //</IB54312AZ>
-    end;
-
-    [Scope('Internal')]
-    procedure ibGroupCOO(): Text[30]
-    var
-        lrecItem: Record Item;
-        lrecReservEntry: Record "Reservation Entry";
-        lrecTrackingSpecification: Record "Tracking Specification";
-        lcodCountryRegionCode: Text[10];
-    begin
-        //<IB54312AZ>
-        lrecReservEntry.RESET;
-        lrecReservEntry.SETCURRENTKEY("Source ID", "Source Ref. No.", "Source Type", "Source Subtype");
-        lrecReservEntry.SETRANGE("Source ID", TempSalesLine."Document No.");
-        lrecReservEntry.SETRANGE("Source Ref. No.", TempSalesLine."Line No.");
-        lrecReservEntry.SETRANGE("Source Type", 37);
-        lrecReservEntry.SETRANGE("Source Subtype", TempSalesLine."Document Type");
-        IF lrecReservEntry.FIND('-') THEN BEGIN
-
-            lrecItem.GET(lrecReservEntry."Item No.");
-            REPEAT
-                IF lrecReservEntry."Lot No." <> '' THEN BEGIN
-
-                    lcodCountryRegionCode := isGetCOO(TempSalesLine."No.", lrecReservEntry."Lot No.");
-                    ibAddTEMPCOOLine(lcodCountryRegionCode, -lrecReservEntry."Quantity (Base)");
-                END;
-            UNTIL lrecReservEntry.NEXT = 0;
-        END;
-
-
-        lrecTrackingSpecification.SETCURRENTKEY(
-          "Source ID", "Source Type", "Source Subtype",
-          "Source Batch Name", "Source Prod. Order Line", "Source Ref. No.");
-        lrecTrackingSpecification.SETRANGE("Source ID", TempSalesLine."Document No.");
-        lrecTrackingSpecification.SETRANGE("Source Type", DATABASE::"Sales Line");
-        lrecTrackingSpecification.SETRANGE("Source Subtype", TempSalesLine."Document Type");
-        lrecTrackingSpecification.SETRANGE("Source Batch Name", '');
-        lrecTrackingSpecification.SETRANGE("Source Prod. Order Line", 0);
-        lrecTrackingSpecification.SETRANGE("Source Ref. No.", TempSalesLine."Line No.");
-
-        IF lrecTrackingSpecification.FIND('-') THEN BEGIN
-            //<IB56923TZ>
-            //  IF gintDetailLineNo = 0 THEN
-            //    gintDetailLineNo := 1;
-            //</IB56923TZ>
-            lrecItem.GET(lrecTrackingSpecification."Item No.");
-
-            REPEAT
-                IF lrecTrackingSpecification."Lot No." <> '' THEN BEGIN
-                    //gtxtLotCaption := 'Lot No.:';
-
-                    lcodCountryRegionCode := isGetCOO(TempSalesLine."No.", lrecTrackingSpecification."Lot No.");
-                    ibAddTEMPCOOLine(lcodCountryRegionCode, -lrecTrackingSpecification."Quantity (Base)");
-
-                END;
-            UNTIL lrecTrackingSpecification.NEXT = 0;
-        END;
-        //</IB54312AZ>
-    end;
-
-    [Scope('Internal')]
-    procedure ibAddTEMPCOOLine(pcodCountryRegion: Code[10]; pdecQty: Decimal)
-    begin
-        //<IB54312AZ>
-        IF NOT grecTEMPItemLedgerCOO.GET('', '', '', '', pcodCountryRegion, '') THEN BEGIN
-            grecTEMPItemLedgerCOO.INIT;
-            grecTEMPItemLedgerCOO."Country/Region Code" := pcodCountryRegion;
-            grecTEMPItemLedgerCOO.INSERT;
-            IF gcodCOOList = '' THEN BEGIN
-                gcodCOOList := COPYSTR(pcodCountryRegion, 1, 3);
-            END ELSE BEGIN
-                gcodCOOList += ',' + COPYSTR(pcodCountryRegion, 1, 3);
-            END;
-        END;
-        //</IB54312AZ>
-    end;
-
-    [Scope('Internal')]
-    procedure ibSkipSalesLine(precSalesLine: Record "Sales Line") rblnSkipLine: Boolean
-    begin
-        //<IB54312AZ>
-        IF (precSalesLine.Type = precSalesLine.Type::"G/L Account") AND
-           (precSalesLine."No." IN ['22070']
-            ) THEN BEGIN
-            EXIT(TRUE);
-        END;
-        EXIT(FALSE);
-        //<IB54312AZ>
+        WITH SalesHeader DO
+            FormatAddress.FormatAddr(
+              AddrArray, "Ship-to Name", "Ship-to Name 2", "Ship-to Contact", "Ship-to Address", "Ship-to Address 2",
+              "Ship-to City", "Ship-to Post Code", "Ship-to County", "Ship-to Country/Region Code");
     end;
 }
 
