@@ -1,8 +1,9 @@
 report 51006 "Banana Delivery Ticket"
 {
     DefaultLayout = RDLC;
-    RDLCLayout = './BananaDeliveryTicket.rdlc';
-
+    RDLCLayout = './BananaDeliveryTicket.rdl';
+    ApplicationArea = All;
+    UsageCategory = ReportsAndAnalysis;
     Caption = 'Sales Order';
 
     dataset
@@ -1025,9 +1026,7 @@ report 51006 "Banana Delivery Ticket"
 
             trigger OnPreDataItem()
             begin
-
                 grecSalesSetup.GET;
-
             end;
         }
     }

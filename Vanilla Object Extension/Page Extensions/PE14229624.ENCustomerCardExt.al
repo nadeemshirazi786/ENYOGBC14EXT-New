@@ -24,6 +24,10 @@ pageextension 14228852 "EN Customer Card Ext" extends "Customer Card"
             {
                 ApplicationArea = All;
             }
+            field("Prices on Invoice"; "Prices on Invoice ELA")
+            {
+                ApplicationArea = All;
+            }
         }
 
         addlast(Invoicing)
