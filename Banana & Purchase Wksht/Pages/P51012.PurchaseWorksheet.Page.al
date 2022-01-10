@@ -324,7 +324,7 @@ page 51012 "Purchase Worksheet"
                         PurchaseLine."Lock Pricing ELA" := true;
 
                         if PWLine."Unit Price" <> 0 then
-                            PurchaseLine.Validate("List Cost", PWLine."Unit Price");
+                            PurchaseLine.Validate("List Cost ELA", PWLine."Unit Price");
                         PurchaseLine.Insert;
 
                         lcduCustomRecordExtMgt.isPurchLineExtGet(PurchaseLine, lrecCustomRecordExt, true);

@@ -101,6 +101,165 @@ tableextension 14229627 "EN Purchase  Line ELA" extends "Purchase Line"
             Caption = 'Country/Region of Origin Code';
             DataClassification = ToBeClassified;
         }
+        field(14229001; "List Cost ELA"; Decimal)
+        {
+            Caption = 'List Cost';
+            DataClassification = ToBeClassified;
+            trigger OnValidate()
+            begin
+
+                IF CurrFieldNo = FIELDNO("List Cost ELA") THEN BEGIN
+                    grecPurchSetup.GET;
+                    IF grecPurchSetup."Lock DUC on Manual Edit ELA" THEN BEGIN
+                        "Lock Pricing ELA" := TRUE;
+                    END;
+
+                    "Purchase Price Source ELA" := 'Manual';
+
+                END;
+                UpdateCustomAmounts;
+            end;
+
+        }
+        field(14229002; "Upcharge Amount ELA"; Decimal)
+        {
+            Caption = 'Upcharge Amount';
+            DataClassification = ToBeClassified;
+            trigger OnValidate()
+            begin
+
+                IF CurrFieldNo = FIELDNO("Upcharge Amount ELA") THEN BEGIN
+                    grecPurchSetup.GET;
+                    IF grecPurchSetup."Lock DUC on Manual Edit ELa" THEN BEGIN
+                        "Lock Pricing ELA" := TRUE;
+                    END;
+
+                    "Purchase Price Source ELA" := 'Manual';
+
+                END;
+                UpdateCustomAmounts;
+            end;
+
+        }
+
+        field(14229003; "Billback Amount ELA"; Decimal)
+        {
+            Caption = 'Billback Amount';
+            DataClassification = ToBeClassified;
+            trigger OnValidate()
+            begin
+
+                IF CurrFieldNo = FIELDNO("Billback Amount ELA") THEN BEGIN
+                    grecPurchSetup.GET;
+                    IF grecPurchSetup."Lock DUC on Manual Edit ELa" THEN BEGIN
+                        "Lock Pricing ELA" := TRUE;
+                    END;
+
+                    "Purchase Price Source ELA" := 'Manual';
+
+                END;
+                UpdateCustomAmounts;
+            end;
+
+        }
+        field(14229004; "Discount 1 Amount ELA"; Decimal)
+        {
+            Caption = 'Discount 1 Amount';
+            DataClassification = ToBeClassified;
+            trigger OnValidate()
+            begin
+
+                IF CurrFieldNo = FIELDNO("Discount 1 Amount ELA") THEN BEGIN
+                    grecPurchSetup.GET;
+                    IF grecPurchSetup."Lock DUC on Manual Edit ELa" THEN BEGIN
+                        "Lock Pricing ELA" := TRUE;
+                    END;
+
+                    "Purchase Price Source ELA" := 'Manual';
+
+                END;
+                UpdateCustomAmounts;
+            end;
+
+        }
+        field(14229005; "Freight Amount ELA"; Decimal)
+        {
+            Caption = 'Freight Amount';
+            DataClassification = ToBeClassified;
+
+        }
+        field(14229006; "YOG Line Discount % ELA"; Decimal)
+        {
+            Caption = 'YOG Line Discount %';
+            DataClassification = ToBeClassified;
+            trigger OnValidate()
+            begin
+
+
+                TestStatusOpen;
+                GetPurchHeader;
+                "YOG Line Discount Amount ELA" :=
+                  ROUND(
+                    ROUND(Quantity * "Direct Unit Cost", Currency."Amount Rounding Precision") *
+                    "Line Discount %" / 100,
+                    Currency."Amount Rounding Precision");
+                "Inv. Discount Amount" := 0;
+                "Inv. Disc. Amount to Invoice" := 0;
+                UpdateAmounts;
+                UpdateUnitCost;
+                "Line Discount %" := 0 - "YOG Line Discount % ELA";
+                "Line Discount Amount" := 0 - "YOG Line Discount Amount ELA";
+                VALIDATE("Line Discount %");
+            end;
+
+        }
+        field(14229007; "YOG Line Discount Amount ELA"; Decimal)
+        {
+            Caption = 'YOG Line Discount Amount';
+            DataClassification = ToBeClassified;
+            trigger OnValidate()
+            begin
+
+
+                TestStatusOpen;
+                TESTFIELD(Quantity);
+                IF xRec."Line Discount Amount" <> "Line Discount Amount" THEN
+                    IF ROUND(Quantity * "Direct Unit Cost", Currency."Amount Rounding Precision") <> 0 THEN
+                        "YOG Line Discount % ELA" :=
+                          ROUND(
+                            "Line Discount Amount" /
+                            ROUND(Quantity * "Direct Unit Cost", Currency."Amount Rounding Precision") * 100,
+                            0.00001)
+                    ELSE
+                        "Line Discount %" := 0;
+                "Inv. Discount Amount" := 0;
+                "Inv. Disc. Amount to Invoice" := 0;
+                UpdateAmounts;
+                UpdateUnitCost;
+                "Line Discount %" := 0 - "YOG Line Discount % ELA";
+                "Line Discount Amount" := 0 - "YOG Line Discount Amount ELA";
+                VALIDATE("Line Discount Amount");
+            end;
+
+        }
+        field(14229008; "Vendor Price Group ELA"; code[10])
+        {
+            Caption = 'Vendor Price Group';
+            DataClassification = ToBeClassified;
+            TableRelation = "EN Vendor Price Group";
+            trigger OnValidate()
+            begin
+
+                IF Type = Type::Item THEN
+                    UpdateDirectUnitCost(FIELDNO("Vendor Price Group ELA"));
+            end;
+        }
+        field(14229000; "Purchase Price Source ELA"; Text[30])
+        {
+            Caption = 'Purchase Price Source';
+            DataClassification = ToBeClassified;
+            Editable = false;
+        }
         field(14229100; "Extra Charge Code ELA"; Code[10])
         {
             Caption = 'Extra Charge Code';
@@ -264,15 +423,11 @@ tableextension 14229627 "EN Purchase  Line ELA" extends "Purchase Line"
                     UpdateDirectUnitCost(FIELDNO("Qty. Secondary (Base UOM) ELA"));
             end;
         }
-        field(51001; "List Cost"; Decimal)
-        {
-            DataClassification = ToBeClassified;
-        }
         field(51008; "Bottle Deposit"; Boolean)
         {
             DataClassification = ToBeClassified;
         }
-        field(5109; "Approved by ELA"; Code[50])
+        field(51009; "Approved by ELA"; Code[50])
         {
             Caption = 'Approved by';
         }
@@ -856,6 +1011,32 @@ tableextension 14229627 "EN Purchase  Line ELA" extends "Purchase Line"
         gblnOverReceive := TRUE;
     end;
 
+    procedure UpdateCustomAmounts()
+    begin
+
+        IF Item.GET("No.") THEN;
+        "Direct Unit Cost" := "List Cost ELA" + "Upcharge Amount ELA" + "Discount 1 Amount ELA" + "Billback Amount ELA";
+        "Unit Cost" := "Direct Unit Cost" * (1 + "Indirect Cost %" / 100) + "Overhead Rate";
+        "Unit Cost (LCY)" := "Direct Unit Cost" * (1 + "Indirect Cost %" / 100) + "Overhead Rate";
+
+        UpdateAmounts;
+    end;
+
+    procedure GetPurchHeader()
+    begin
+        TESTFIELD("Document No.");
+        IF ("Document Type" <> PurchHeader."Document Type") OR ("Document No." <> PurchHeader."No.") THEN BEGIN
+            PurchHeader.GET("Document Type", "Document No.");
+            IF PurchHeader."Currency Code" = '' THEN
+                Currency.InitRoundingPrecision
+            ELSE BEGIN
+                PurchHeader.TESTFIELD("Currency Factor");
+                Currency.GET(PurchHeader."Currency Code");
+                Currency.TESTFIELD("Amount Rounding Precision");
+            END;
+        END;
+    end;
+
     trigger OnInsert()
     begin
         UpdateLotTracking(true);
@@ -890,6 +1071,7 @@ tableextension 14229627 "EN Purchase  Line ELA" extends "Purchase Line"
         ProcessFns: Codeunit "Process 800 Functions ELA";
         Text046: Textconst ENU = '%3 will not update %1 when changing %2 because a prepayment invoice has been posted. Do you want to continue?';
         SKU: Record "Stockkeeping Unit";
+        Currency: Record Currency;
         PurchHeader: Record "Purchase Header";
         gblnOverReceive: Boolean;
         gblnSuspendPriceCalc: Boolean;

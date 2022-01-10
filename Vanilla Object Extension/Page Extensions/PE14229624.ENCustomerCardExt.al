@@ -33,6 +33,11 @@ pageextension 14228852 "EN Customer Card Ext" extends "Customer Card"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the customer buying group code, which you can use to set up special sales prices in the Elation Item Sales Prices window.';
             }
+            field("Campaingn No."; "Campaign No. ELA")
+            {
+                ApplicationArea = All;
+
+            }
             field("Sales Unit of Measure"; "Sales Unit of Measure ELA")
             {
                 ApplicationArea = All;

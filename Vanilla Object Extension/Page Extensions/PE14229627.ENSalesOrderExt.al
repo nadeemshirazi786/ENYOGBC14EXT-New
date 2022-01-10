@@ -5,6 +5,47 @@ pageextension 14228858 "EN Sales Order Ext" extends "Sales Order"
 {
     layout
     {
+        modify("Sell-to Contact No.")
+        {
+            Visible = false;
+        }
+        modify("Sell-to Phone No.")
+        {
+            Visible = false;
+        }
+        modify("Sell-to E-Mail")
+        {
+            Visible = false;
+        }
+        modify("Campaign No.")
+        {
+            Visible = false;
+        }
+        modify("Opportunity No.")
+        {
+            Visible = false;
+        }
+        modify("CFDI Purpose")
+        {
+            Visible = false;
+        }
+
+        modify("CFDI Relation")
+        {
+            Visible = false;
+        }
+        modify("Requested Delivery Date")
+        {
+            Visible = false;
+        }
+        modify("Promised Delivery Date")
+        {
+            Visible = false;
+        }
+        modify("Due Date")
+        {
+            Visible = false;
+        }
         modify("Shipment Date")
         {
             ApplicationArea = all;
@@ -17,6 +58,9 @@ pageextension 14228858 "EN Sales Order Ext" extends "Sales Order"
                 ShipmentDateOnAfterValidate;
             end;
         }
+        movebefore("Document Date"; "Shipment Date")
+        moveafter("Order Date"; "Location Code", ShippingOptions, "Ship-to Code", "Shipment Method Code")
+
         // Add changes to page layout here
         addafter("Attached Documents")
         {

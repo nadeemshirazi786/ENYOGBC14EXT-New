@@ -4,6 +4,17 @@ tableextension 14229624 "EN LT Vendor EXT ELA" extends Vendor
 
     fields
     {
+        field(14229000; "Vendor Price Group ELA"; Code[20])
+        {
+            Caption = 'Vendor Price Group';
+            DataClassification = ToBeClassified;
+            TableRelation = "EN Vendor Price Group";
+        }
+        field(14229001; "Purch. Price/Sur. Dt Cntrl ELA"; Enum "EN Purch. Price/Sur. Dt Cntrl")
+        {
+            Caption = 'Purch. Price/Sur. Date Control';
+            DataClassification = ToBeClassified;
+        }
         field(14229400; "Rebate Group Code ELA"; Code[20])
         {
             Caption = 'Rebate Group Code';

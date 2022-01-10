@@ -72,6 +72,12 @@ tableextension 14229607 "EN Customer ELA" extends "Customer"
             Caption = 'Order Rule Usage';
 
         }
+        field(14228859; "Campaign No. ELA"; Code[20])
+        {
+            Caption = 'Campaign No.';
+            TableRelation = Campaign;
+
+        }
         field(14228880; "Credit Grace Period (Days) ELA"; Integer)
         {
             Caption = 'Credit Grace Period (Days)';

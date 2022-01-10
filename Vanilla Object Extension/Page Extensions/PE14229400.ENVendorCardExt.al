@@ -4,7 +4,21 @@ pageextension 14229400 "Vendor Card ELA" extends "Vendor Card"
     layout
     {
         // Add changes to page layout here
-
+        addlast("Posting Details")
+        {
+            field("Vendor Buying Group Code ELA"; "Vendor Buying Group Code ELA")
+            {
+                ApplicationArea = All;
+            }
+            field("Vendor Price Group ELA"; "Vendor Price Group ELA")
+            {
+                ApplicationArea = All;
+            }
+            field("Purch. Price/Sur. Dt Cntrl ELA"; "Purch. Price/Sur. Dt Cntrl ELA")
+            {
+                ApplicationArea = All;
+            }
+        }
         addlast("Foreign Trade")
         {
 

@@ -2,6 +2,24 @@ tableextension 14229619 "Purchases & Payables Setup ELA" extends "Purchases & Pa
 {
     fields
     {
+        field(14229000; "Purchase Pricing Model ELA"; Enum "EN Purchase Pricing Model")
+        {
+            Caption = 'Purchase Pricing Model';
+            DataClassification = ToBeClassified;
+
+        }
+        field(14229001; "Purchase Price Source ELA"; Enum "EN Purchase Price Source")
+        {
+            Caption = 'Purchase Price Source';
+            DataClassification = ToBeClassified;
+
+        }
+        field(14229002; "Lock DUC on Manual Edit ELA"; Boolean)
+        {
+            Caption = 'Lock Direct Unit Cost on Manual Edit';
+            DataClassification = ToBeClassified;
+
+        }
         field(14229400; "Rebate Nos."; Code[20])
         {
             Caption = 'Rebate Nos.';

@@ -105,6 +105,34 @@ pageextension 14229609 "EN Purchase Order Subform" extends "Purchase Order Subfo
                 ApplicationArea = All;
 
             }
+            field("List Cost"; Rec."List Cost ELA")
+            {
+                ApplicationArea = All;
+            }
+            field("Upcharge Amount"; Rec."Upcharge Amount ELA")
+            {
+                ApplicationArea = All;
+            }
+            field("Billback Amount"; Rec."Billback Amount ELA")
+            {
+                ApplicationArea = All;
+            }
+            field("Dicount 1 Amount"; Rec."Discount 1 Amount ELA")
+            {
+                ApplicationArea = All;
+            }
+            field("Freight Amount"; Rec."Freight Amount ELA")
+            {
+                ApplicationArea = All;
+            }
+            field("Unit Cost"; Rec."Unit Cost")
+            {
+                ApplicationArea = All;
+            }
+            field("Total P.O. Cost"; isCalcPOCost)
+            {
+                ApplicationArea = All;
+            }
         }
         modify(Type)
         {
@@ -137,6 +165,13 @@ pageextension 14229609 "EN Purchase Order Subform" extends "Purchase Order Subfo
         P800Globals: Codeunit "Process 800 System Globals ELA";
     begin
         LotEditable := ProcessFns.TrackingInstalled AND ("Lot No. ELA" <> P800Globals.MultipleLotCode) AND (Type = Type::Item);
+    end;
+
+    procedure isCalcPOCost(): Decimal
+    begin
+        IF Quantity <> 0 THEN
+            EXIT("Line Amount" / Quantity);
+        EXIT(0);
     end;
 
     var
