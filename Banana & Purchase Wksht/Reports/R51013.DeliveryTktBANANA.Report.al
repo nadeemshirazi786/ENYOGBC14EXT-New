@@ -821,22 +821,19 @@ report 51013 "Delivery Tkt BANANA"
                                     END;
                                 END;
 
-<<<<<<< HEAD:Banana & Purchase Wksht/Reports/R51004.DeliveryTktBANANA.Report.al
-                            gtxtBotDep := TempSalesLine.GetBottleAmount(TempSalesLine);
-                            IF EVALUATE(BotDep, gtxtBotDep) THEN BEGIN
-                                BotDep := BotDep * TempSalesLine.Quantity;
-                            END;
-                            AmountExclInvDisc += BotDep;
-=======
+                                gtxtBotDep := TempSalesLine.GetBottleAmount(TempSalesLine);
+                                IF EVALUATE(BotDep, gtxtBotDep) THEN BEGIN
+                                    BotDep := BotDep * TempSalesLine.Quantity;
+                                END;
+                                AmountExclInvDisc += BotDep;
                                 //<YOG42476AC>
                                 IF (
                                   (NOT grecUOMSize.GET("Unit of Measure Code"))
                                 ) THEN BEGIN
                                     CLEAR(grecUOMSize);
                                 END;
->>>>>>> Nadeem:Banana & Purchase Wksht/Reports/R51013.DeliveryTktBANANA.Report.al
 
-                                gtxtBotDep := jfGetUDCalculation('85_BOTTLE');
+                                gtxtBotDep := GetBottleAmount(grecSalesLine);
                                 IF EVALUATE(BotDep, gtxtBotDep) THEN BEGIN
                                     BotDep := BotDep * Quantity;
                                 END;
