@@ -152,7 +152,7 @@ report 51000 "Create Banana Orders"
         BananaPref: Record "Banana Preference";
         WSCols: Record "Banana Worksheet Column";
         WSCols2: Record "Banana Worksheet Column";
-        DelTicket: Report "Banana Delivery Ticket";
+        DelTicket: Report "Delivery Tkt BANANA";
         ReleaseSalesDoc: Codeunit "Release Sales Document";
         OrderDate: Date;
         LineNo: Integer;

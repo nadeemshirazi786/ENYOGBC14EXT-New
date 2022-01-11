@@ -169,6 +169,11 @@ tableextension 14229403 "Gen. Journal Line ELA" extends "Gen. Journal Line"
             Description = 'ENRE1.00';
             Editable = false;
         }
+        field(14228817; "Bank Reference No. ELA"; Code[20])
+        {
+            Caption = 'Bank Reference No.';
+            DataClassification = ToBeClassified;
+        }
     }
 
     var
