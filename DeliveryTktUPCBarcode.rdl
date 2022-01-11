@@ -3532,7 +3532,6 @@ Tel:  617-394-0300    Fax:  617-394-0470
                       <Style>
                         <FontFamily>3 of 9 Barcode</FontFamily>
                         <FontSize>36pt</FontSize>
-                        <FontWeight>Normal</FontWeight>
                       </Style>
                     </TextRun>
                   </TextRuns>

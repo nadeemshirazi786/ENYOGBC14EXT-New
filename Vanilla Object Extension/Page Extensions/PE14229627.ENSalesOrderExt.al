@@ -188,6 +188,16 @@ pageextension 14228858 "EN Sales Order Ext" extends "Sales Order"
                     end;
 
                 }
+                action("Delivery Manifest Ticket")
+                {
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    Image = Print;
+                    trigger OnAction()
+                    begin
+                        PrintDeliveryManifest(Rec);
+                    end;
+                }
             }
 
 
@@ -195,6 +205,14 @@ pageextension 14228858 "EN Sales Order Ext" extends "Sales Order"
 
 
     }
+    procedure PrintDeliveryManifest(precSalesHeader: Record "Sales Header")
+    var
+        RptDeliveryManifest: Report "Delivery Manifest Ticket";
+    begin
+        precSalesHeader.SETRECFILTER;
+        RptDeliveryManifest.SETTABLEVIEW(precSalesHeader);
+        RptDeliveryManifest.RUN;
+    end;
 
     procedure ShipmentDateOnAfterValidate()
     begin
