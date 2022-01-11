@@ -90,7 +90,7 @@ report 51014 "Delivery Tkt UPC Barcode"
     RDLCLayout = './DeliveryTktUPCBarcode.rdl';
     ApplicationArea = All;
     UsageCategory = ReportsAndAnalysis;
-    Caption = 'Delivery UPC Barcode';
+    Caption = 'Delivery Ticket Tropical';
     PreviewMode = PrintLayout;
 
     dataset

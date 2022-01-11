@@ -1,9 +1,5 @@
 report 51012 "Delivery Manifest Ticket"
 {
-    // EN1.00 2020-12-04 KS
-    //   Changed "Unit of Measure" Field to "Unit of Measure Code"
-    // EN1.00 2019-12-16 HR
-    //   Added Columns from Sales Header and Sales Line. Just those records that are being used for grouping.
     ApplicationArea = All;
     UsageCategory = ReportsAndAnalysis;
     DefaultLayout = RDLC;

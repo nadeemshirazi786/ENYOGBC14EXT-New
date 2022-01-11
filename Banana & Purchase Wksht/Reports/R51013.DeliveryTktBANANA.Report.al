@@ -1,76 +1,10 @@
 report 51013 "Delivery Tkt BANANA"
 {
-    // EN1.00 20-07-31 FS
-    //   Addition of Barcode in report + Fixes
-    // --------------------------------------------------------
-    // 
-    // Copyright Axentia Solutions Corp.  1999-2013.
-    // By opening this object you acknowledge that this object includes confidential information and intellectual
-    // property of Axentia Solutions Corp. and that this work is protected by Canadian, U.S. and international
-    // copyright laws and agreements.
-    // 
-    // 
-    // //<JF0000xxDO>
-    //   Made changes to printing of Item charges if they come from Customer / Item Surcharges
-    //   Allows the order to "hide" the surcharge in the unit price of the item if gblnIncludeSurchargeInUP;
-    //   Added grecSalesSetup to get Sales Freight Charge Setup.
-    // 
-    // AX00015JJ
-    //   20050924 - Changed the way that calculate Freight if the item is set to include IC in Unit Price
-    //              To show the Fright Amount at the bottom instead of include the price in the Unit Price
-    // 
-    // JFMG
-    //   20081104 - Update key for Comment table and add filter to show header comments only
-    // 
-    // JF10546AC
-    //   20101122 - rename "No. Pallets (Std.)" -> "No. Pallets"
-    // 
-    // JF30041SHR
-    //   20130121 - removed old jf report and add above changes added to base report
-    // 
-    // <YOG42476AC> 20140831 - merge in YOG custom stuff
-    // 
-    // MNJR01, Myers Nissi, Jack Reynolds, 18 JUN 02, YG0108B
-    //   Accumulate freight charge (based on item type) and display in footer
-    // 
-    // YG0175B, Myers Nissi, Jack Reynolds, 25 MAR 03
-    //   Remove quantity short from line item detail
-    // 
-    // YG0183B, Myers Nissi, Jack Reynolds, 29 APR 03
-    //   Modify so that lines shipped short are grouped after the other lines
-    // 
-    // YG0187B, Myers Nissi, Jack Reynolds, 22 MAY 03
-    //   Change the sort key on the Sales Line data item to process in the same order as the SalesLine
-    //     data item (temp table)
-    // 
-    // YG0256A, VerticalSoft, Steve Post, 02 MAR 06
-    //   added code and section to print comment sales lines
-    // 
-    // YG0259A, VerticalSoft, Steve Post, 13 JUL 06
-    //   Add size control
-    // 
-    // YG0265A, VerticalSoft, Jack Reynolds, 22 NOV 06
-    //   Modify to not print for any orders where picking status is Picking or Suspended
-    // 
-    // YG69101, VerticalSoft, Marie-Pierre Gagnon, 12 NOV 07
-    //   CANCEL MNJR01 - freight is part again of unit price
-    //   Stop deducting Total Freight from Invoice Discount footer total
-    // 
-    // EN1.00, Elation, KS, 08 Aug 2013
-    //   Added Signature on Document
-    // 
-    // </YOG42476AC>
-    // 
-    // DP20150625
-    //   -Changed sort order to be Shipment Date, Order Template Location, Stop No.
-    // 
-    // DP20151001
-    //   20151001  - legacy code set Qty Shipped to equal Quantity instead of zero for some reason. Changed it to show zero accordingly.
     DefaultLayout = RDLC;
     RDLCLayout = './DeliveryTktBANANA.rdl';
     ApplicationArea = All;
     UsageCategory = ReportsAndAnalysis;
-    Caption = 'Sales Order';
+    Caption = 'Delivery Ticket Banana';
 
     dataset
     {
