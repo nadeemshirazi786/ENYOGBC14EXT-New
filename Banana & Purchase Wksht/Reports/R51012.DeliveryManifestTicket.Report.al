@@ -278,5 +278,6 @@ report 51012 "Delivery Manifest Ticket"
         END;
         //EN1.00
     end;
+
 }
 
