@@ -235,6 +235,43 @@ tableextension 14229624 "EN LT Vendor EXT ELA" extends Vendor
         {
             Caption = 'Over-Receiving Tolerance %';
         }
-    }
+        field(51009; "Broker Contact No. ELA"; Code[20])
+        {
+            Caption = 'Broker Contact No.';
+            DataClassification = ToBeClassified;
+            TableRelation = Contact."No.";
+            trigger OnValidate()
+            begin
 
+                IF grecContact.GET("Broker Contact No. ELA") THEN BEGIN
+                    "Broker Contact Name ELA" := grecContact.Name;
+                    "Broker Phone No. ELA" := grecContact."Phone No.";
+                END;
+            end;
+        }
+        field(51010; "Broker Contact Name ELA"; Text[50])
+        {
+            Caption = 'Broker Contact Name';
+            DataClassification = ToBeClassified;
+        }
+        field(51011; "Broker Phone No. ELA"; Text[30])
+        {
+            Caption = 'Broker Phone No.';
+            ExtendedDatatype = PhoneNo;
+            DataClassification = ToBeClassified;
+        }
+        field(51012; "Communication group code ELA"; Code[20])
+        {
+            Caption = 'Communication group code';
+            TableRelation = "Communication Group ELA".Code;
+            DataClassification = ToBeClassified;
+        }
+        field(51013; "Shipping Instructions ELA"; Text[50])
+        {
+            Caption = 'Shipping Instructions';
+            DataClassification = ToBeClassified;
+        }
+    }
+    var
+        grecContact: Record Contact;
 }

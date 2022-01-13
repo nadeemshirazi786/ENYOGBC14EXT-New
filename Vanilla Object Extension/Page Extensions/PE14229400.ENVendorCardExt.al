@@ -34,6 +34,33 @@ pageextension 14229400 "Vendor Card ELA" extends "Vendor Card"
                 end;
             }
         }
+        addlast("Address & Contact")
+        {
+            field("Broker Contact No."; "Broker Contact No. ELA")
+            {
+                ApplicationArea = All;
+            }
+            field("Broker Contact Name"; "Broker Contact Name ELA")
+            {
+                ApplicationArea = All;
+            }
+            field("Broker Phone No."; "Broker Phone No. ELA")
+            {
+                ApplicationArea = All;
+            }
+            field("Communication group code"; "Communication group code ELA")
+            {
+                ApplicationArea = All;
+            }
+        }
+        addlast(Receiving)
+        {
+            field("Shipping Instructions"; "Shipping Instructions ELA")
+            {
+                ApplicationArea = All;
+            }
+        }
+
         addafter(Receiving)
         {
             group("Global Group ELA")
@@ -60,6 +87,7 @@ pageextension 14229400 "Vendor Card ELA" extends "Vendor Card"
                     Caption = 'Global Group 5 Code';
                 }
             }
+
         }
 
     }
@@ -68,7 +96,40 @@ pageextension 14229400 "Vendor Card ELA" extends "Vendor Card"
     {
         // Add changes to page actions here
     }
+    procedure ActivateFields()
+    var
+        lintVendorApproval: Integer;
+    begin
+
+        ContactEditable := "Primary Contact No." = '';
+
+        //<JF00043DO>
+        "Broker Contact NameEditable" := "Broker Contact No. ELA" = '';
+        "Broker Phone No.Editable" := "Broker Contact No. ELA" = '';
+        //<JF00043DO>
+
+        //<JF00088MG>
+        // lintVendorApproval := jfCheckVendorApprovalReqd;
+
+        "Approved 1Editable" := FALSE;
+        "Approved 2Editable" := FALSE;
+
+        IF lintVendorApproval > 0 THEN BEGIN
+            "Approved 1Editable" := TRUE;
+        END;
+
+        IF lintVendorApproval > 1 THEN BEGIN
+            "Approved 2Editable" := TRUE;
+        END;
+    end;
+
 
     var
         myInt: Integer;
+        "Approved 1Editable": Boolean;
+        "Approved 2Editable": Boolean;
+        ContactEditable: Boolean;
+        "Broker Contact NameEditable": Boolean;
+        "Broker Phone No.Editable": Boolean;
+
 }

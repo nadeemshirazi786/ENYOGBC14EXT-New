@@ -84,6 +84,25 @@ tableextension 14229610 "EN Purchase Header ELA" extends "Purchase Header"
             Caption = 'PO For Extra Charge';
             TableRelation = "Purchase Header"."No.";
         }
+        field(14229102; "Communication Group Code ELA"; Code[20])
+        {
+            Caption = 'Communication Group Code';
+            DataClassification = ToBeClassified;
+            TableRelation = "Communication Group ELA".Code;
+        }
+        field(14229103; "Shipping Instructions ELA"; Text[50])
+        {
+            Caption = 'Shipping Instructions';
+            DataClassification = ToBeClassified;
+        }
+        modify("Buy-from Vendor No.")
+        {
+            trigger OnAfterValidate()
+            begin
+                "Communication Group Code ELA" := Vend."Communication Group Code ELA";
+                "Shipping Instructions ELA" := Vend."Shipping Instructions ELA";
+            end;
+        }
     }
     Keys
     {
@@ -108,5 +127,6 @@ tableextension 14229610 "EN Purchase Header ELA" extends "Purchase Header"
         //>>ENEC1.00   
     end;
 
-
+    var
+        Vend: Record Vendor;
 }
