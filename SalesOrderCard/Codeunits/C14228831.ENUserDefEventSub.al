@@ -201,4 +201,10 @@ codeunit 14228831 "User-Def Events ELA"
         end;
     end;
 
+    [EventSubscriber(ObjectType::Codeunit, 1302, 'OnAfterCalculateShipToBillToOptions', '', true, true)]
+    local procedure AfterCalculateShipToBillToOptions(SalesHeader: Record "Sales Header"; var ShipToOptions: Option "Default (Sell-to Address)","Alternate Shipping Address","Custom Address")
+    begin
+        IF SalesHeader."Ship-to Code" = '' then
+            ShipToOptions := ShipToOptions::"Alternate Shipping Address";
+    end;
 }

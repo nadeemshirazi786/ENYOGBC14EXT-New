@@ -218,5 +218,6 @@ pageextension 14228858 "EN Sales Order Ext" extends "Sales Order"
     begin
         CurrPage.UPDATE(TRUE);
     end;
+    
 
 }
