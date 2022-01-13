@@ -19,7 +19,14 @@ pageextension 14229608 "EN Purchase Order" extends "Purchase Order"
                 SubPageLink = "Document Type" = FIELD("Document Type"),
                               "No." = FIELD("No.");
             }
-        }        
+        }
+        addlast("Shipping and Payment")
+        {
+            field("Shipping Instructions"; "Shipping Instructions ELA")
+            {
+                ApplicationArea = All;
+            }
+        }
     }
     actions
     {

@@ -98,9 +98,13 @@ tableextension 14229610 "EN Purchase Header ELA" extends "Purchase Header"
         modify("Buy-from Vendor No.")
         {
             trigger OnAfterValidate()
+            var
+                Vend: Record Vendor;
             begin
-                "Communication Group Code ELA" := Vend."Communication Group Code ELA";
-                "Shipping Instructions ELA" := Vend."Shipping Instructions ELA";
+                if Vend.Get("Buy-from Vendor No.") then begin
+                    "Communication Group Code ELA" := Vend."Communication Group Code ELA";
+                    "Shipping Instructions ELA" := Vend."Shipping Instructions ELA";
+                end;
             end;
         }
     }
@@ -127,6 +131,5 @@ tableextension 14229610 "EN Purchase Header ELA" extends "Purchase Header"
         //>>ENEC1.00   
     end;
 
-    var
-        Vend: Record Vendor;
+
 }
