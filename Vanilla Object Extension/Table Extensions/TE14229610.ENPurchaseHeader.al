@@ -79,6 +79,14 @@ tableextension 14229610 "EN Purchase Header ELA" extends "Purchase Header"
         {
             DataClassification = ToBeClassified;
         }
+        field(51005; "Act. Delivery Appointment Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(51006; "Act. Delivery Appointment Time"; Time)
+        {
+            DataClassification = ToBeClassified;
+        }
         field(14229101; "PO for Extra Charge ELA"; Code[20])
         {
             Caption = 'PO For Extra Charge';
@@ -93,6 +101,10 @@ tableextension 14229610 "EN Purchase Header ELA" extends "Purchase Header"
         field(14229103; "Shipping Instructions ELA"; Text[50])
         {
             Caption = 'Shipping Instructions';
+            DataClassification = ToBeClassified;
+        }
+        field(14229104; "Ext Bill of Lading/Waybill No."; Code[20])
+        {
             DataClassification = ToBeClassified;
         }
         modify("Buy-from Vendor No.")

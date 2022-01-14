@@ -35,10 +35,32 @@ tableextension 14229646 "EN Whse Receipt Header Ext" extends "Warehouse Receipt 
         {
             Caption = 'Contact';
         }
-        field(14229708; "Shipping Agent Code ELA"; Text[10])
+        field(51000; "No. Pallets"; Decimal)
         {
-            Caption = 'Shipping Agent Code';
+            DataClassification = ToBeClassified;
         }
+        field(51001; "Shipping Agent Code ELA"; Code[10])
+        {
+            TableRelation = "Shipping Agent";
+            DataClassification = ToBeClassified;
+        }
+        field(51003; "Exp. Delivery Appointment Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(51004; "Exp. Delivery Appointment Time"; Time)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(51005; "Act. Delivery Appointment Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(51006; "Act. Delivery Appointment Time"; Time)
+        {
+            DataClassification = ToBeClassified;
+        }
+
 
     }
 }

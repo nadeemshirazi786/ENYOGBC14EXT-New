@@ -11,6 +11,27 @@ tableextension 14229649 "Whse Request ELA" extends "Warehouse Request"
         {
             Caption = 'Pallet Code';
         }
+        field(51000; "No. Pallets"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+
+        field(51003; "Exp. Delivery Appointment Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(51004; "Exp. Delivery Appointment Time"; Time)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(51005; "Act. Delivery Appointment Date"; Date)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(51006; "Act. Delivery Appointment Time"; Time)
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     var

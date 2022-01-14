@@ -439,6 +439,12 @@ tableextension 14229627 "EN Purchase  Line ELA" extends "Purchase Line"
         {
             DataClassification = ToBeClassified;
         }
+        field(14229104; "Ext Bill of Lading/Waybill No."; Code[20])
+        {
+            //DataClassification = ToBeClassified;
+            FieldClass = FlowField;
+            CalcFormula = Lookup("Purchase Header"."Ext Bill of Lading/Waybill No." WHERE("Document Type" = FIELD("Document Type"), "No." = FIELD("Document No.")));
+        }
     }
 
     procedure GetLocation("Location Code": Code[10])

@@ -26,6 +26,30 @@ pageextension 14229608 "EN Purchase Order" extends "Purchase Order"
             {
                 ApplicationArea = All;
             }
+            field("Shipping Agent Code"; "Shipping Agent Code")
+            {
+
+            }
+        }
+        addlast(General)
+        {
+            field("No. Pallets"; "No. Pallets")
+            {
+
+            }
+            field("Act. Delivery Appointment Date"; "Act. Delivery Appointment Date")
+            {
+
+            }
+            field("Act. Delivery Appointment Time"; "Act. Delivery Appointment Time")
+            {
+
+            }
+            field("Ext Bill of Lading/Waybill No."; "Ext Bill of Lading/Waybill No.")
+            {
+
+            }
+
         }
     }
     actions
