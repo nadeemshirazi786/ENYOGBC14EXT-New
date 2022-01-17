@@ -46,6 +46,18 @@ pageextension 14228858 "EN Sales Order Ext" extends "Sales Order"
         {
             Visible = false;
         }
+        modify(ShippingOptions)
+        {
+            Visible = false;
+        }
+        modify("Ship-to Code")
+        {
+            Caption = 'Ship-to Code';
+        }
+        modify("Shipment Method Code")
+        {
+            Caption = 'Shipment Method Code';
+        }
         modify("Shipment Date")
         {
             ApplicationArea = all;
@@ -218,6 +230,6 @@ pageextension 14228858 "EN Sales Order Ext" extends "Sales Order"
     begin
         CurrPage.UPDATE(TRUE);
     end;
-    
+
 
 }
