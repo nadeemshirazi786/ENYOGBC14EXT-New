@@ -1,5 +1,19 @@
 pageextension 14229612 "EN Pstd. Purch. Invoice" extends "Posted Purchase Invoice"
 {
+    layout
+    {
+        addlast("Shipping and Payment")
+        {
+            field("Shipping Instructions"; "Shipping Instructions ELA")
+            {
+
+            }
+            field("No. Pallets"; "No. Pallets")
+            {
+
+            }
+        }
+    }
     actions
     {
         addlast("&Invoice")

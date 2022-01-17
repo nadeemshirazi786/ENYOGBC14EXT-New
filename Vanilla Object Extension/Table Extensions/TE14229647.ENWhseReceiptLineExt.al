@@ -406,6 +406,72 @@ tableextension 14229647 "EN Whse Receipt Line Ext" extends "Warehouse Receipt Li
         END;
     end;
 
+    procedure doTrackingExistsELA(pdecQty: Decimal; VAR pblnItemTracking: Boolean): Decimal
+    var
+        lrecReservEntry: Record "Reservation Entry";
+        lrecTrackingSpecification: Record "Tracking Specification";
+        ldecPctInReserv: Decimal;
+        lrecitem: Record Item;
+    begin
+
+        pblnItemTracking := FALSE;
+
+        IF NOT lrecitem.GET("Item No.") THEN
+            EXIT(0);
+
+        IF lrecitem."Item Tracking Code" = '' THEN
+            EXIT(0);
+
+        pblnItemTracking := TRUE;
+
+        IF pdecQty = 0 THEN
+            EXIT(0);
+
+        lrecReservEntry.SETRANGE("Source ID", "Source No.");
+
+        IF ("Source Type" = DATABASE::"Transfer Line") AND
+           ("Source Subtype" = 1) THEN
+            lrecReservEntry.SETRANGE("Source Prod. Order Line", "Source Line No.")
+        ELSE
+            lrecReservEntry.SETRANGE("Source Ref. No.", "Source Line No.");
+
+        lrecReservEntry.SETRANGE("Source Type", "Source Type");
+        lrecReservEntry.SETRANGE("Source Subtype", "Source Subtype");
+
+        IF NOT lrecReservEntry.ISEMPTY THEN BEGIN
+            IF lrecReservEntry.FINDSET THEN BEGIN
+                REPEAT
+                    IF (lrecReservEntry."Lot No." <> '') OR (lrecReservEntry."Serial No." <> '') THEN BEGIN
+                        ldecPctInReserv += ABS(lrecReservEntry."Quantity (Base)");
+                    END;
+                UNTIL lrecReservEntry.NEXT = 0;
+            END;
+        END;
+
+        lrecTrackingSpecification.SETRANGE("Source ID", "Source No.");
+        lrecTrackingSpecification.SETRANGE("Source Type", "Source Type");
+        lrecTrackingSpecification.SETRANGE("Source Subtype", "Source Subtype");
+        lrecTrackingSpecification.SETRANGE("Source Batch Name", '');
+        lrecTrackingSpecification.SETRANGE("Source Prod. Order Line", 0);
+        lrecTrackingSpecification.SETRANGE("Source Ref. No.", "Source Line No.");
+
+        IF NOT lrecTrackingSpecification.ISEMPTY THEN BEGIN
+            IF lrecTrackingSpecification.FINDSET THEN BEGIN
+                REPEAT
+                    IF (lrecTrackingSpecification."Lot No." <> '') OR (lrecTrackingSpecification."Serial No." <> '') THEN BEGIN
+                        ldecPctInReserv += ABS(lrecTrackingSpecification."Quantity (Base)");
+                    END;
+                UNTIL lrecTrackingSpecification.NEXT = 0;
+            END;
+        END;
+
+        IF pdecQty <> 0 THEN
+            ldecPctInReserv := ldecPctInReserv / pdecQty * 100;
+
+        EXIT(ldecPctInReserv);
+
+    end;
+
 
     var
         gblnFromReceiveQty: Boolean;

@@ -19,6 +19,12 @@ tableextension 14229617 "EN Purch. Inv. Line ELA" extends "Purch. Inv. Line"
             Caption = 'Purch. Order for Extra Charge';
             DataClassification = ToBeClassified;
         }
+        field(14229005; "Freight Amount ELA"; Decimal)
+        {
+            Caption = 'Freight Amount';
+            DataClassification = ToBeClassified;
+
+        }
     }
 
     procedure ShowExtraChargesELA()

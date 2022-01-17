@@ -369,7 +369,7 @@ codeunit 14228880 "EN Custom Functions"
         lrecItemJnlLine."Journal Template Name" := lrecItemJnlBatch."Journal Template Name";
         lrecItemJnlLine."Journal Batch Name" := lrecItemJnlBatch.Name;
         lrecItemJnlLine."Reason Code" := lrecItemJnlBatch."Reason Code";
-        
+
         lrecItemJnlLine.Validate("Location Code", precSalesLine."Location Code");
         lrecItemJnlLine.Validate("Variant Code", precSalesLine."Variant Code");
         lrecItemJnlLine.Validate("Bin Code", precSalesLine."Bin Code");
@@ -1067,5 +1067,29 @@ codeunit 14228880 "EN Custom Functions"
         EXIT(gcodSalesLocation);
     end;
 
+    procedure SetStyle(ldecPct: Decimal; lblnItemTracking: Boolean) "Text": Text
+    begin
+        IF lblnItemTracking THEN BEGIN
+            CASE TRUE OF
+                ldecPct = 100:
+                    BEGIN
+                        EXIT('Favorable');
+                    END;
+
+                ldecPct > 0:
+                    BEGIN
+                        EXIT('Ambiguous');
+                    END;
+
+                ldecPct = 0:
+                    BEGIN
+                        EXIT('Unfavorable');
+                    END;
+
+            END;
+        END ELSE BEGIN
+            EXIT('Standard');
+        END;
+    end;
 }
 

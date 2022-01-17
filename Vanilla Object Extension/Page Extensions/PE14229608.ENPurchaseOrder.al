@@ -45,6 +45,14 @@ pageextension 14229608 "EN Purchase Order" extends "Purchase Order"
             {
 
             }
+            field("Exp. Delivery Appointment Date"; "Exp. Delivery Appointment Date")
+            {
+
+            }
+            field("Exp. Delivery Appointment Time"; "Exp. Delivery Appointment Time")
+            {
+
+            }
             field("Ext Bill of Lading/Waybill No."; "Ext Bill of Lading/Waybill No.")
             {
 

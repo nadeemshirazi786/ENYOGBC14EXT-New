@@ -15,9 +15,6 @@ codeunit 14228835 "Event Subsciber"
                 ModifyHeader := TRUE;
             END;
         END;
-        //</JF00043MG>
-
-        //<JF00189MG>
         IF WarehouseReceiptHeader."Exp. Delivery Appointment Date" <> 0D THEN BEGIN
             IF WarehouseReceiptHeader."Exp. Delivery Appointment Date" <> PurchaseHeader."Exp. Delivery Appointment Date" THEN BEGIN
                 PurchaseHeader.VALIDATE("Exp. Delivery Appointment Date", WarehouseReceiptHeader."Exp. Delivery Appointment Date");
@@ -55,5 +52,16 @@ codeunit 14228835 "Event Subsciber"
         WhseRqst."Act. Delivery Appointment Date" := PurchHeader."Act. Delivery Appointment Date";
         WhseRqst."Act. Delivery Appointment Time" := PurchHeader."Act. Delivery Appointment Time";
         WhseRqst."Shipping Agent Code" := PurchHeader."Shipping Agent Code";
+    end;
+
+    [EventSubscriber(ObjectType::Report, 5753, 'OnBeforeWhseReceiptHeaderInsert', '', true, true)]
+    local procedure WhseReceiptHeaderInsert(var WarehouseReceiptHeader: Record "Warehouse Receipt Header"; WarehouseRequest: Record "Warehouse Request")
+    begin
+
+        WarehouseReceiptHeader."Shipping Agent Code ELA" := WarehouseRequest."Shipping Agent Code";
+        WarehouseReceiptHeader."Exp. Delivery Appointment Date" := WarehouseRequest."Exp. Delivery Appointment Date";
+        WarehouseReceiptHeader."Exp. Delivery Appointment Time" := WarehouseRequest."Exp. Delivery Appointment Time";
+        WarehouseReceiptHeader."Act. Delivery Appointment Date" := WarehouseRequest."Act. Delivery Appointment Date";
+        WarehouseReceiptHeader."Act. Delivery Appointment Time" := WarehouseRequest."Act. Delivery Appointment Time";
     end;
 }
