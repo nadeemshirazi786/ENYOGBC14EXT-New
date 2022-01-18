@@ -19,12 +19,29 @@ tableextension 14229617 "EN Purch. Inv. Line ELA" extends "Purch. Inv. Line"
             Caption = 'Purch. Order for Extra Charge';
             DataClassification = ToBeClassified;
         }
+        field(14229001; "List Cost ELA"; Decimal)
+        {
+            Caption = 'List Cost';
+        }
+        field(14229002; "Upcharge Amount ELA"; Decimal)
+        {
+            Caption = 'Upcharge Amount';
+        }
+        field(14229003; "Billback Amount ELA"; Decimal)
+        {
+            Caption = 'Billback Amount';
+        }
+        field(14229004; "Discount 1 Amount ELA"; Decimal)
+        {
+
+        }
         field(14229005; "Freight Amount ELA"; Decimal)
         {
             Caption = 'Freight Amount';
             DataClassification = ToBeClassified;
 
         }
+
     }
 
     procedure ShowExtraChargesELA()

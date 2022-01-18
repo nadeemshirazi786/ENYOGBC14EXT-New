@@ -13,5 +13,24 @@ pageextension 14229613 "Pstd. Purch. Inv. Subform" extends "Posted Purch. Invoic
                 ApplicationArea = All;
             }
         }
+        addafter("Line Discount %")
+        {
+            field("List Cost"; "List Cost ELA")
+            {
+
+            }
+            field("Upcharge Amount"; "Upcharge Amount ELA")
+            {
+
+            }
+            field("Billback Amount"; "Billback Amount ELA")
+            {
+
+            }
+            field("Freight Amount"; "Freight Amount ELA")
+            {
+
+            }
+        }
     }
 }

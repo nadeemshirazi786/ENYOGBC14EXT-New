@@ -37,19 +37,19 @@ pageextension 14229608 "EN Purchase Order" extends "Purchase Order"
             {
 
             }
-            field("Act. Delivery Appointment Date"; "Act. Delivery Appointment Date")
+            field("Actual Pickup/ Delivery Appointment Date:"; "Act. Delivery Appointment Date")
             {
 
             }
-            field("Act. Delivery Appointment Time"; "Act. Delivery Appointment Time")
+            field("Actual Pickup/ Delivery Appointment Time:"; "Act. Delivery Appointment Time")
             {
 
             }
-            field("Exp. Delivery Appointment Date"; "Exp. Delivery Appointment Date")
+            field("Expected Receipt Date:"; "Exp. Delivery Appointment Date")
             {
 
             }
-            field("Exp. Delivery Appointment Time"; "Exp. Delivery Appointment Time")
+            field("Expected Receipt Time:"; "Exp. Delivery Appointment Time")
             {
 
             }
