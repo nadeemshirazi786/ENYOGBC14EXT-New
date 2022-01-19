@@ -1,0 +1,13 @@
+tableextension 14229655 "Capacity Ledger Entry ELA" extends "Capacity Ledger Entry"
+{
+    fields
+    {
+        field(14229655; "Stop Time Entry ELA"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+    }
+    
+    var
+        myInt: Integer;
+}
