@@ -39,19 +39,19 @@ pageextension 14229608 "EN Purchase Order" extends "Purchase Order"
             }
             field("Actual Pickup/ Delivery Appointment Date:"; "Act. Delivery Appointment Date")
             {
-
+                Caption = 'Actual Pickup Delivery Appointment Date';
             }
             field("Actual Pickup/ Delivery Appointment Time:"; "Act. Delivery Appointment Time")
             {
-
+                Caption = 'Actual Pickup Delivery Appointment Time';
             }
             field("Expected Receipt Date:"; "Exp. Delivery Appointment Date")
             {
-
+                Caption = 'Expected Receipt Date:';
             }
             field("Expected Receipt Time:"; "Exp. Delivery Appointment Time")
             {
-
+                Caption = 'Expected Receipt Time:';
             }
             field("Ext Bill of Lading/Waybill No."; "Ext Bill of Lading/Waybill No.")
             {

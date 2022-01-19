@@ -116,6 +116,7 @@ tableextension 14229610 "EN Purchase Header ELA" extends "Purchase Header"
                 if Vend.Get("Buy-from Vendor No.") then begin
                     "Communication Group Code ELA" := Vend."Communication Group Code ELA";
                     "Shipping Instructions ELA" := Vend."Shipping Instructions ELA";
+                    "Shipping Agent Code" := Vend."Shipping Agent Code";
                 end;
             end;
         }
