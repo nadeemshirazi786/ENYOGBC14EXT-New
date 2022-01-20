@@ -1,22 +1,14 @@
 page 14229837 "PM Work Order Matrix"
 {
-    // Copyright Axentia Solutions Corp.  1999-2009.
-    // By opening this object you acknowledge that this object includes confidential information and intellectual
-    // property of Axentia Solutions Corp. and that this work is protected by Canadian, U.S. and international
-    // copyright laws and agreements.
-    // 
-    // JF.00007 - PM Work Order Generation
-    //   20050302 - Created Form
-
     DataCaptionFields = Type, "No.";
     PageType = List;
-    SourceTable = Table23019286;
+    SourceTable = "PM Work Order Matrix ELA";
 
     layout
     {
         area(content)
         {
-            repeater()
+            repeater(General)
             {
                 field(Type; Type)
                 {

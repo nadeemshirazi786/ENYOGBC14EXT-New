@@ -1,21 +1,16 @@
 page 14229823 "Fin. WO Resources"
 {
-    // Copyright Axentia Solutions Corp.  1999-2009.
-    // By opening this object you acknowledge that this object includes confidential information and intellectual
-    // property of Axentia Solutions Corp. and that this work is protected by Canadian, U.S. and international
-    // copyright laws and agreements.
-
     AutoSplitKey = true;
     DelayedInsert = true;
     Editable = false;
     PageType = List;
-    SourceTable = Table23019273;
+    SourceTable = "Fin. WO Resource ELA";
 
     layout
     {
         area(content)
         {
-            repeater()
+            repeater(General)
             {
                 field("PM Work Order No."; "PM Work Order No.")
                 {
@@ -71,9 +66,9 @@ page 14229823 "Fin. WO Resources"
                 action("Resource Ledger Entries")
                 {
                     Caption = 'Resource Ledger Entries';
-                    RunObject = Page 202;
-                    RunPageLink = Document No.=FIELD(PM Work Order No.);
-                    RunPageView = SORTING(Document No.,Posting Date);
+                    RunObject = Page "Resource Ledger Entries";
+                    RunPageLink = "Document No."=FIELD("PM Work Order No.");
+                    RunPageView = SORTING("Document No.","Posting Date");
                     ShortCutKey = 'Ctrl+F7';
                 }
             }

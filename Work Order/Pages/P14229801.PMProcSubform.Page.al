@@ -10,7 +10,7 @@ page 14229801 "PM Proc. Subform ELA"
     {
         area(content)
         {
-            repeater()
+            repeater(Lines)
             {
                 field("PM Step Code"; "PM Step Code")
                 {
@@ -142,7 +142,7 @@ page 14229801 "PM Proc. Subform ELA"
     [Scope('Internal')]
     procedure jmdoFormatValue()
     var
-        lrecPMProcLine: Record "23019251";
+        lrecPMProcLine: Record "PM Procedure Line ELA";
     begin
         "Decimal MinEditable" := "Value Type" = "Value Type"::Decimal;
         "Decimal MaxEditable" := "Value Type" = "Value Type"::Decimal;
@@ -176,8 +176,8 @@ page 14229801 "PM Proc. Subform ELA"
     [Scope('Internal')]
     procedure jmdoCodePropertyLookup(): Code[10]
     var
-        lfrmQMCodeValues: Page "23019256";
-        lrecQMCodeValue: Record "23019256";
+        lfrmQMCodeValues: Page "PM Measure Code Values";
+        lrecQMCodeValue: Record "PM Measure Code Value ELA";
     begin
         lrecQMCodeValue.SETRANGE("PM Measure Code", "PM Measure Code");
         lfrmQMCodeValues.SETTABLEVIEW(lrecQMCodeValue);

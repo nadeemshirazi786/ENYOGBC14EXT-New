@@ -1,20 +1,15 @@
 page 14229814 "WO Comments"
 {
-    // Copyright Axentia Solutions Corp.  1999-2009.
-    // By opening this object you acknowledge that this object includes confidential information and intellectual
-    // property of Axentia Solutions Corp. and that this work is protected by Canadian, U.S. and international
-    // copyright laws and agreements.
-
     AutoSplitKey = true;
     DelayedInsert = true;
     PageType = List;
-    SourceTable = Table23019264;
+    SourceTable = "WO Comment ELA";
 
     layout
     {
         area(content)
         {
-            repeater()
+            repeater(General)
             {
                 field("PM Work Order No."; "PM Work Order No.")
                 {

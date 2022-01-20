@@ -1,21 +1,13 @@
 page 14229842 "PM Cycle History"
 {
-    // Copyright Axentia Solutions Corp.  1999-2009.
-    // By opening this object you acknowledge that this object includes confidential information and intellectual
-    // property of Axentia Solutions Corp. and that this work is protected by Canadian, U.S. and international
-    // copyright laws and agreements.
-    // 
-    // CC17988DT
-    //   070912012 additional fields added as per form
-
     PageType = List;
-    SourceTable = Table23019295;
+    SourceTable = "PM Cycle History ELA";
 
     layout
     {
         area(content)
         {
-            repeater()
+            repeater(General)
             {
                 field(Type; Type)
                 {

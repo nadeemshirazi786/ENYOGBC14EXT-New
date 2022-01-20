@@ -8,13 +8,13 @@ page 14229809 "PM Fault Possibilities"
     AutoSplitKey = true;
     DelayedInsert = true;
     PageType = List;
-    SourceTable = Table23019259;
+    SourceTable = "PM Fault Possibilities ELA";
 
     layout
     {
         area(content)
         {
-            repeater()
+            repeater(General)
             {
                 field("PM Procedure Code"; "PM Procedure Code")
                 {

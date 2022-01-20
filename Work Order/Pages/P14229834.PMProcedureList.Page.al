@@ -1,26 +1,18 @@
 page 14229834 "PM Procedure List"
 {
-    // Copyright Axentia Solutions Corp.  1999-2009.
-    // By opening this object you acknowledge that this object includes confidential information and intellectual
-    // property of Axentia Solutions Corp. and that this work is protected by Canadian, U.S. and international
-    // copyright laws and agreements.
-    // 
-    // JF9163SHR 20100916 - Add new function jfGetSelectionFilter
-    // JF43786SHR 20141030 - set type on link to Calc. Methods action
-
     CardPageID = "PM Procedure ELA";
     DeleteAllowed = false;
     InsertAllowed = false;
     ModifyAllowed = false;
     PageType = List;
     SaveValues = true;
-    SourceTable = Table23019250;
+    SourceTable = "PM Procedure Header ELA";
 
     layout
     {
         area(content)
         {
-            repeater()
+            repeater(General)
             {
                 Editable = false;
                 field(Code; Code)
@@ -56,7 +48,7 @@ page 14229834 "PM Procedure List"
                 field("Version No."; "Version No.")
                 {
                 }
-                field(gcduPMVersionMgt.GetActiveVersion(Code);
+                field("Active Version";
                     gcduPMVersionMgt.GetActiveVersion(Code))
                 {
                     Caption = 'Active Version';
@@ -68,11 +60,11 @@ page 14229834 "PM Procedure List"
         }
         area(factboxes)
         {
-            part(; 23019293)
+            part("PM Sched. Statistics FactBox"; "PM Sched. Statistics FactBox")
             {
                 ShowFilter = false;
                 SubPageLink = Code = FIELD(Code),
-                              Version No.=FIELD(Version No.);
+                              "Version No."=FIELD("Version No.");
             }
         }
     }
@@ -88,10 +80,10 @@ page 14229834 "PM Procedure List"
                 {
                     Caption = 'Comments';
                     Image = ListPage;
-                    RunObject = Page 23019258;
-                    RunPageLink = PM Procedure Code=FIELD(Code),
-                                  Version No.=FIELD(Version No.),
-                                  PM Procedure Line No.=CONST(0);
+                    RunObject = Page "PM Proc. Comments";
+                    RunPageLink = "PM Procedure Code"=FIELD(Code),
+                                  "Version No."=FIELD("Version No."),
+                                  "PM Procedure Line No."=CONST(0);
                 }
                 action("<Action1101769017>")
                 {
@@ -100,8 +92,8 @@ page 14229834 "PM Procedure List"
                     Promoted = true;
                     PromotedCategory = Process;
                     PromotedIsBig = true;
-                    RunObject = Page 23019288;
-                                    RunPageLink = Field3=FIELD(Code);
+                    RunObject = Page "PM Work Order List";
+                                    RunPageLink = "PM Procedure Code"=FIELD(Code);
                 }
                 action("<Action1101769014>")
                 {
@@ -109,8 +101,8 @@ page 14229834 "PM Procedure List"
                     Image = Document;
                     Promoted = true;
                     PromotedCategory = Process;
-                    RunObject = Page 23019289;
-                                    RunPageLink = Field3=FIELD(Code);
+                    RunObject = Page "Fin. Work Order List";
+                                    RunPageLink = "PM Procedure Code"=FIELD(Code);
                 }
             }
         }
@@ -131,18 +123,16 @@ page 14229834 "PM Procedure List"
                         gcduPMVersionMgt.CreateNewVersion(Rec);
                     end;
                 }
-                separator()
-                {
-                }
+                
                 action("<Action1101769044>")
                 {
                     Caption = 'Calc. Methods';
                     Image = ListPage;
                     Promoted = true;
                     PromotedCategory = Process;
-                    RunObject = Page 23019277;
-                                    RunPageLink = PM Procedure Code=FIELD(Code),
-                                  Version No.=FIELD(Version No.),
+                    RunObject = Page "PM Calc. Methods";
+                                    RunPageLink = "PM Procedure Code"=FIELD(Code),
+                                  "Version No."=FIELD("Version No."),
                                   Type=FIELD(Type);
                 }
             }
@@ -161,7 +151,7 @@ page 14229834 "PM Procedure List"
                     begin
                         grecPMProcedure.SETRANGE(Code, Code);
                         grecPMProcedure.SETRANGE("Version No.", "Version No.");
-                        REPORT.RUN(REPORT :: Report23019250, TRUE, FALSE, grecPMProcedure);
+                        REPORT.RUN(REPORT :: "PM Procedure ELA", TRUE, FALSE, grecPMProcedure);
                     end;
                 }
                 action("<Action1102631003>")
@@ -184,9 +174,9 @@ page 14229834 "PM Procedure List"
     end;
 
     var
-        gcduPMVersionMgt: Codeunit "23019250";
+        gcduPMVersionMgt: Codeunit "PM Management ELA";
         gblnShowActiveOnly: Boolean;
-        grecPMProcedure: Record "23019250";
+        grecPMProcedure: Record "PM Procedure Header ELA";
 
     [Scope('Internal')]
     procedure MarkRecords()
@@ -210,7 +200,7 @@ page 14229834 "PM Procedure List"
     [Scope('Internal')]
     procedure jfGetSelectionFilter() SelectionFilter: Code[80]
     var
-        lrecPMProcedure: Record "23019250";
+        lrecPMProcedure: Record "PM Procedure Header ELA";
     begin
         //<JF9163SHR>
         CurrPage.SETSELECTIONFILTER(lrecPMProcedure);

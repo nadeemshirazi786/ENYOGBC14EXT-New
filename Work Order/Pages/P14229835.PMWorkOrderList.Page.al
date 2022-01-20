@@ -1,10 +1,5 @@
 page 14229835 "PM Work Order List"
 {
-    // Copyright Axentia Solutions Corp.  1999-2009.
-    // By opening this object you acknowledge that this object includes confidential information and intellectual
-    // property of Axentia Solutions Corp. and that this work is protected by Canadian, U.S. and international
-    // copyright laws and agreements.
-
     CardPageID = "Work Order";
     DeleteAllowed = false;
     Editable = false;
@@ -18,7 +13,7 @@ page 14229835 "PM Work Order List"
     {
         area(content)
         {
-            repeater()
+            repeater(General)
             {
                 field("PM Work Order No."; "PM Work Order No.")
                 {
@@ -34,7 +29,7 @@ page 14229835 "PM Work Order List"
                 field(Description; Description)
                 {
                 }
-                field(gcduPMVersionMgt.GetActiveVersion("PM Procedure Code");
+                field("Active Version";
                     gcduPMVersionMgt.GetActiveVersion("PM Procedure Code"))
                 {
                     Caption = 'Active Version';
@@ -67,12 +62,12 @@ page 14229835 "PM Work Order List"
         }
         area(factboxes)
         {
-            part(; 23019294)
+            part("PM Work Ord Statistics FactBox"; "PM Work Ord Statistics FactBox")
             {
                 ShowFilter = false;
-                SubPageLink = Field1 = FIELD (Field1),
-                              Field2 = FIELD (Field2),
-                              Field3 = FIELD (Field3);
+                SubPageLink = "PM Work Order No." = FIELD ("PM Work Order No."),
+                              "PM Proc. Version No." = FIELD ("PM Proc. Version No."),
+                              "PM Procedure Code" = FIELD("PM Procedure Code");
             }
         }
     }
@@ -88,9 +83,9 @@ page 14229835 "PM Work Order List"
                 {
                     Caption = 'Comments';
                     Image = ListPage;
-                    RunObject = Page 23019264;
-                    RunPageLink = PM Work Order No.=FIELD(Field1),
-                                  PM WO Line No.=CONST(0);
+                    RunObject = Page "WO Comments";
+                    RunPageLink = "PM Work Order No."=FIELD("PM Work Order No."),
+                                  "PM WO Line No."=CONST(0);
                 }
             }
         }
@@ -110,7 +105,7 @@ page 14229835 "PM Work Order List"
 
                     trigger OnAction()
                     var
-                        lcduPMWOPost: Codeunit "23019252";
+                        lcduPMWOPost: Codeunit "PM Work Order-Post";
                     begin
                         IF CONFIRM(JFText0001, TRUE) THEN
                           lcduPMWOPost.RUN(Rec);
@@ -151,8 +146,8 @@ page 14229835 "PM Work Order List"
                     Promoted = true;
                     PromotedCategory = Process;
                     PromotedIsBig = true;
-                    RunObject = Page 23019257;
-                                    RunPageLink = PM Work Order No.=FIELD(Field1);
+                    RunObject = Page "PM Work Order Wizard";
+                                    RunPageLink = "PM Work Order No."=FIELD("PM Work Order No.");
                 }
             }
             group("<Action1102631004>")
@@ -169,7 +164,7 @@ page 14229835 "PM Work Order List"
                     trigger OnAction()
                     begin
                         grecPMWOHeader.SETRANGE("PM Work Order No.", "PM Work Order No.");
-                        REPORT.RUN(REPORT :: Report23019251, TRUE, FALSE, grecPMWOHeader);
+                        REPORT.RUN(REPORT :: "PM Work Order Worksheet ELA", TRUE, FALSE, grecPMWOHeader);
                     end;
                 }
                 action("<Action1102631006>")
@@ -187,8 +182,8 @@ page 14229835 "PM Work Order List"
     }
 
     var
-        gcduPMVersionMgt: Codeunit "23019250";
+        gcduPMVersionMgt: Codeunit "PM Management ELA";
         JFText0001: Label 'Do you wish to post this PM Work Order?';
-        grecPMWOHeader: Record "23019260";
+        grecPMWOHeader: Record "Work Order Header ELA";
 }
 

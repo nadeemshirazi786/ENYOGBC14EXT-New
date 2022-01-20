@@ -1,10 +1,5 @@
 page 14229836 "Fin. Work Order List"
 {
-    // Copyright Axentia Solutions Corp.  1999-2009.
-    // By opening this object you acknowledge that this object includes confidential information and intellectual
-    // property of Axentia Solutions Corp. and that this work is protected by Canadian, U.S. and international
-    // copyright laws and agreements.
-
     CardPageID = "Finished Work Order";
     DeleteAllowed = false;
     Editable = false;
@@ -18,7 +13,7 @@ page 14229836 "Fin. Work Order List"
     {
         area(content)
         {
-            repeater()
+            repeater(General)
             {
                 Editable = false;
                 field("PM Work Order No."; "PM Work Order No.")
@@ -38,7 +33,7 @@ page 14229836 "Fin. Work Order List"
                 field(Description; Description)
                 {
                 }
-                field(gcduPMVersionMgt.GetActiveVersion("PM Procedure Code");
+                field("Active Version";
                     gcduPMVersionMgt.GetActiveVersion("PM Procedure Code"))
                 {
                     Caption = 'Active Version';
@@ -74,12 +69,12 @@ page 14229836 "Fin. Work Order List"
         }
         area(factboxes)
         {
-            part(; 23019296)
+            part("Fin. Work Ord Stat FactBox"; "Fin. Work Ord Stat FactBox")
             {
                 ShowFilter = false;
-                SubPageLink = Field1 = FIELD(Field1),
-                              Field2 = FIELD(Field2),
-                              Field3 = FIELD(Field3);
+                SubPageLink = "PM Work Order No." = FIELD("PM Work Order No."),
+                              "PM Proc. Version No." = FIELD("PM Proc. Version No."),
+                              "PM Procedure Code" = FIELD("PM Procedure Code");
             }
         }
     }
@@ -95,22 +90,20 @@ page 14229836 "Fin. Work Order List"
                 {
                     Caption = 'Comments';
                     Image = ListPage;
-                    RunObject = Page 23019274;
-                    RunPageLink = PM Work Order No.=FIELD(Field1),
-                                  PM WO Line No.=CONST(0);
+                    RunObject = Page "Fin. WO Comments";
+                    RunPageLink = "PM Work Order No."=FIELD("PM Work Order No."),
+                                  "PM WO Line No."=CONST(0);
                 }
-                separator()
-                {
-                }
+                
                 action("<Action1101769001>")
                 {
                     Caption = 'Item Ledger Entries';
                     Image = ItemLedger;
                     Promoted = true;
                     PromotedCategory = "Report";
-                    RunObject = Page 38;
-                                    RunPageLink = Document No.=FIELD(Field1);
-                    RunPageView = SORTING(Document No.,Posting Date);
+                    RunObject = Page "Item Ledger Entries";
+                                    RunPageLink = "Document No."=FIELD("PM Work Order No.");
+                    RunPageView = SORTING("Document No.","Posting Date");
                 }
                 action("<Action1101769056>")
                 {
@@ -118,9 +111,9 @@ page 14229836 "Fin. Work Order List"
                     Image = ResourceLedger;
                     Promoted = true;
                     PromotedCategory = "Report";
-                    RunObject = Page 202;
-                                    RunPageLink = Document No.=FIELD(Field1);
-                    RunPageView = SORTING(Document No.,Posting Date);
+                    RunObject = Page "Resource Ledger Entries";
+                                    RunPageLink = "Document No."=FIELD("PM Work Order No.");
+                    RunPageView = SORTING("Document No.","Posting Date");
                 }
             }
         }
@@ -140,7 +133,7 @@ page 14229836 "Fin. Work Order List"
                     trigger OnAction()
                     begin
                         grecPMWOHeader.SETRANGE("PM Work Order No.", "PM Work Order No.");
-                        REPORT.RUN(REPORT :: Report23019254, TRUE, FALSE, grecPMWOHeader);
+                        REPORT.RUN(REPORT :: "Suggest PM Work Orders ELA", TRUE, FALSE, grecPMWOHeader);
                     end;
                 }
                 action("<Action1102631006>")
@@ -158,7 +151,7 @@ page 14229836 "Fin. Work Order List"
     }
 
     var
-        gcduPMVersionMgt: Codeunit "23019250";
-        grecPMWOHeader: Record "23019270";
+        gcduPMVersionMgt: Codeunit "PM Management ELA";
+        grecPMWOHeader: Record "Finished WO Header ELA";
 }
 

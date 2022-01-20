@@ -1,25 +1,16 @@
 page 14229811 "Work Order Subform"
 {
-    // Copyright Axentia Solutions Corp.  1999-2011.
-    // By opening this object you acknowledge that this object includes confidential information and intellectual
-    // property of Axentia Solutions Corp. and that this work is protected by Canadian, U.S. and international
-    // copyright laws and agreements.
-    // 
-    // JF14148AC
-    //   20110822
-    //     remove "Employee Position Code" (legacy Serenic field/table)
-
     AutoSplitKey = true;
     Caption = 'Lines';
     DelayedInsert = true;
     PageType = ListPart;
-    SourceTable = Table23019261;
+    SourceTable = "Work Order Line ELA";
 
     layout
     {
         area(content)
         {
-            repeater()
+            repeater(Lines)
             {
                 field("PM Step Code"; "PM Step Code")
                 {
@@ -176,8 +167,8 @@ page 14229811 "Work Order Subform"
     [Scope('Internal')]
     procedure jmdoFormatValue()
     var
-        lrecPMWOLine: Record "23019261";
-        lrecPMProcLine: Record "23019251";
+        lrecPMWOLine: Record "Work Order Line ELA";
+        lrecPMProcLine: Record "PM Procedure Line ELA";
     begin
         "Decimal MinEditable" := "Value Type" = "Value Type"::Decimal;
         "Decimal MaxEditable" := "Value Type" = "Value Type"::Decimal;
@@ -237,8 +228,8 @@ page 14229811 "Work Order Subform"
     [Scope('Internal')]
     procedure jmdoCodePropertyLookup(): Code[10]
     var
-        lfrmQMCodeValues: Page "23019256";
-        lrecQMCodeValue: Record "23019256";
+        lfrmQMCodeValues: Page "PM Measure Code Values";
+        lrecQMCodeValue: Record "PM Measure Code Value ELA";
     begin
         lrecQMCodeValue.SETRANGE("PM Measure Code", "PM Measure Code");
         lfrmQMCodeValues.SETTABLEVIEW(lrecQMCodeValue);
@@ -254,8 +245,8 @@ page 14229811 "Work Order Subform"
     [Scope('Internal')]
     procedure jfdoPMWOResultsLookup(): Decimal
     var
-        lfrmPMWOLineResults: Page "23019266";
-        lrecPMWOLineResults: Record "23019266";
+        lfrmPMWOLineResults: Page "WO Line Results";
+        lrecPMWOLineResults: Record "WO Line Result ELA";
     begin
         EXIT(lrecPMWOLineResults.jfdoPMWOResultsLookup(Rec, TRUE));
     end;

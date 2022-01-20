@@ -282,10 +282,10 @@ codeunit 14229800 "PM Management ELA"
     end;
 
     [Scope('Internal')]
-    procedure CreatePMWOFromWksht(precPMPlanWksht: Record "23019267")
+    procedure CreatePMWOFromWksht(precPMPlanWksht: Record "PM Planning Worksheet ELA")
     var
-        lrecPMWO: Record "23019260";
-        lrecPMProcedure: Record "23019250";
+        lrecPMWO: Record "Work Order Header ELA";
+        lrecPMProcedure: Record "PM Procedure Header ELA";
     begin
         IF NOT CONFIRM(JFText0005, TRUE, precPMPlanWksht."Worksheet Batch Name") THEN
             EXIT;
@@ -331,7 +331,7 @@ codeunit 14229800 "PM Management ELA"
     [Scope('Internal')]
     procedure SuppressMessage(): Boolean
     var
-        lrecPMSetup: Record "23019254";
+        lrecPMSetup: Record "PM Setup ELA";
     begin
         IF gblnSuppressMessages THEN
             EXIT(TRUE);
@@ -339,19 +339,19 @@ codeunit 14229800 "PM Management ELA"
     end;
 
     [Scope('Internal')]
-    procedure CreateAbsence(precWorkOrder: Record "23019260")
+    procedure CreateAbsence(precWorkOrder: Record "Work Order Header ELA")
     var
-        lrecFA: Record "5600";
-        lrecMachCenter: Record "99000758";
-        lrecWorkCenter: Record "99000754";
-        lrecCalendarAbsEntry: Record "99000760";
+        lrecFA: Record "Fixed Asset";
+        lrecMachCenter: Record "Machine Center";
+        lrecWorkCenter: Record "Work Center";
+        lrecCalendarAbsEntry: Record "Calendar Absence Entry";
         ljfText000: Label 'A Calendar Absence is already recorded for %1 No. %2 at this date and time.\Do you want to overwrite it?';
-        lrecCalendarAbsEntry2: Record "99000760";
-        lrecCalEntry: Record "99000757";
+        lrecCalendarAbsEntry2: Record "Calendar Absence Entry";
+        lrecCalEntry: Record "Calendar Entry";
         lcodNoToUse: Code[20];
         ljfText001: Label 'PM Work Order %1';
-        lcduCalAbsenceMgt: Codeunit "99000759";
-        lcduCalMgmt: Codeunit "99000755";
+        lcduCalAbsenceMgt: Codeunit "Calendar Absence Management";
+        lcduCalMgmt: Codeunit CalendarManagement;
         lintTimeFactor: Integer;
         ltmeEndingTime: Time;
         lblnCreateEntryOverMidnight: Boolean;
@@ -489,10 +489,10 @@ codeunit 14229800 "PM Management ELA"
     end;
 
     [Scope('Internal')]
-    procedure DeleteAbsence(precWorkOrder: Record "23019260")
+    procedure DeleteAbsence(precWorkOrder: Record "Work Order Header ELA")
     var
-        lrecCalendarAbsEntry: Record "99000760";
-        lrecCalEntry: Record "99000757";
+        lrecCalendarAbsEntry: Record "Calendar Absence Entry";
+        lrecCalEntry: Record "Calendar Entry";
     begin
         IF precWorkOrder."PM Work Order No." = '' THEN
             EXIT;

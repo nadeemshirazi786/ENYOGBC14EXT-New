@@ -8,7 +8,7 @@ page 14229817 "PM Planning Worksheet"
     AutoSplitKey = true;
     DelayedInsert = true;
     PageType = Worksheet;
-    SourceTable = Table23019267;
+    SourceTable = "PM Planning Worksheet ELA";
 
     layout
     {
@@ -32,7 +32,7 @@ page 14229817 "PM Planning Worksheet"
                     gcodCurrBatchNameOnAfterValida;
                 end;
             }
-            repeater()
+            repeater(General)
             {
                 field("PM Procedure Code"; "PM Procedure Code")
                 {
@@ -103,7 +103,7 @@ page 14229817 "PM Planning Worksheet"
 
                     trigger OnAction()
                     begin
-                        REPORT.RUNMODAL(REPORT::Report23019253);
+                        REPORT.RUNMODAL(REPORT::"Suggest PM Work Orders ELA");
                         CurrPage.UPDATE;
                     end;
                 }
@@ -133,8 +133,8 @@ page 14229817 "PM Planning Worksheet"
     end;
 
     var
-        grecPMWkshtBatch: Record "23019268";
-        gcduPMMgt: Codeunit "23019250";
+        grecPMWkshtBatch: Record "PM Worksheet Batch ELA";
+        gcduPMMgt: Codeunit "PM Management ELA";
         gcodCurrBatchName: Code[10];
 
     local procedure gcodCurrBatchNameOnAfterValida()

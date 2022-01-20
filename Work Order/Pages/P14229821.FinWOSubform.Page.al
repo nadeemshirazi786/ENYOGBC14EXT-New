@@ -1,25 +1,16 @@
 page 14229821 "Fin. WO Subform"
 {
-    // Copyright Axentia Solutions Corp.  1999-2011.
-    // By opening this object you acknowledge that this object includes confidential information and intellectual
-    // property of Axentia Solutions Corp. and that this work is protected by Canadian, U.S. and international
-    // copyright laws and agreements.
-    // 
-    // JF14148AC
-    //   20110822
-    //     remove "Employee Position Code" (legacy Serenic field/table)
-
     AutoSplitKey = true;
     Caption = 'Lines';
     DelayedInsert = true;
     PageType = ListPart;
-    SourceTable = Table23019271;
+    SourceTable = "Finished WO Line ELA";
 
     layout
     {
         area(content)
         {
-            repeater()
+            repeater(Lines)
             {
                 field("PM Measure Code"; "PM Measure Code")
                 {
@@ -45,10 +36,10 @@ page 14229821 "Fin. WO Subform"
 
                     trigger OnAssistEdit()
                     begin
-                        IF "Value Type" = "Value Type"::"1" THEN BEGIN
+                        IF "Value Type" = "Value Type"::Code THEN BEGIN
                             jmdoCodePropertyLookup;
                         END;
-                        IF ("Value Type" = "Value Type"::"3") AND ("No. Results" > 1) THEN BEGIN
+                        IF ("Value Type" = "Value Type"::Decimal) AND ("No. Results" > 1) THEN BEGIN
                             jfdoResultLineLookup;
                         END;
                     end;
@@ -151,7 +142,7 @@ page 14229821 "Fin. WO Subform"
         "Decimal MaxEditable" := TRUE;
         DecimalRoundingPrecisionEditab := TRUE;
 
-        IF "Value Type" <> "Value Type"::"3" THEN BEGIN
+        IF "Value Type" <> "Value Type"::Decimal THEN BEGIN
             "Decimal MinEditable" := FALSE;
             "Decimal MaxEditable" := FALSE;
             DecimalRoundingPrecisionEditab := FALSE;
@@ -161,11 +152,11 @@ page 14229821 "Fin. WO Subform"
     [Scope('Internal')]
     procedure jmdoFormatValue()
     var
-        lrecPMWOLine: Record "23019271";
-        lrecPMProcLine: Record "23019251";
+        lrecPMWOLine: Record "Finished WO Line ELA";
+        lrecPMProcLine: Record "PM Procedure Line ELA";
     begin
-        "Decimal MinEditable" := "Value Type" = "Value Type"::"3";
-        "Decimal MaxEditable" := "Value Type" = "Value Type"::"3";
+        "Decimal MinEditable" := "Value Type" = "Value Type"::Decimal;
+        "Decimal MaxEditable" := "Value Type" = "Value Type"::Decimal;
 
         CLEAR(gvarValue);
         CLEAR(gvarDesiredValue);
@@ -175,17 +166,17 @@ page 14229821 "Fin. WO Subform"
 
         IF lrecPMWOLine.GET("PM Work Order No.", "Line No.") THEN BEGIN
             CASE "Value Type" OF
-                "Value Type"::"0":
+                "Value Type"::Boolean:
                     BEGIN
                         gtxtValue := FORMAT(lrecPMWOLine."Boolean Value");
                     END;
-                "Value Type"::"1":
+                "Value Type"::Code:
                     gtxtValue := lrecPMWOLine."Code Value";
-                "Value Type"::"2":
+                "Value Type"::Text:
                     gtxtValue := lrecPMWOLine."Text Value";
-                "Value Type"::"3":
+                "Value Type"::Decimal:
                     gtxtValue := FORMAT(lrecPMWOLine."Decimal Value");
-                "Value Type"::"4":
+                "Value Type"::Date:
                     BEGIN
                         gtxtValue := FORMAT(lrecPMWOLine."Date Value");
                     END;
@@ -196,17 +187,17 @@ page 14229821 "Fin. WO Subform"
         IF lrecPMProcLine.GET("PM Procedure Code", "PM Proc. Version No.", "Line No.") THEN BEGIN
             IF lrecPMProcLine."PM Measure Code" = "PM Measure Code" THEN BEGIN
                 CASE "Value Type" OF
-                    "Value Type"::"0":
+                    "Value Type"::Boolean:
                         BEGIN
                             gtxtDesiredValue := FORMAT(lrecPMProcLine."Boolean Value");
                         END;
-                    "Value Type"::"1":
+                    "Value Type"::Code:
                         gtxtDesiredValue := lrecPMProcLine."Code Value";
-                    "Value Type"::"2":
+                    "Value Type"::Text:
                         gtxtDesiredValue := lrecPMProcLine."Text Value";
-                    "Value Type"::"3":
+                    "Value Type"::Decimal:
                         gtxtDesiredValue := FORMAT(lrecPMProcLine."Decimal Value");
-                    "Value Type"::"4":
+                    "Value Type"::Date:
                         BEGIN
                             gtxtDesiredValue := FORMAT(lrecPMProcLine."Date Value");
                         END;
@@ -222,8 +213,8 @@ page 14229821 "Fin. WO Subform"
     [Scope('Internal')]
     procedure jmdoCodePropertyLookup(): Code[10]
     var
-        lfrmQMCodeValues: Page "23019256";
-        lrecQMCodeValue: Record "23019256";
+        lfrmQMCodeValues: Page "PM Measure Code Values";
+        lrecQMCodeValue: Record "PM Measure Code Value ELA";
     begin
         lrecQMCodeValue.SETRANGE("PM Measure Code", "PM Measure Code");
         lfrmQMCodeValues.SETTABLEVIEW(lrecQMCodeValue);
@@ -239,7 +230,7 @@ page 14229821 "Fin. WO Subform"
     [Scope('Internal')]
     procedure jfdoResultLineLookup()
     var
-        lrecFinPMWOLineResult: Record "23019276";
+        lrecFinPMWOLineResult: Record "Fin. WO Line Results ELA";
     begin
         lrecFinPMWOLineResult.jfdoPMWOResultsLookup(Rec, TRUE);
     end;

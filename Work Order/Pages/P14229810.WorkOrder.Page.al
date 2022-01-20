@@ -1,27 +1,7 @@
 page 14229810 "Work Order"
 {
-    // Copyright Axentia Solutions Corp.  1999-2009.
-    // By opening this object you acknowledge that this object includes confidential information and intellectual
-    // property of Axentia Solutions Corp. and that this work is protected by Canadian, U.S. and international
-    // copyright laws and agreements.
-    // 
-    // JF00081MG
-    //   20071030 - hide JF attachment functionality
-    // 
-    // JF00017AC
-    //   20080514
-    //     global codeunit variable for posting consumption was caching whse ledger entry;
-    //     was bonking on posting a 2nd document if anyone else posted whse in the system in the meantime
-    //     solution: use local variable for WO post instead
-    // 
-    // JF3883MG
-    //   20090702 - remove all JF attachment functionality (replaced by Links in v5.0)
-    // 
-    // JF11393SHR
-    //   20110117 - Add Posting Date
-
     PageType = Document;
-    SourceTable = Table23019260;
+    SourceTable = "Work Order Header ELA";
 
     layout
     {
@@ -96,8 +76,8 @@ page 14229810 "Work Order"
                     Editable = false;
                     Visible = false;
                 }
-                field(gcduPMVersionMgt.GetActiveVersion("PM Procedure Code");
-                    gcduPMVersionMgt.GetActiveVersion("PM Procedure Code"))
+                field("Active Version";
+                gcduPMVersionMgt.GetActiveVersion("PM Procedure Code"))
                 {
                     Caption = 'Active Version';
                     Editable = false;
@@ -122,9 +102,9 @@ page 14229810 "Work Order"
                 {
                 }
             }
-            part(; 23019261)
+            part(Lines; "Work Order Subform")
             {
-                SubPageLink = PM Work Order No.=FIELD(Field1);
+                SubPageLink = "PM Work Order No." = FIELD("PM Work Order No.");
             }
             group(Scheduling)
             {
@@ -156,12 +136,10 @@ page 14229810 "Work Order"
         }
         area(factboxes)
         {
-            part(; 23019294)
+            part("PM Work Ord Statistics FactBox"; "PM Work Ord Statistics FactBox")
             {
                 ShowFilter = false;
-                SubPageLink = Field1 = FIELD(Field1),
-                              Field2 = FIELD(Field2),
-                              Field3 = FIELD(Field3);
+                SubPageLink = "PM Work Order No." = FIELD("PM Work Order No."), "PM Proc. Version No." = FIELD("PM Proc. Version No."), "PM Procedure Code" = FIELD("PM Procedure Code");
             }
         }
     }
@@ -177,9 +155,8 @@ page 14229810 "Work Order"
                 {
                     Caption = 'Comments';
                     Image = ListPage;
-                    RunObject = Page 23019264;
-                    RunPageLink = PM Work Order No.=FIELD(Field1),
-                                  PM WO Line No.=CONST(0);
+                    RunObject = Page "WO Comments";
+                    RunPageLink = "PM Work Order No." = FIELD("PM Work Order No."), "PM WO Line No." = CONST(0);
                 }
             }
         }
@@ -199,10 +176,10 @@ page 14229810 "Work Order"
 
                     trigger OnAction()
                     var
-                        lcduPMWOPost: Codeunit "23019252";
+                        lcduPMWOPost: Codeunit "PM Work Order-Post";
                     begin
                         IF CONFIRM(JFText0001, TRUE) THEN
-                          lcduPMWOPost.RUN(Rec);
+                            lcduPMWOPost.RUN(Rec);
                     end;
                 }
             }
@@ -221,7 +198,7 @@ page 14229810 "Work Order"
                         DefaultPMProcedure;
                     end;
                 }
-                separator()
+                separator(Separator)
                 {
                 }
                 action("Create/Update Calendar Absence")
@@ -255,8 +232,8 @@ page 14229810 "Work Order"
                     Promoted = true;
                     PromotedCategory = Process;
                     PromotedIsBig = true;
-                    RunObject = Page 23019257;
-                                    RunPageLink = PM Work Order No.=FIELD(Field1);
+                    RunObject = Page "PM Work Order Wizard";
+                    RunPageLink = "PM Work Order No." = FIELD("PM Work Order No.");
                 }
             }
             group("&Print")
@@ -272,7 +249,7 @@ page 14229810 "Work Order"
                     trigger OnAction()
                     begin
                         grecPMWOHeader.SETRANGE("PM Work Order No.", "PM Work Order No.");
-                        REPORT.RUN(REPORT :: Report23019251, TRUE, FALSE, grecPMWOHeader);
+                        //REPORT.RUN(REPORT :: Report23019251, TRUE, FALSE, grecPMWOHeader);
                     end;
                 }
                 action("Report Selection(s)")
@@ -305,11 +282,11 @@ page 14229810 "Work Order"
     end;
 
     var
-        gcduPMVersionMgt: Codeunit "23019250";
-        grecPMWOHeader: Record "23019260";
+        gcduPMVersionMgt: Codeunit "PM Management ELA";
+        grecPMWOHeader: Record "Work Order Header ELA";
         JFText0001: Label 'Do you wish to post this PM Work Order?';
-        grecWorkCenter: Record "99000754";
-        grecMachineCenter: Record "99000758";
+        grecWorkCenter: Record "Work Center";
+        grecMachineCenter: Record "Machine Center";
 
     [Scope('Internal')]
     procedure jfdoSetEditable()
@@ -317,11 +294,11 @@ page 14229810 "Work Order"
         CLEAR(grecWorkCenter);
         CLEAR(grecMachineCenter);
 
-        IF Type = Type :: "2" THEN
-          IF grecWorkCenter.GET("No.") THEN;
-        IF Type = Type :: "1" THEN BEGIN
-          IF grecMachineCenter.GET("No.") THEN;
-          IF grecWorkCenter.GET(grecMachineCenter."Work Center No.") THEN;
+        IF Type = Type::"Work Center" THEN
+            IF grecWorkCenter.GET("No.") THEN;
+        IF Type = Type::"Machine Center" THEN BEGIN
+            IF grecMachineCenter.GET("No.") THEN;
+            IF grecWorkCenter.GET(grecMachineCenter."Work Center No.") THEN;
         END;
     end;
 }

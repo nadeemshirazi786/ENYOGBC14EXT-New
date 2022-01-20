@@ -9,7 +9,7 @@ page 14229807 "PM Work Order Wizard"
     DataCaptionExpression = jfSetFormCaption();
     DeleteAllowed = false;
     PageType = NavigatePage;
-    SourceTable = Table23019261;
+    SourceTable = "Work Order Line ELA";
 
     layout
     {
@@ -18,10 +18,9 @@ page 14229807 "PM Work Order Wizard"
             group(Step2)
             {
                 Visible = Step2Visible;
-                label()
+                label("Please fill in the values for the Quality Measure:")
                 {
-                    CaptionClass = FORMAT(Step2Description);
-                    MultiLine = true;
+                    
                 }
                 field("PM Measure Code"; "PM Measure Code")
                 {
@@ -102,28 +101,26 @@ page 14229807 "PM Work Order Wizard"
             group(Step1)
             {
                 Visible = Step1Visible;
-                label()
+                label("This wizard helps you to fill out the values in a Quality Audit.")
                 {
-                    CaptionClass = FORMAT(MasterDescription);
-                    MultiLine = true;
+                    
                 }
-                label()
+                label("What Work Order would you like to fill out?")
                 {
-                    CaptionClass = FORMAT(QuestionOne);
+                    
                 }
                 field(gcodPMWONo; gcodPMWONo)
                 {
                     Caption = 'Work Order No.';
-                    TableRelation = Table23019260;
+                    TableRelation = "Work Order Header ELA";
                 }
             }
             group(Step3)
             {
                 Visible = Step3Visible;
-                label()
+                label("The following fields are optional. If you want to complete the document attachment now, click Finish.")
                 {
-                    CaptionClass = FORMAT(Step3Description);
-                    MultiLine = true;
+                    
                 }
                 field(gblnPostWO; gblnPostWO)
                 {
@@ -304,8 +301,8 @@ page 14229807 "PM Work Order Wizard"
     end;
 
     var
-        grecPMWOHeader: Record "23019260";
-        gcduPostPMWO: Codeunit "23019252";
+        grecPMWOHeader: Record "Work Order Header ELA";
+        gcduPostPMWO: Codeunit "PM Work Order-Post";
         gcodPMWONo: Code[20];
         gvarValue: Variant;
         gvarDesiredValue: Variant;
@@ -383,8 +380,8 @@ page 14229807 "PM Work Order Wizard"
     [Scope('Internal')]
     procedure jfdoFormatValue()
     var
-        lrecPMWOLine: Record "23019261";
-        lrecPMSetupLine: Record "23019251";
+        lrecPMWOLine: Record "Work Order Line ELA";
+        lrecPMSetupLine: Record "PM Procedure Line ELA";
     begin
 
         CLEAR(gvarValue);
@@ -438,8 +435,8 @@ page 14229807 "PM Work Order Wizard"
     [Scope('Internal')]
     procedure jfdoCodePropertyLookup(): Code[10]
     var
-        lfrmQMCodeValues: Page "23019256";
-        lrecQMCodeValue: Record "23019256";
+        lfrmQMCodeValues: Page "PM Measure Code Values";
+        lrecQMCodeValue: Record "PM Measure Code Value ELA";
     begin
         lrecQMCodeValue.SETRANGE("PM Measure Code", "PM Measure Code");
         lfrmQMCodeValues.SETTABLEVIEW(lrecQMCodeValue);
@@ -455,8 +452,8 @@ page 14229807 "PM Work Order Wizard"
     [Scope('Internal')]
     procedure jfdoPMWOResultsLookup(): Decimal
     var
-        lfrmWOLineResults: Page "23019266";
-        lrecWOLineResults: Record "23019266";
+        lfrmWOLineResults: Page "WO Line Results";
+        lrecWOLineResults: Record "WO Line Result ELA";
     begin
         EXIT(lrecWOLineResults.jfdoPMWOResultsLookup(Rec, TRUE));
     end;
@@ -471,7 +468,7 @@ page 14229807 "PM Work Order Wizard"
     [Scope('Internal')]
     procedure jfSetFormCaption(): Text[260]
     var
-        lrecWOHeader: Record "23019260";
+        lrecWOHeader: Record "Work Order Header ELA";
         ltxtFormCaption: Text[50];
     begin
         IF lrecWOHeader.GET(gcodPMWONo) THEN BEGIN

@@ -1,23 +1,15 @@
 page 14229802 "PM Proc. Item Consumption ELA"
 {
-    // Copyright Axentia Solutions Corp.  1999-2009.
-    // By opening this object you acknowledge that this object includes confidential information and intellectual
-    // property of Axentia Solutions Corp. and that this work is protected by Canadian, U.S. and international
-    // copyright laws and agreements.
-    // 
-    // JF10366SHR
-    //   20101102 - Add Description and Description 2 to page
-
     AutoSplitKey = true;
     DelayedInsert = true;
     PageType = List;
-    SourceTable = Table23019252;
+    SourceTable = "PM Item Consumption ELA";
 
     layout
     {
         area(content)
         {
-            repeater()
+            repeater(General)
             {
                 field("PM Procedure Code"; "PM Procedure Code")
                 {

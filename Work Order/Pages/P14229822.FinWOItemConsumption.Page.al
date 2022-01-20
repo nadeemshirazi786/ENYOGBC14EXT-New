@@ -1,33 +1,16 @@
 page 14229822 "Fin. WO Item Consumption"
 {
-    // Copyright Axentia Solutions Corp.  1999-2009.
-    // By opening this object you acknowledge that this object includes confidential information and intellectual
-    // property of Axentia Solutions Corp. and that this work is protected by Canadian, U.S. and international
-    // copyright laws and agreements.
-    // 
-    // JF8566SHR
-    //   20100520 - Changed field order to look like open WO Item Consumption
-    //            - Changed filter on ILE menu
-    //            - Added fields:
-    //              "Purchase Order No."
-    //              "Purchase Receipt No."
-    //              "Purchase Receipt Line No."
-    //              "Applies-to Entry"
-    // 
-    // JF10366SHR
-    //   20101102 - Add Description and Description 2 to page
-
     AutoSplitKey = true;
     DelayedInsert = true;
     Editable = false;
     PageType = List;
-    SourceTable = Table23019272;
+    SourceTable = "Fin. WO Item Consumption ELA";
 
     layout
     {
         area(content)
         {
-            repeater()
+            repeater(General)
             {
                 field("PM Work Order No."; "PM Work Order No.")
                 {
@@ -105,9 +88,9 @@ page 14229822 "Fin. WO Item Consumption"
                 {
                     Caption = 'Item Ledger Entries';
                     Image = ItemLedger;
-                    RunObject = Page 38;
-                    RunPageLink = Document No.=FIELD(PM Work Order No.);
-                    RunPageView = SORTING(Document No.,Posting Date);
+                    RunObject = Page "Item Ledger Entries";
+                    RunPageLink = "Document No."=FIELD("PM Work Order No.");
+                    RunPageView = SORTING("Document No.","Posting Date");
                     ShortCutKey = 'Ctrl+F7';
                 }
             }

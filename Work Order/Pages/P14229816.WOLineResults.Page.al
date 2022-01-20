@@ -7,13 +7,13 @@ page 14229816 "WO Line Results"
 
     DelayedInsert = true;
     PageType = List;
-    SourceTable = Table23019266;
+    SourceTable = "WO Line Result ELA";
 
     layout
     {
         area(content)
         {
-            repeater()
+            repeater(General)
             {
                 field("PM Work Order No."; "PM Work Order No.")
                 {

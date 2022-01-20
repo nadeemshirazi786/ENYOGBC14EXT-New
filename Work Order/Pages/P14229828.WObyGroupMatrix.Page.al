@@ -1,24 +1,16 @@
 page 14229828 "WO by Group Matrix"
 {
-    // Copyright Axentia Solutions Corp.  1999-2010.
-    // By opening this object you acknowledge that this object includes confidential information and intellectual
-    // property of Axentia Solutions Corp. and that this work is protected by Canadian, U.S. and international
-    // copyright laws and agreements.
-    // 
-    // JF9163SHR
-    //   20100916 - New Matrix Page
-
     Caption = 'WO by Group Matrix';
     Editable = true;
     LinksAllowed = false;
     PageType = ListPart;
-    SourceTable = Table23019287;
+    SourceTable = "PM Group ELA";
 
     layout
     {
         area(content)
         {
-            repeater()
+            repeater(General)
             {
                 field(Code; Code)
                 {
@@ -227,11 +219,11 @@ page 14229828 "WO by Group Matrix"
     end;
 
     var
-        PeriodFormMgt: Codeunit "359";
+        PeriodFormMgt: Codeunit PeriodFormManagement;
         PeriodType: Option Day,Week,Month,Quarter,Year,"Accounting Period";
         QtyType: Option "Net Change","Balance at Date";
-        MatrixRecord: Record "2000000007";
-        MatrixRecords: array[32] of Record "2000000007";
+        MatrixRecord: Record Date;
+        MatrixRecords: array[32] of Record Date;
         MATRIX_NoOfMatrixColumns: Integer;
         MATRIX_CellData: array[32] of Decimal;
         MATRIX_ColumnCaption: array[32] of Text[1024];
@@ -296,7 +288,7 @@ page 14229828 "WO by Group Matrix"
     end;
 
     [Scope('Internal')]
-    procedure Load(PeriodType1: Option Day,Week,Month,Quarter,Year,"Accounting Period"; QtyType1: Option "Net Change","Balance at Date"; MatrixColumns1: array[32] of Text[1024]; var MatrixRecords1: array[32] of Record "2000000007"; NoOfMatrixColumns1: Integer; loptValueType1: Option "All PM WOs","Failed PM WOs","Complete PM WOs"; lcodPersonResp1: Code[20]; lcodPMProdCode1: Code[20]; loptPMType1: Option " ","Machine Center","Work Center","Fixed Asset")
+    procedure Load(PeriodType1: Option Day,Week,Month,Quarter,Year,"Accounting Period"; QtyType1: Option "Net Change","Balance at Date"; MatrixColumns1: array[32] of Text[1024]; var MatrixRecords1: array[32] of Record Date; NoOfMatrixColumns1: Integer; loptValueType1: Option "All PM WOs","Failed PM WOs","Complete PM WOs"; lcodPersonResp1: Code[20]; lcodPMProdCode1: Code[20]; loptPMType1: Option " ","Machine Center","Work Center","Fixed Asset")
     var
         i: Integer;
     begin
@@ -319,7 +311,7 @@ page 14229828 "WO by Group Matrix"
     [Scope('Internal')]
     procedure MatrixOnDrillDown(ColumnID: Integer)
     var
-        WOHeader: Record "23019260";
+        WOHeader: Record "Work Order Header ELA";
     begin
         SetDateFilter(ColumnID);
 

@@ -7,13 +7,13 @@ page 14229806 "PM Measure Code Values"
 
     DelayedInsert = true;
     PageType = List;
-    SourceTable = Table23019256;
+    SourceTable = "PM Measure Code Value ELA";
 
     layout
     {
         area(content)
         {
-            repeater()
+            repeater(General)
             {
                 field("PM Measure Code"; "PM Measure Code")
                 {

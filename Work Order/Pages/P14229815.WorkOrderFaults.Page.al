@@ -8,13 +8,13 @@ page 14229815 "Work Order Faults"
     AutoSplitKey = true;
     DelayedInsert = true;
     PageType = List;
-    SourceTable = Table23019265;
+    SourceTable = "Work Order Fault ELA";
 
     layout
     {
         area(content)
         {
-            repeater()
+            repeater(General)
             {
                 field("PM Work Order No."; "PM Work Order No.")
                 {

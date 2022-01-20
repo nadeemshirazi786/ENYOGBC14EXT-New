@@ -1,16 +1,9 @@
 page 14229841 "PM Work Ord Statistics FactBox"
 {
-    // Copyright Axentia Solutions Corp.  1999-2014.
-    // By opening this object you acknowledge that this object includes confidential information and intellectual
-    // property of Axentia Solutions Corp. and that this work is protected by Canadian, U.S. and international
-    // copyright laws and agreements.
-    // 
-    // JF43819SHR 20141106 - add stop time
-
     Caption = 'Statistics';
     Editable = false;
     PageType = CardPart;
-    SourceTable = Table23019260;
+    SourceTable = "Work Order Header ELA";
 
     layout
     {
@@ -43,7 +36,7 @@ page 14229841 "PM Work Ord Statistics FactBox"
             group(Cycles)
             {
                 Caption = 'Cycles';
-                field(Cycles; Cycles)
+                field(Current; Cycles)
                 {
                     Caption = 'Current';
                 }
@@ -52,7 +45,7 @@ page 14229841 "PM Work Ord Statistics FactBox"
                     Caption = 'As of Last Work Order';
                 }
             }
-            group()
+            group(Next)
             {
                 field(gdecPctToNextWorkOrder; gdecPctToNextWorkOrder)
                 {
@@ -88,10 +81,10 @@ page 14229841 "PM Work Ord Statistics FactBox"
     begin
         gdecPctToNextWorkOrder := 0;
 
-        IF ("PM Scheduling Type" = "PM Scheduling Type"::"1") AND ("Evaluation Qty." <> 0) THEN
+        IF ("PM Scheduling Type" = "PM Scheduling Type"::Cycles) AND ("Evaluation Qty." <> 0) THEN
             gdecPctToNextWorkOrder := ROUND((Cycles - "Cycles at Last Work Order") / "Evaluation Qty.") * 100;
 
-        IF ("PM Scheduling Type" = "PM Scheduling Type"::"0") AND ("Last Work Order Date" <> 0D) THEN BEGIN
+        IF ("PM Scheduling Type" = "PM Scheduling Type"::Calendar) AND ("Last Work Order Date" <> 0D) THEN BEGIN
             gdecNoDaysSinceLast := WORKDATE - CALCDATE("Work Order Freq.", "Last Work Order Date");
             gdecNoDaysInCycle := CALCDATE("Work Order Freq.", WORKDATE) - WORKDATE;
 

@@ -1,28 +1,13 @@
 codeunit 14229801 "PM Work Order-Post"
 {
-    // Copyright Axentia Solutions Corp.  1999-2009.
-    // By opening this object you acknowledge that this object includes confidential information and intellectual
-    // property of Axentia Solutions Corp. and that this work is protected by Canadian, U.S. and international
-    // copyright laws and agreements.
-    // 
-    // JF8566SHR
-    //   20100521 - Modified code in jfdoPostItemConsumption for Quantity (Base) calculation
-    //            - Modified code to handle dimensions
-    // 
-    // JF10414SHR
-    //   20101105 - Only create jnl lines for Item Consumption with a qty to consume
-    // 
-    // JF11568SHR
-    //   20110203 - Testfield on 'posting date' since it is now available in the form
-
-    Permissions = TableData 23019270 = imd,
-                  TableData 23019271 = imd,
-                  TableData 23019272 = imd,
-                  TableData 23019273 = imd,
-                  TableData 23019274 = imd,
-                  TableData 23019275 = imd,
-                  TableData 23019276 = imd;
-    TableNo = 23019260;
+    Permissions = TableData "Finished WO Header ELA" = imd,
+                  TableData "Finished WO Line ELA" = imd,
+                  TableData "Fin. WO Item Consumption ELA" = imd,
+                  TableData "Fin. WO Resource ELA" = imd,
+                  TableData "Fin. WO Comment ELA" = imd,
+                  TableData "Fin. Work Order Fault ELA" = imd,
+                  TableData "Fin. WO Line Results ELA" = imd;
+    TableNo = "Work Order Header ELA";
 
     trigger OnRun()
     begin
@@ -32,23 +17,23 @@ codeunit 14229801 "PM Work Order-Post"
     end;
 
     var
-        grecPMWOHeader: Record "23019260";
-        grecFinPMWOHeader: Record "23019270";
-        grecPMWOLine: Record "23019261";
-        grecFinPMWOLine: Record "23019271";
-        grecPMWOItemCons: Record "23019262";
-        grecFinPMWOItemCons: Record "23019272";
-        grecPMWOResource: Record "23019263";
-        grecFinPMWORes: Record "23019273";
-        grecPMWOComments: Record "23019264";
-        grecFinPMWOComments: Record "23019274";
-        grecItemJnlLine: Record "83";
-        grecPMWOFault: Record "23019265";
-        grecFinPMWOFault: Record "23019275";
-        grecPMWOLineResult: Record "23019266";
-        grecFinPMWOLineResult: Record "23019276";
-        gcduWMSMgmt: Codeunit "7302";
-        gcduWhseJnlPostLine: Codeunit "7301";
+        grecPMWOHeader: Record "Work Order Header ELA";
+        grecFinPMWOHeader: Record "Finished WO Header ELA";
+        grecPMWOLine: Record "Finished WO Line ELA";
+        grecFinPMWOLine: Record "Work Order Line ELA";
+        grecPMWOItemCons: Record "WO Item Consumption ELA";
+        grecFinPMWOItemCons: Record "Fin. WO Item Consumption ELA";
+        grecPMWOResource: Record "WO Resource ELA";
+        grecFinPMWORes: Record "Fin. WO Resource ELA";
+        grecPMWOComments: Record "WO Comment ELA";
+        grecFinPMWOComments: Record "Fin. WO Comment ELA";
+        grecItemJnlLine: Record "Item Journal Line";
+        grecPMWOFault: Record "Work Order Fault ELA";
+        grecFinPMWOFault: Record "Fin. Work Order Fault ELA";
+        grecPMWOLineResult: Record "WO Line Result ELA";
+        grecFinPMWOLineResult: Record "Fin. WO Line Results ELA";
+        gcduWMSMgmt: Codeunit "WMS Management";
+        gcduWhseJnlPostLine: Codeunit "Whse. Jnl.-Register Line";
 
     [Scope('Internal')]
     procedure "Code"()
@@ -169,16 +154,16 @@ codeunit 14229801 "PM Work Order-Post"
 
     end;
 
-    local procedure jfdoPostItemConsumption(precPMWOItemCons: Record "23019262"): Integer
+    local procedure jfdoPostItemConsumption(precPMWOItemCons: Record "WO Item Consumption ELA"): Integer
     var
-        lrecOriginalItemJnlLine: Record "83";
-        lrecItem: Record "27";
-        lrecItemUOM: Record "5404";
-        lcduDimMgt: Codeunit "408";
-        lcduItemJnlPostLine: Codeunit "22";
-        lrecLocation: Record "14";
-        lrecWhseJnlLine: Record "7311";
-        lrecILE: Record "32";
+        lrecOriginalItemJnlLine: Record "Item Journal Line";
+        lrecItem: Record Item;
+        lrecItemUOM: Record "Item Unit of Measure";
+        lcduDimMgt: Codeunit DimensionManagement;
+        lcduItemJnlPostLine: Codeunit "Item Jnl.-Post Line";
+        lrecLocation: Record Location;
+        lrecWhseJnlLine: Record "Warehouse Journal Line";
+        lrecILE: Record "Item Ledger Entry";
     begin
         lrecItem.GET(precPMWOItemCons."Item No.");
 
@@ -232,11 +217,11 @@ codeunit 14229801 "PM Work Order-Post"
     end;
 
     [Scope('Internal')]
-    procedure jfdoPostResConsumption(precPMWOResource: Record "23019263")
+    procedure jfdoPostResConsumption(precPMWOResource: Record "WO Resource ELA")
     var
-        lrecResJnlLine: Record "207";
-        lrecResource: Record "156";
-        lcduResJnlLinePost: Codeunit "212";
+        lrecResJnlLine: Record "Res. Journal Line";
+        lrecResource: Record Resource;
+        lcduResJnlLinePost: Codeunit "Res. Jnl.-Post Line";
     begin
         IF precPMWOResource.Type <> precPMWOResource.Type::Resource THEN
             EXIT;
@@ -263,10 +248,10 @@ codeunit 14229801 "PM Work Order-Post"
     [Scope('Internal')]
     procedure jfdoPostFAMaintEntry()
     var
-        lrecMachineCenter: Record "99000758";
-        lrecWorkCenter: Record "99000754";
-        lrecFixedAsset: Record "5600";
-        lrecFAJnlLine: Record "5621";
+        lrecMachineCenter: Record "Machine Center";
+        lrecWorkCenter: Record "Work Center";
+        lrecFixedAsset: Record "Fixed Asset";
+        lrecFAJnlLine: Record "FA Journal Line";
         lblnProcessFAMaint: Boolean;
     begin
 

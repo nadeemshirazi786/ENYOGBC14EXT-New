@@ -1,31 +1,15 @@
 page 14229812 "WO Item Consumption"
 {
-    // Copyright Axentia Solutions Corp.  1999-2009.
-    // By opening this object you acknowledge that this object includes confidential information and intellectual
-    // property of Axentia Solutions Corp. and that this work is protected by Canadian, U.S. and international
-    // copyright laws and agreements.
-    // 
-    // JF8566SHR
-    //   20100520 - Set "PM Work Order No." and "PM WO Line No." EDITABLE = No
-    //            - Added fields:
-    //              "Purchase Order No."
-    //              "Purchase Receipt No."
-    //              "Purchase Receipt Line No."
-    //              "Applies-to Entry"
-    // 
-    // JF10366SHR
-    //   20101102 - Add Description and Description 2 to page
-
     AutoSplitKey = true;
     DelayedInsert = true;
     PageType = List;
-    SourceTable = Table23019262;
+    SourceTable = "WO Item Consumption ELA";
 
     layout
     {
         area(content)
         {
-            repeater()
+            repeater(General)
             {
                 field("PM Work Order No."; "PM Work Order No.")
                 {
