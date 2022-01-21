@@ -22,7 +22,7 @@ table 14229831 "PM Work Order Matrix ELA"
             trigger OnValidate()
             var
                 lrecQualityProcedureSetup: Record "PM Procedure Header ELA";
-                lcduQualityManagement: Codeunit Codeunit23019250;
+                lcduQualityManagement: Codeunit "PM Management ELA";
                 lcodVersion: Code[10];
             begin
                 TestField("PM Procedure");

@@ -1,7 +1,7 @@
 table 14229835 "PM Cycle History ELA"
 {
-    DrillDownPageID = 23019295;
-    LookupPageID = 23019295;
+    DrillDownPageID = "PM Cycle History";
+    LookupPageID = "PM Cycle History";
 
     fields
     {

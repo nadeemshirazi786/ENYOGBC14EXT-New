@@ -1,7 +1,7 @@
 table 14229819 "Finished WO Line ELA"
 {
-    DrillDownPageID = 23019742;
-    LookupPageID = 23019742;
+    DrillDownPageID = "Fin. WO Subform";
+    LookupPageID = "Fin. WO Subform";
 
     fields
     {
@@ -186,7 +186,7 @@ table 14229819 "Finished WO Line ELA"
     var
         ltxtValue: Text[250];
         lrecPMMeasure: Record "PM Measure ELA";
-        lcduApplMgt: Codeunit Codeunit1;
+        lcduApplMgt: Codeunit TextManagement;
     begin
         case "Value Type" of
             "Value Type"::Boolean:

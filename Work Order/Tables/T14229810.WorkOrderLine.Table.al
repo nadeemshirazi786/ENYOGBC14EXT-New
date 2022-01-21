@@ -1,7 +1,7 @@
 table 14229810 "Work Order Line ELA"
 {
-    DrillDownPageID = 23019741;
-    LookupPageID = 23019741;
+    DrillDownPageID = "Work Order Subform";
+    LookupPageID = "Work Order Subform";
 
     fields
     {
@@ -279,7 +279,7 @@ table 14229810 "Work Order Line ELA"
     var
         ltxtValue: Text[250];
         lrecPMMeasure: Record "PM Measure ELA";
-        lcduApplMgt: Codeunit Codeunit1;
+        lcduApplMgt: Codeunit TextManagement;
     begin
         case "Value Type" of
             "Value Type"::Boolean:

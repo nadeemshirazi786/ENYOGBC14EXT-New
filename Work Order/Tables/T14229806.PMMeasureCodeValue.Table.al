@@ -1,7 +1,7 @@
 table 14229806 "PM Measure Code Value ELA"
 {
-    DrillDownPageID = 23019256;
-    LookupPageID = 23019256;
+    DrillDownPageID = "PM Measure Code Values";
+    LookupPageID = "PM Measure Code Values";
 
     fields
     {

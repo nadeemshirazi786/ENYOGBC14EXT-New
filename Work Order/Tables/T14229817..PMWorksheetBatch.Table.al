@@ -1,8 +1,8 @@
 table 14229817 "PM Worksheet Batch ELA"
 {
     Caption = 'PM Worksheet Batch';
-    DrillDownPageID = 23019268;
-    LookupPageID = 23019268;
+    DrillDownPageID = "PM Worksheet Batch";
+    LookupPageID = "PM Worksheet Batch";
 
     fields
     {

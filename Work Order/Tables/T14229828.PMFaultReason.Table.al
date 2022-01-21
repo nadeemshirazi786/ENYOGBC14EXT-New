@@ -1,7 +1,7 @@
 table 14229828 "PM Fault Reason ELA"
 {
-    DrillDownPageID = 23019282;
-    LookupPageID = 23019282;
+    DrillDownPageID = "PM Fault Reasons";
+    LookupPageID = "PM Fault Reasons";
 
     fields
     {

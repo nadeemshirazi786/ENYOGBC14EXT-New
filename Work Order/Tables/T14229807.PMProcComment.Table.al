@@ -1,7 +1,7 @@
 table 14229807 "PM Proc. Comment ELA"
 {
-    DrillDownPageID = 23019258;
-    LookupPageID = 23019258;
+    DrillDownPageID = "PM Proc. Comments";
+    LookupPageID = "PM Proc. Comments";
 
     fields
     {

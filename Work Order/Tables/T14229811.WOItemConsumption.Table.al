@@ -1,7 +1,7 @@
 table 14229811 "WO Item Consumption ELA"
 {
-    DrillDownPageID = 23019262;
-    LookupPageID = 23019262;
+    DrillDownPageID = "WO Item Consumption";
+    LookupPageID = "WO Item Consumption";
 
     fields
     {

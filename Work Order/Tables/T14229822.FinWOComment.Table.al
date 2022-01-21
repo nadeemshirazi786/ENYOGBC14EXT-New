@@ -1,7 +1,7 @@
 table 14229822 "Fin. WO Comment ELA"
 {
-    DrillDownPageID = 23019274;
-    LookupPageID = 23019274;
+    DrillDownPageID = "Fin. WO Comments";
+    LookupPageID = "Fin. WO Comments";
 
     fields
     {

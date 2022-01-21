@@ -1,7 +1,7 @@
 table 14229832 "PM Group ELA"
 {
-    DrillDownPageID = 23019291;
-    LookupPageID = 23019291;
+    DrillDownPageID = "PM Groups";
+    LookupPageID = "PM Groups";
 
     fields
     {
@@ -55,7 +55,7 @@ table 14229832 "PM Group ELA"
         field(106; "PM Procedure Filter"; Code[20])
         {
             FieldClass = FlowFilter;
-            TableRelation = Table23019200.Field1;
+            //TableRelation = Table23019200.Field1;
         }
         field(107; "PM Failure Filter"; Boolean)
         {

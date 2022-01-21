@@ -1,7 +1,7 @@
 table 14229800 "PM Procedure Header ELA"
 {
-    DrillDownPageID = 23019287;
-    LookupPageID = 23019287;
+    DrillDownPageID = "PM Procedure List";
+    LookupPageID = "PM Procedure List";
 
     fields
     {

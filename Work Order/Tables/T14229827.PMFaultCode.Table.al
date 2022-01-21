@@ -1,7 +1,7 @@
 table 14229827 "PM Fault Code ELA"
 {
-    DrillDownPageID = 23019281;
-    LookupPageID = 23019281;
+    DrillDownPageID = "PM Fault Codes";
+    LookupPageID = "PM Fault Codes";
 
     fields
     {

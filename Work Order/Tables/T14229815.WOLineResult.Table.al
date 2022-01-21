@@ -1,7 +1,7 @@
 table 14229815 "WO Line Result ELA"
 {
-    DrillDownPageID = 23019266;
-    LookupPageID = 23019266;
+    DrillDownPageID = "WO Line Results";
+    LookupPageID = "WO Line Results";
 
     fields
     {

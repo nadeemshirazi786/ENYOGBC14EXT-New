@@ -1,7 +1,7 @@
 table 14229818 "Finished WO Header ELA"
 {
-    DrillDownPageID = 23019289;
-    LookupPageID = 23019289;
+    DrillDownPageID = "Fin. Work Order List";
+    LookupPageID = "Fin. Work Order List";
 
     fields
     {
@@ -11,7 +11,7 @@ table 14229818 "Finished WO Header ELA"
         field(2; "PM Proc. Version No."; Code[10])
         {
             Editable = false;
-            TableRelation = "PM Procedure Header ELA"."Version No." WHERE (Code = FIELD ("PM Procedure Code"));
+            TableRelation = "PM Procedure Header ELA"."Version No." WHERE(Code = FIELD("PM Procedure Code"));
         }
         field(3; "PM Procedure Code"; Code[20])
         {
@@ -33,7 +33,7 @@ table 14229818 "Finished WO Header ELA"
         }
         field(14; "Last Work Order Date"; Date)
         {
-            CalcFormula = Max ("Finished WO Header ELA"."Work Order Date" WHERE ("PM Procedure Code" = FIELD ("PM Procedure Code")));
+            CalcFormula = Max("Finished WO Header ELA"."Work Order Date" WHERE("PM Procedure Code" = FIELD("PM Procedure Code")));
             Editable = false;
             FieldClass = FlowField;
         }
@@ -72,41 +72,41 @@ table 14229818 "Finished WO Header ELA"
         }
         field(50; "Contains Critical Control"; Boolean)
         {
-            CalcFormula = Exist ("Finished WO Line ELA" WHERE ("PM Work Order No." = FIELD ("PM Work Order No."),
-                                                          "Critical Control Point" = CONST (true)));
+            CalcFormula = Exist("Finished WO Line ELA" WHERE("PM Work Order No." = FIELD("PM Work Order No."),
+                                                          "Critical Control Point" = CONST(true)));
             Editable = false;
             FieldClass = FlowField;
         }
         field(51; Comments; Boolean)
         {
-            CalcFormula = Exist ("Fin. WO Comment ELA" WHERE ("PM Work Order No." = FIELD ("PM Work Order No."),
-                                                     "PM WO Line No." = CONST (0)));
+            CalcFormula = Exist("Fin. WO Comment ELA" WHERE("PM Work Order No." = FIELD("PM Work Order No."),
+                                                     "PM WO Line No." = CONST(0)));
             Editable = false;
             FieldClass = FlowField;
         }
         field(60; "Qty. Produced"; Decimal)
         {
-            CalcFormula = Sum ("Capacity Ledger Entry"."Output Quantity" WHERE (Type = FIELD ("Capacity Type Filter"),
-                                                                               "No." = FIELD ("No."),
-                                                                               "Posting Date" = FIELD ("Date Filter")));
+            CalcFormula = Sum("Capacity Ledger Entry"."Output Quantity" WHERE(Type = FIELD("Capacity Type Filter"),
+                                                                               "No." = FIELD("No."),
+                                                                               "Posting Date" = FIELD("Date Filter")));
             DecimalPlaces = 0 : 5;
             Editable = false;
             FieldClass = FlowField;
         }
         field(61; "Capacity Qty."; Decimal)
         {
-            CalcFormula = Sum ("Capacity Ledger Entry".Quantity WHERE (Type = FIELD ("Capacity Type Filter"),
-                                                                      "No." = FIELD ("No."),
-                                                                      "Posting Date" = FIELD ("Date Filter"),
-                                                                      "Stop Time Entry ELA" = CONST (false)));
+            CalcFormula = Sum("Capacity Ledger Entry".Quantity WHERE(Type = FIELD("Capacity Type Filter"),
+                                                                      "No." = FIELD("No."),
+                                                                      "Posting Date" = FIELD("Date Filter"),
+                                                                      "Stop Time Entry ELA" = CONST(false)));
             DecimalPlaces = 0 : 5;
             Editable = false;
             FieldClass = FlowField;
         }
         field(62; Cycles; Decimal)
         {
-            CalcFormula = Max ("PM Cycle History ELA".Cycles WHERE (Type = FIELD (Type),
-                                                          "No." = FIELD ("No.")));
+            CalcFormula = Max("PM Cycle History ELA".Cycles WHERE(Type = FIELD(Type),
+                                                          "No." = FIELD("No.")));
             Editable = false;
             FieldClass = FlowField;
         }
@@ -125,11 +125,11 @@ table 14229818 "Finished WO Header ELA"
         }
         field(101; "No."; Code[20])
         {
-            TableRelation = IF (Type = CONST ("Machine Center")) "Machine Center"
+            TableRelation = IF (Type = CONST("Machine Center")) "Machine Center"
             ELSE
-            IF (Type = CONST ("Work Center")) "Work Center"
+            IF (Type = CONST("Work Center")) "Work Center"
             ELSE
-            IF (Type = CONST ("Fixed Asset")) "Fixed Asset";
+            IF (Type = CONST("Fixed Asset")) "Fixed Asset";
         }
         field(102; "Evaluated At Qty."; Decimal)
         {
@@ -144,22 +144,22 @@ table 14229818 "Finished WO Header ELA"
         }
         field(200; "Maintenance Cost"; Decimal)
         {
-            CalcFormula = Sum ("Finished WO Line ELA"."PM Measure Cost" WHERE ("PM Work Order No." = FIELD ("PM Work Order No.")));
+            CalcFormula = Sum("Finished WO Line ELA"."PM Measure Cost" WHERE("PM Work Order No." = FIELD("PM Work Order No.")));
             Editable = false;
             FieldClass = FlowField;
         }
         field(201; "PM WO Failure"; Boolean)
         {
-            CalcFormula = Exist ("Finished WO Line ELA" WHERE ("PM Work Order No." = FIELD ("PM Work Order No."),
-                                                          "Critical Control Point" = CONST (true),
-                                                          Result = CONST (Fail)));
+            CalcFormula = Exist("Finished WO Line ELA" WHERE("PM Work Order No." = FIELD("PM Work Order No."),
+                                                          "Critical Control Point" = CONST(true),
+                                                          Result = CONST(Fail)));
             Editable = false;
             FieldClass = FlowField;
         }
         field(202; "Test Complete"; Boolean)
         {
-            CalcFormula = - Exist ("Finished WO Line ELA" WHERE ("PM Work Order No." = FIELD ("PM Work Order No."),
-                                                           "Test Complete" = CONST (false)));
+            CalcFormula = - Exist("Finished WO Line ELA" WHERE("PM Work Order No." = FIELD("PM Work Order No."),
+                                                           "Test Complete" = CONST(false)));
             Editable = false;
             FieldClass = FlowField;
         }
@@ -173,10 +173,10 @@ table 14229818 "Finished WO Header ELA"
         }
         field(300; "Stop Time"; Decimal)
         {
-            CalcFormula = Sum ("Capacity Ledger Entry".Quantity WHERE (Type = FIELD ("Capacity Type Filter"),
-                                                                      "No." = FIELD ("No."),
-                                                                      "Posting Date" = FIELD ("Date Filter"),
-                                                                      "Stop Time Entry ELA" = CONST (true)));
+            CalcFormula = Sum("Capacity Ledger Entry".Quantity WHERE(Type = FIELD("Capacity Type Filter"),
+                                                                      "No." = FIELD("No."),
+                                                                      "Posting Date" = FIELD("Date Filter"),
+                                                                      "Stop Time Entry ELA" = CONST(true)));
             DecimalPlaces = 0 : 5;
             Editable = false;
             FieldClass = FlowField;
@@ -214,7 +214,7 @@ table 14229818 "Finished WO Header ELA"
         gcduUOMMgt: Codeunit "Unit of Measure Management";
         JFText0002: Label 'A PM Procedure Header has already been defaulted for this PM Work Order.  Choosing another setup will reset the PM Work Order.  Do you wish to continue?';
         JFText0003: Label 'Would you like to create an audit from %1, %2 %3?';
-        gcduQualityVersionMgt: Codeunit Codeunit23019250;
+    //gcduQualityVersionMgt: Codeunit Codeunit23019250;
 
     [Scope('Internal')]
     procedure DeleteRelations()
@@ -234,7 +234,7 @@ table 14229818 "Finished WO Header ELA"
     var
         lrrfRecRef: RecordRef;
         lrecFinWO: Record "Finished WO Header ELA";
-        lrecReportSelection: Record Table23019041;
+        lrecReportSelection: Record "Report Selections";
     begin
         lrrfRecRef.GetTable(Rec);
         lrecReportSelection.SETRANGE("Table ID", lrrfRecRef.Number);

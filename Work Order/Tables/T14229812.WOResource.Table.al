@@ -1,7 +1,7 @@
 table 14229812 "WO Resource ELA"
 {
-    DrillDownPageID = 23019263;
-    LookupPageID = 23019263;
+    DrillDownPageID = "WO Resources";
+    LookupPageID = "WO Resources";
 
     fields
     {
@@ -11,7 +11,7 @@ table 14229812 "WO Resource ELA"
         }
         field(2; "PM Proc. Version No."; Code[10])
         {
-            TableRelation = "PM Procedure Header ELA"."Version No." WHERE (Code = FIELD ("PM Procedure Code"));
+            TableRelation = "PM Procedure Header ELA"."Version No." WHERE(Code = FIELD("PM Procedure Code"));
         }
         field(3; "PM WO Line No."; Integer)
         {
@@ -29,21 +29,19 @@ table 14229812 "WO Resource ELA"
         }
         field(11; "No."; Code[20])
         {
-            // TableRelation = IF (Type = CONST (Equipment)) Table23019207.Field1
-            // ELSE
-            // IF (Type = CONST ("Fixed Asset")) "Fixed Asset"."No."
-            // ELSE
-            // IF (Type = CONST (Resource)) Resource."No.";
+            TableRelation = IF (Type = CONST("Fixed Asset")) "Fixed Asset"."No."
+            ELSE
+            IF (Type = CONST(Resource)) Resource."No.";
 
             trigger OnValidate()
             begin
                 if "No." <> '' then begin
                     case Type of
-                        Type::Equipment:
-                            begin
-                                grecPMWOResource.GET("No.");
-                                Description := grecPMWOResource.Description;
-                            end;
+                        // Type::Equipment:
+                        //     begin
+                        //         grecPMWOResource.GET("No.");
+                        //         Description := grecPMWOResource.Description;
+                        //     end;
                         Type::"Fixed Asset":
                             begin
                                 grecFixedAsset.Get("No.");
@@ -125,7 +123,7 @@ table 14229812 "WO Resource ELA"
     end;
 
     var
-        grecPMWOResource: Record Table23019207;
+        //grecPMWOResource: Record Table23019207;
         grecFixedAsset: Record "Fixed Asset";
         grecResource: Record Resource;
 
