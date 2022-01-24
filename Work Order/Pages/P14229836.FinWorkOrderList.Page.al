@@ -136,16 +136,16 @@ page 14229836 "Fin. Work Order List"
                         REPORT.RUN(REPORT :: "Suggest PM Work Orders ELA", TRUE, FALSE, grecPMWOHeader);
                     end;
                 }
-                action("<Action1102631006>")
-                {
-                    Caption = 'Report Selection(s)';
-                    Image = SelectReport;
+                // action("<Action1102631006>")
+                // {
+                //     Caption = 'Report Selection(s)';
+                //     Image = SelectReport;
 
-                    trigger OnAction()
-                    begin
-                        jfdoPrintReportSelections;
-                    end;
-                }
+                //     trigger OnAction()
+                //     begin
+                //         jfdoPrintReportSelections;
+                //     end;
+                // }
             }
         }
     }

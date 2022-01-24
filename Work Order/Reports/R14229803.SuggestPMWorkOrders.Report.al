@@ -4,7 +4,7 @@ report 14229803 "Suggest PM Work Orders ELA"
 
     dataset
     {
-        dataitem("PM Procedure Header"; "PM Procedure Header")
+        dataitem("PM Procedure Header"; "PM Procedure Header ELA")
         {
             RequestFilterFields = "PM Group Code", "PM Scheduling Type", "Code";
 
@@ -211,7 +211,7 @@ report 14229803 "Suggest PM Work Orders ELA"
                     field(gcodPMPlanWksht; gcodPMPlanWksht)
                     {
                         Caption = 'Batch Name';
-                        TableRelation = "PM Worksheet Batch".Name;
+                        TableRelation = "PM Worksheet Batch ELA".Name;
                     }
                     field(gblnClearWksht; gblnClearWksht)
                     {
@@ -243,13 +243,13 @@ report 14229803 "Suggest PM Work Orders ELA"
     }
 
     var
-        grecPMPlanWksht: Record "PM Planning Worksheet";
-        grecPMSetup: Record "PM Procedure Header";
+        grecPMPlanWksht: Record "PM Planning Worksheet ELA";
+        grecPMSetup: Record "PM Procedure Header ELA";
         grecMachineCenter: Record "Machine Center";
         grecWorkCenter: Record "Work Center";
         grecFixedAsset: Record "Fixed Asset";
-        grecPMCalcMethod: Record "PM Calc. Methods";
-        gcduPMMgt: Codeunit Codeunit23019250;
+        grecPMCalcMethod: Record "PM Calc. Methods ELA";
+        gcduPMMgt: Codeunit "PM Management ELA";
         gdteStartDate: Date;
         gdteEndDate: Date;
         gdteWorkOrderDate: Date;

@@ -261,13 +261,13 @@ codeunit 14229801 "PM Work Order-Post"
             grecPMWOHeader.Type::"Machine Center":
                 BEGIN
                     lrecMachineCenter.GET(grecPMWOHeader."No.");
-                    IF lrecFixedAsset.GET(lrecMachineCenter."Fixed Asset No.") THEN
+                    IF lrecFixedAsset.GET(lrecMachineCenter."Fixed Asset No. ELA") THEN
                         lblnProcessFAMaint := TRUE;
                 END;
             grecPMWOHeader.Type::"Work Center":
                 BEGIN
                     lrecWorkCenter.GET(grecPMWOHeader."No.");
-                    IF lrecFixedAsset.GET(lrecWorkCenter."Fixed Asset No.") THEN
+                    IF lrecFixedAsset.GET(lrecWorkCenter."Fixed Asset No. ELA") THEN
                         lblnProcessFAMaint := TRUE;
                 END;
             grecPMWOHeader.Type::"Fixed Asset":

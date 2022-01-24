@@ -8,6 +8,4 @@ tableextension 14229655 "Capacity Ledger Entry ELA" extends "Capacity Ledger Ent
         }
     }
     
-    var
-        myInt: Integer;
 }

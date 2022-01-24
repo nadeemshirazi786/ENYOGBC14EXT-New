@@ -6,9 +6,9 @@ report 14229801 "PM Work Order Worksheet ELA"
 
     dataset
     {
-        dataitem(Table23019260; Table23019260)
+        dataitem("Work Order Header"; "Work Order Header ELA")
         {
-            RequestFilterFields = Field1, Field3, Field2, Field11, Field20, Field101, Field100;
+            RequestFilterFields = "PM Work Order No.", "PM Procedure Code", "PM Proc. Version No.", "PM Group Code", Type, "No.", "Work Order Date";
             column(Work_Order_Header_PM_Work_Order_No; "PM Work Order No.")
             {
             }
@@ -33,43 +33,43 @@ report 14229801 "PM Work Order Worksheet ELA"
                     column(FORMAT_TODAY_0_4_; Format(Today, 0, 4))
                     {
                     }
-                    column(WOH_Description; Table23019260.Description)
+                    column(WOH_Description; "Work Order Header".Description)
                     {
                     }
-                    column(WOH_PM_Proc_VersionActiveVersion; Table23019260."PM Proc. Version No." + '/' + gcodActiveVersion)
+                    column(WOH_PM_Proc_VersionActiveVersion; "Work Order Header"."PM Proc. Version No." + '/' + gcodActiveVersion)
                     {
                     }
-                    column(WOH_PM_Work_Order_No; Table23019260."PM Work Order No.")
+                    column(WOH_PM_Work_Order_No; "Work Order Header"."PM Work Order No.")
                     {
                     }
-                    column(WOH_Work_Order_Freq; Table23019260."Work Order Freq.")
+                    column(WOH_Work_Order_Freq; "Work Order Header"."Work Order Freq.")
                     {
                     }
-                    column(WOH_Last_Work_Order_Date; Table23019260."Last Work Order Date")
+                    column(WOH_Last_Work_Order_Date; "Work Order Header"."Last Work Order Date")
                     {
                     }
-                    column(WOH_Person_Responsible; Table23019260."Person Responsible")
+                    column(WOH_Person_Responsible; "Work Order Header"."Person Responsible")
                     {
                     }
-                    column(WOH_Maintenance_Time_WOH_UOM; Format(Table23019260."Maintenance Time") + ' ' + Table23019260."Maintenance UOM")
+                    column(WOH_Maintenance_Time_WOH_UOM; Format("Work Order Header"."Maintenance Time") + ' ' + "Work Order Header"."Maintenance UOM")
                     {
                     }
-                    column(WOH_PM_Group_Code; Table23019260."PM Group Code")
+                    column(WOH_PM_Group_Code; "Work Order Header"."PM Group Code")
                     {
                     }
-                    column(WOH_Name; Table23019260.Name)
+                    column(WOH_Name; "Work Order Header".Name)
                     {
                     }
-                    column(WOH_Serial_No; Table23019260."Serial No.")
+                    column(WOH_Serial_No; "Work Order Header"."Serial No.")
                     {
                     }
-                    column(WOH_WorkOrder_Date; Table23019260."Work Order Date")
+                    column(WOH_WorkOrder_Date; "Work Order Header"."Work Order Date")
                     {
                     }
-                    column(WOH_No; Table23019260."No.")
+                    column(WOH_No; "Work Order Header"."No.")
                     {
                     }
-                    column(WOH_Evaluated_At_Qty; Table23019260."Evaluated At Qty.")
+                    column(WOH_Evaluated_At_Qty; "Work Order Header"."Evaluated At Qty.")
                     {
                     }
                     column(PageLoop_Number; Number)
@@ -78,7 +78,7 @@ report 14229801 "PM Work Order Worksheet ELA"
                     column(Copy_No; CopyNo)
                     {
                     }
-                    dataitem(PMWOCommentsGeneral; "WO Comment")
+                    dataitem(PMWOCommentsGeneral; "WO Comment ELA")
                     {
                         DataItemTableView = SORTING("PM Work Order No.", "PM WO Line No.", "Line No.") WHERE("PM WO Line No." = CONST(0));
                         column(PMWOCommentsGeneral_Comments; Comments)
@@ -96,10 +96,10 @@ report 14229801 "PM Work Order Worksheet ELA"
 
                         trigger OnPreDataItem()
                         begin
-                            SetRange("PM Work Order No.", Table23019260."PM Work Order No.");
+                            SetRange("PM Work Order No.", "Work Order Header"."PM Work Order No.");
                         end;
                     }
-                    dataitem("Work Order Line"; "Work Order Line")
+                    dataitem("Work Order Line"; "Work Order Line ELA")
                     {
                         DataItemTableView = SORTING("PM Work Order No.", "Line No.");
                         column(WOL_PM_Measure_Code; "PM Measure Code")
@@ -129,7 +129,7 @@ report 14229801 "PM Work Order Worksheet ELA"
                         column(WOL__Line_No; "Line No.")
                         {
                         }
-                        dataitem("WO Line Result"; "WO Line Result")
+                        dataitem("WO Line Result"; "WO Line Result ELA")
                         {
                             DataItemLink = "PM Work Order No." = FIELD("PM Work Order No."), "PM WO Line No." = FIELD("Line No.");
                             DataItemTableView = SORTING("PM Work Order No.", "PM WO Line No.", "Result No.");
@@ -169,7 +169,7 @@ report 14229801 "PM Work Order Worksheet ELA"
                                     CurrReport.Break;
                             end;
                         }
-                        dataitem("WO Item Consumption"; "WO Item Consumption")
+                        dataitem("WO Item Consumption"; "WO Item Consumption ELA")
                         {
                             DataItemLink = "PM Work Order No." = FIELD("PM Work Order No."), "PM WO Line No." = FIELD("Line No.");
                             DataItemTableView = SORTING("PM Work Order No.", "PM WO Line No.", "Line No.");
@@ -201,7 +201,7 @@ report 14229801 "PM Work Order Worksheet ELA"
                                     CurrReport.Break;
                             end;
                         }
-                        dataitem("WO Resource"; "WO Resource")
+                        dataitem("WO Resource"; "WO Resource ELA")
                         {
                             DataItemLink = "PM Work Order No." = FIELD("PM Work Order No."), "PM WO Line No." = FIELD("Line No.");
                             DataItemTableView = SORTING("PM Work Order No.", "PM WO Line No.", "Line No.");
@@ -230,7 +230,7 @@ report 14229801 "PM Work Order Worksheet ELA"
                                     CurrReport.Break;
                             end;
                         }
-                        dataitem("WO Comment"; "WO Comment")
+                        dataitem("WO Comment"; "WO Comment ELA")
                         {
                             DataItemLink = "PM Work Order No." = FIELD("PM Work Order No."), "PM WO Line No." = FIELD("Line No.");
                             DataItemTableView = SORTING("PM Work Order No.", "PM WO Line No.", "Line No.");
@@ -279,7 +279,7 @@ report 14229801 "PM Work Order Worksheet ELA"
 
                         trigger OnPreDataItem()
                         begin
-                            SetRange("PM Work Order No.", Table23019260."PM Work Order No.");
+                            SetRange("PM Work Order No.", "Work Order Header"."PM Work Order No.");
                         end;
                     }
                 }
@@ -386,7 +386,7 @@ report 14229801 "PM Work Order Worksheet ELA"
     var
         gvarValue: Variant;
         gvarDesiredValue: Variant;
-        gcduQualityVersionMgt: Codeunit Codeunit23019250;
+        gcduQualityVersionMgt: Codeunit "PM Management ELA";
         gcodActiveVersion: Code[10];
         gcodPrintActiveVersion: Boolean;
         CopyTxt: Text[10];
@@ -422,8 +422,7 @@ report 14229801 "PM Work Order Worksheet ELA"
     [Scope('Internal')]
     procedure jfdoFormatValue()
     var
-        lrecPurchLineProp: Record Table23019016;
-        lrecPMProcLine: Record "PM Procedure Line";
+        lrecPMProcLine: Record "PM Procedure Line ELA";
     begin
         with "Work Order Line" do begin
             case "Value Type" of

@@ -181,14 +181,14 @@ table 14229809 "Work Order Header ELA"
                             begin
                                 grecMachCenter.Get("No.");
 
-                                "Serial No." := grecMachCenter."Serial No.";
+                                "Serial No." := grecMachCenter."Serial No. ELA";
                                 Name := grecMachCenter.Name;
                             end;
                         Type::"Work Center":
                             begin
                                 grecWorkCenter.Get("No.");
 
-                                "Serial No." := grecWorkCenter."Serial No.";
+                                "Serial No." := grecWorkCenter."Serial No. ELA";
                                 Name := grecWorkCenter.Name;
                             end;
                         Type::"Fixed Asset":
@@ -416,20 +416,20 @@ table 14229809 "Work Order Header ELA"
         end;
     end;
 
-    [Scope('Internal')]
-    procedure jfdoPrintReportSelections()
-    var
-        lrrfRecRef: RecordRef;
-        lrecWO: Record "Work Order Header ELA";
-        lrecReportSelection: Record Table23019041;
-    begin
-        lrrfRecRef.GetTable(Rec);
-        lrecReportSelection.SETRANGE("Table ID", lrrfRecRef.Number);
-        lrecReportSelection.SETFILTER("Report ID", '<>0');
-        lrecReportSelection.FINDSET;
-        lrecWO.SetRange("No.", "No.");
-        repeat
-            REPORT.RunModal(lrecReportSelection."Report ID", true, false, lrecWO);
-        until lrecReportSelection.NEXT = 0;
-    end;
+    // [Scope('Internal')]
+    // procedure jfdoPrintReportSelections()
+    // var
+    //     lrrfRecRef: RecordRef;
+    //     lrecWO: Record "Work Order Header ELA";
+    //     lrecReportSelection: Record Table23019041;
+    // begin
+    //     lrrfRecRef.GetTable(Rec);
+    //     lrecReportSelection.SETRANGE("Table ID", lrrfRecRef.Number);
+    //     lrecReportSelection.SETFILTER("Report ID", '<>0');
+    //     lrecReportSelection.FINDSET;
+    //     lrecWO.SetRange("No.", "No.");
+    //     repeat
+    //         REPORT.RunModal(lrecReportSelection."Report ID", true, false, lrecWO);
+    //     until lrecReportSelection.NEXT = 0;
+    // end;
 }

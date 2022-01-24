@@ -4,14 +4,14 @@ report 14229802 "Create PM Work Order ELA"
 
     dataset
     {
-        dataitem("PM Work Order Matrix"; "PM Work Order Matrix")
+        dataitem("PM Work Order Matrix"; "PM Work Order Matrix ELA")
         {
             DataItemTableView = SORTING (Type, "No.", "PM Procedure");
             RequestFilterFields = Type, "No.", "PM Procedure";
 
             trigger OnAfterGetRecord()
             var
-                lrecTMPQualityAuditHeader: Record Table23019260;
+                lrecTMPQualityAuditHeader: Record "Work Order Header ELA";
                 ldteNextAuditDate: Date;
             begin
                 //Update Dialog

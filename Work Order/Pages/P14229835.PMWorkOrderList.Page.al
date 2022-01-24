@@ -167,16 +167,16 @@ page 14229835 "PM Work Order List"
                         REPORT.RUN(REPORT :: "PM Work Order Worksheet ELA", TRUE, FALSE, grecPMWOHeader);
                     end;
                 }
-                action("<Action1102631006>")
-                {
-                    Caption = 'Report Selection(s)';
-                    Image = "Report";
+                // action("<Action1102631006>")
+                // {
+                //     Caption = 'Report Selection(s)';
+                //     Image = "Report";
 
-                    trigger OnAction()
-                    begin
-                        jfdoPrintReportSelections;
-                    end;
-                }
+                //     trigger OnAction()
+                //     begin
+                //         jfdoPrintReportSelections;
+                //     end;
+                // }
             }
         }
     }

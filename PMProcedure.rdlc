@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Report xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/reportdefinition">
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
@@ -11,348 +11,6 @@
       <rd:DataSourceID>940ea85c-a41f-47a6-8ca7-679d9593c912</rd:DataSourceID>
     </DataSource>
   </DataSources>
-  <DataSets>
-    <DataSet Name="DataSet_Result">
-      <Query>
-        <DataSourceName>DataSource</DataSourceName>
-        <CommandText />
-      </Query>
-      <Fields>
-        <Field Name="PM_Procedure_Header_Code">
-          <DataField>PM_Procedure_Header_Code</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Header_Version_No_">
-          <DataField>PM_Procedure_Header_Version_No_</DataField>
-        </Field>
-        <Field Name="gcodSubItem">
-          <DataField>gcodSubItem</DataField>
-        </Field>
-        <Field Name="CopyNo">
-          <DataField>CopyNo</DataField>
-        </Field>
-        <Field Name="USERID">
-          <DataField>USERID</DataField>
-        </Field>
-        <Field Name="CurrReport_PAGENO">
-          <DataField>CurrReport_PAGENO</DataField>
-        </Field>
-        <Field Name="FORMAT_TODAY_0_4_">
-          <DataField>FORMAT_TODAY_0_4_</DataField>
-        </Field>
-        <Field Name="COMPANYNAME">
-          <DataField>COMPANYNAME</DataField>
-        </Field>
-        <Field Name="CopyTxt">
-          <DataField>CopyTxt</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Header__Description">
-          <DataField>PM_Procedure_Header__Description</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Header___Version_No___________gcodActiveVersion">
-          <DataField>PM_Procedure_Header___Version_No___________gcodActiveVersion</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Header__Code">
-          <DataField>PM_Procedure_Header__Code</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Header__Status">
-          <DataField>PM_Procedure_Header__Status</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Header___Person_Responsible_">
-          <DataField>PM_Procedure_Header___Person_Responsible_</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Header___Work_Order_Freq__">
-          <DataField>PM_Procedure_Header___Work_Order_Freq__</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Header___Last_Work_Order_Date_">
-          <DataField>PM_Procedure_Header___Last_Work_Order_Date_</DataField>
-        </Field>
-        <Field Name="Starting_Date">
-          <DataField>Starting_Date</DataField>
-        </Field>
-        <Field Name="FORMAT__PM_Procedure_Header___Maintenance_Time____________PM_Procedure_Header___Maintenance_UOM_">
-          <DataField>FORMAT__PM_Procedure_Header___Maintenance_Time____________PM_Procedure_Header___Maintenance_UOM_</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Header___PM_Group_Code_">
-          <DataField>PM_Procedure_Header___PM_Group_Code_</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Header__Name">
-          <DataField>PM_Procedure_Header__Name</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Header___No__">
-          <DataField>PM_Procedure_Header___No__</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Header___Serial_No__">
-          <DataField>PM_Procedure_Header___Serial_No__</DataField>
-        </Field>
-        <Field Name="CurrReport_PAGENOCaption">
-          <DataField>CurrReport_PAGENOCaption</DataField>
-        </Field>
-        <Field Name="PM_ProcedureCaption">
-          <DataField>PM_ProcedureCaption</DataField>
-        </Field>
-        <Field Name="Version_No____Active_VersionCaption">
-          <DataField>Version_No____Active_VersionCaption</DataField>
-        </Field>
-        <Field Name="StatusCaption">
-          <DataField>StatusCaption</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Header___Work_Order_Freq__Caption">
-          <DataField>PM_Procedure_Header___Work_Order_Freq__Caption</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Header___Last_Work_Order_Date_Caption">
-          <DataField>PM_Procedure_Header___Last_Work_Order_Date_Caption</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Header___Person_Responsible_Caption">
-          <DataField>PM_Procedure_Header___Person_Responsible_Caption</DataField>
-        </Field>
-        <Field Name="FORMAT__PM_Procedure_Header___Maintenance_Time____________PM_Procedure_Header___Maintenance_UOM_Caption">
-          <DataField>FORMAT__PM_Procedure_Header___Maintenance_Time____________PM_Procedure_Header___Maintenance_UOM_Caption</DataField>
-        </Field>
-        <Field Name="Starting_DateCaption">
-          <DataField>Starting_DateCaption</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Header___PM_Group_Code_Caption">
-          <DataField>PM_Procedure_Header___PM_Group_Code_Caption</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Header__NameCaption">
-          <DataField>PM_Procedure_Header__NameCaption</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Header___No__Caption">
-          <DataField>PM_Procedure_Header___No__Caption</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Header___Serial_No__Caption">
-          <DataField>PM_Procedure_Header___Serial_No__Caption</DataField>
-        </Field>
-        <Field Name="PageLoop_Number">
-          <DataField>PageLoop_Number</DataField>
-        </Field>
-        <Field Name="PMWOCommentsGeneral_Comments">
-          <DataField>PMWOCommentsGeneral_Comments</DataField>
-        </Field>
-        <Field Name="General_Comments_Caption">
-          <DataField>General_Comments_Caption</DataField>
-        </Field>
-        <Field Name="PMWOCommentsGeneral_PM_Procedure_Code">
-          <DataField>PMWOCommentsGeneral_PM_Procedure_Code</DataField>
-        </Field>
-        <Field Name="PMWOCommentsGeneral_Version_No_">
-          <DataField>PMWOCommentsGeneral_Version_No_</DataField>
-        </Field>
-        <Field Name="PMWOCommentsGeneral_PM_Procedure_Line_No_">
-          <DataField>PMWOCommentsGeneral_PM_Procedure_Line_No_</DataField>
-        </Field>
-        <Field Name="PMWOCommentsGeneral_Line_No_">
-          <DataField>PMWOCommentsGeneral_Line_No_</DataField>
-        </Field>
-        <Field Name="gintCommentRowNumber">
-          <DataField>gintCommentRowNumber</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Line__PM_Measure_Code_">
-          <DataField>PM_Procedure_Line__PM_Measure_Code_</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Line__PM_Unit_of_Measure_">
-          <DataField>PM_Procedure_Line__PM_Unit_of_Measure_</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Line__Value_Type_">
-          <DataField>PM_Procedure_Line__Value_Type_</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Line__Qualification_Code_">
-          <DataField>PM_Procedure_Line__Qualification_Code_</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Line__Employee_No__">
-          <DataField>PM_Procedure_Line__Employee_No__</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Line__PM_Measure_Cost_">
-          <DataField>PM_Procedure_Line__PM_Measure_Cost_</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Line__PM_Measure_Cost_Format">
-          <DataField>PM_Procedure_Line__PM_Measure_Cost_Format</DataField>
-        </Field>
-        <Field Name="gvarValue">
-          <DataField>gvarValue</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Line_Description">
-          <DataField>PM_Procedure_Line_Description</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Line__Decimal_Min_">
-          <DataField>PM_Procedure_Line__Decimal_Min_</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Line__Decimal_Min_Format">
-          <DataField>PM_Procedure_Line__Decimal_Min_Format</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Line__Decimal_Max_">
-          <DataField>PM_Procedure_Line__Decimal_Max_</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Line__Decimal_Max_Format">
-          <DataField>PM_Procedure_Line__Decimal_Max_Format</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Line__PM_Measure_Code_Caption">
-          <DataField>PM_Procedure_Line__PM_Measure_Code_Caption</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Line__PM_Unit_of_Measure_Caption">
-          <DataField>PM_Procedure_Line__PM_Unit_of_Measure_Caption</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Line__Value_Type_Caption">
-          <DataField>PM_Procedure_Line__Value_Type_Caption</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Line__Qualification_Code_Caption">
-          <DataField>PM_Procedure_Line__Qualification_Code_Caption</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Line__Employee_No__Caption">
-          <DataField>PM_Procedure_Line__Employee_No__Caption</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Line__PM_Measure_Cost_Caption">
-          <DataField>PM_Procedure_Line__PM_Measure_Cost_Caption</DataField>
-        </Field>
-        <Field Name="gvarValueCaption">
-          <DataField>gvarValueCaption</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Line_DescriptionCaption">
-          <DataField>PM_Procedure_Line_DescriptionCaption</DataField>
-        </Field>
-        <Field Name="MinCaption">
-          <DataField>MinCaption</DataField>
-        </Field>
-        <Field Name="MaxCaption">
-          <DataField>MaxCaption</DataField>
-        </Field>
-        <Field Name="Completed_ByCaption">
-          <DataField>Completed_ByCaption</DataField>
-        </Field>
-        <Field Name="SupervisorCaption">
-          <DataField>SupervisorCaption</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Line_PM_Procedure_Code">
-          <DataField>PM_Procedure_Line_PM_Procedure_Code</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Line_Version_No_">
-          <DataField>PM_Procedure_Line_Version_No_</DataField>
-        </Field>
-        <Field Name="PM_Procedure_Line_Line_No_">
-          <DataField>PM_Procedure_Line_Line_No_</DataField>
-        </Field>
-        <Field Name="gcodSubItemDetail">
-          <DataField>gcodSubItemDetail</DataField>
-        </Field>
-        <Field Name="gintProcedureLineRowNumber">
-          <DataField>gintProcedureLineRowNumber</DataField>
-        </Field>
-        <Field Name="LineHeader_Number">
-          <DataField>LineHeader_Number</DataField>
-        </Field>
-        <Field Name="PM_Item_Consumption__Item_No__">
-          <DataField>PM_Item_Consumption__Item_No__</DataField>
-        </Field>
-        <Field Name="PM_Item_Consumption__Unit_of_Measure_">
-          <DataField>PM_Item_Consumption__Unit_of_Measure_</DataField>
-        </Field>
-        <Field Name="PM_Item_Consumption__Quantity_Installed_">
-          <DataField>PM_Item_Consumption__Quantity_Installed_</DataField>
-        </Field>
-        <Field Name="PM_Item_Consumption__Quantity_Installed_Format">
-          <DataField>PM_Item_Consumption__Quantity_Installed_Format</DataField>
-        </Field>
-        <Field Name="PM_Item_Consumption_Description">
-          <DataField>PM_Item_Consumption_Description</DataField>
-        </Field>
-        <Field Name="PM_Item_Consumption__Quantity_Installed_Caption">
-          <DataField>PM_Item_Consumption__Quantity_Installed_Caption</DataField>
-        </Field>
-        <Field Name="PM_Item_Consumption__Unit_of_Measure_Caption">
-          <DataField>PM_Item_Consumption__Unit_of_Measure_Caption</DataField>
-        </Field>
-        <Field Name="PM_Item_Consumption__Item_No__Caption">
-          <DataField>PM_Item_Consumption__Item_No__Caption</DataField>
-        </Field>
-        <Field Name="Inventory_Items_ConsumedCaption">
-          <DataField>Inventory_Items_ConsumedCaption</DataField>
-        </Field>
-        <Field Name="PM_Item_Consumption_DescriptionCaption">
-          <DataField>PM_Item_Consumption_DescriptionCaption</DataField>
-        </Field>
-        <Field Name="PM_Item_Consumption_PM_Procedure_Code">
-          <DataField>PM_Item_Consumption_PM_Procedure_Code</DataField>
-        </Field>
-        <Field Name="PM_Item_Consumption_Version_No_">
-          <DataField>PM_Item_Consumption_Version_No_</DataField>
-        </Field>
-        <Field Name="PM_Item_Consumption_PM_Procedure_Line_No_">
-          <DataField>PM_Item_Consumption_PM_Procedure_Line_No_</DataField>
-        </Field>
-        <Field Name="PM_Item_Consumption_Line_No_">
-          <DataField>PM_Item_Consumption_Line_No_</DataField>
-        </Field>
-        <Field Name="gintItemConsumptionRowNumber">
-          <DataField>gintItemConsumptionRowNumber</DataField>
-        </Field>
-        <Field Name="PM_Resource_Description">
-          <DataField>PM_Resource_Description</DataField>
-        </Field>
-        <Field Name="PM_Resource__No__">
-          <DataField>PM_Resource__No__</DataField>
-        </Field>
-        <Field Name="PM_Resource_Type">
-          <DataField>PM_Resource_Type</DataField>
-        </Field>
-        <Field Name="PM_Resource_DescriptionCaption">
-          <DataField>PM_Resource_DescriptionCaption</DataField>
-        </Field>
-        <Field Name="PM_Resource__No__Caption">
-          <DataField>PM_Resource__No__Caption</DataField>
-        </Field>
-        <Field Name="PM_Resource_TypeCaption">
-          <DataField>PM_Resource_TypeCaption</DataField>
-        </Field>
-        <Field Name="Equipment_RequiredCaption">
-          <DataField>Equipment_RequiredCaption</DataField>
-        </Field>
-        <Field Name="PM_Resource_PM_Procedure_Code">
-          <DataField>PM_Resource_PM_Procedure_Code</DataField>
-        </Field>
-        <Field Name="PM_Resource_Version_No_">
-          <DataField>PM_Resource_Version_No_</DataField>
-        </Field>
-        <Field Name="PM_Resource_PM_Procedure_Line_No_">
-          <DataField>PM_Resource_PM_Procedure_Line_No_</DataField>
-        </Field>
-        <Field Name="PM_Resource_Line_No_">
-          <DataField>PM_Resource_Line_No_</DataField>
-        </Field>
-        <Field Name="gintResourceRowNumber">
-          <DataField>gintResourceRowNumber</DataField>
-        </Field>
-        <Field Name="PM_Proc__Comment_Comments">
-          <DataField>PM_Proc__Comment_Comments</DataField>
-        </Field>
-        <Field Name="Procedure_Line_CommentsCaption">
-          <DataField>Procedure_Line_CommentsCaption</DataField>
-        </Field>
-        <Field Name="PM_Proc__Comment_PM_Procedure_Code">
-          <DataField>PM_Proc__Comment_PM_Procedure_Code</DataField>
-        </Field>
-        <Field Name="PM_Proc__Comment_Version_No_">
-          <DataField>PM_Proc__Comment_Version_No_</DataField>
-        </Field>
-        <Field Name="PM_Proc__Comment_PM_Procedure_Line_No_">
-          <DataField>PM_Proc__Comment_PM_Procedure_Line_No_</DataField>
-        </Field>
-        <Field Name="PM_Proc__Comment_Line_No_">
-          <DataField>PM_Proc__Comment_Line_No_</DataField>
-        </Field>
-        <Field Name="gintProcCommentRowNumber">
-          <DataField>gintProcCommentRowNumber</DataField>
-        </Field>
-        <Field Name="LineFooter_Number">
-          <DataField>LineFooter_Number</DataField>
-        </Field>
-      </Fields>
-      <rd:DataSetInfo>
-        <rd:DataSetName>DataSet</rd:DataSetName>
-        <rd:SchemaPath>Report.xsd</rd:SchemaPath>
-        <rd:TableName>Result</rd:TableName>
-      </rd:DataSetInfo>
-    </DataSet>
-  </DataSets>
   <ReportSections>
     <ReportSection>
       <Body>
@@ -8317,4 +7975,341 @@ End Function</Code>
   <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
   <rd:ReportUnitType>Cm</rd:ReportUnitType>
   <rd:ReportID>accf3b4e-dd89-4c74-9516-7a569be743a1</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="PM_Procedure_Header_Code">
+          <DataField>PM_Procedure_Header_Code</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Header_Version_No_">
+          <DataField>PM_Procedure_Header_Version_No_</DataField>
+        </Field>
+        <Field Name="gcodSubItem">
+          <DataField>gcodSubItem</DataField>
+        </Field>
+        <Field Name="CopyNo">
+          <DataField>CopyNo</DataField>
+        </Field>
+        <Field Name="USERID">
+          <DataField>USERID</DataField>
+        </Field>
+        <Field Name="CurrReport_PAGENO">
+          <DataField>CurrReport_PAGENO</DataField>
+        </Field>
+        <Field Name="FORMAT_TODAY_0_4_">
+          <DataField>FORMAT_TODAY_0_4_</DataField>
+        </Field>
+        <Field Name="COMPANYNAME">
+          <DataField>COMPANYNAME</DataField>
+        </Field>
+        <Field Name="CopyTxt">
+          <DataField>CopyTxt</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Header__Description">
+          <DataField>PM_Procedure_Header__Description</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Header___Version_No___________gcodActiveVersion">
+          <DataField>PM_Procedure_Header___Version_No___________gcodActiveVersion</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Header__Code">
+          <DataField>PM_Procedure_Header__Code</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Header__Status">
+          <DataField>PM_Procedure_Header__Status</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Header___Person_Responsible_">
+          <DataField>PM_Procedure_Header___Person_Responsible_</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Header___Work_Order_Freq__">
+          <DataField>PM_Procedure_Header___Work_Order_Freq__</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Header___Last_Work_Order_Date_">
+          <DataField>PM_Procedure_Header___Last_Work_Order_Date_</DataField>
+        </Field>
+        <Field Name="Starting_Date">
+          <DataField>Starting_Date</DataField>
+        </Field>
+        <Field Name="FORMAT__PM_Procedure_Header___Maintenance_Time____________PM_Procedure_Header___Maintenance_UOM_">
+          <DataField>FORMAT__PM_Procedure_Header___Maintenance_Time____________PM_Procedure_Header___Maintenance_UOM_</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Header___PM_Group_Code_">
+          <DataField>PM_Procedure_Header___PM_Group_Code_</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Header__Name">
+          <DataField>PM_Procedure_Header__Name</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Header___No__">
+          <DataField>PM_Procedure_Header___No__</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Header___Serial_No__">
+          <DataField>PM_Procedure_Header___Serial_No__</DataField>
+        </Field>
+        <Field Name="CurrReport_PAGENOCaption">
+          <DataField>CurrReport_PAGENOCaption</DataField>
+        </Field>
+        <Field Name="PM_ProcedureCaption">
+          <DataField>PM_ProcedureCaption</DataField>
+        </Field>
+        <Field Name="Version_No____Active_VersionCaption">
+          <DataField>Version_No____Active_VersionCaption</DataField>
+        </Field>
+        <Field Name="StatusCaption">
+          <DataField>StatusCaption</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Header___Work_Order_Freq__Caption">
+          <DataField>PM_Procedure_Header___Work_Order_Freq__Caption</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Header___Last_Work_Order_Date_Caption">
+          <DataField>PM_Procedure_Header___Last_Work_Order_Date_Caption</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Header___Person_Responsible_Caption">
+          <DataField>PM_Procedure_Header___Person_Responsible_Caption</DataField>
+        </Field>
+        <Field Name="FORMAT__PM_Procedure_Header___Maintenance_Time____________PM_Procedure_Header___Maintenance_UOM_Caption">
+          <DataField>FORMAT__PM_Procedure_Header___Maintenance_Time____________PM_Procedure_Header___Maintenance_UOM_Caption</DataField>
+        </Field>
+        <Field Name="Starting_DateCaption">
+          <DataField>Starting_DateCaption</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Header___PM_Group_Code_Caption">
+          <DataField>PM_Procedure_Header___PM_Group_Code_Caption</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Header__NameCaption">
+          <DataField>PM_Procedure_Header__NameCaption</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Header___No__Caption">
+          <DataField>PM_Procedure_Header___No__Caption</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Header___Serial_No__Caption">
+          <DataField>PM_Procedure_Header___Serial_No__Caption</DataField>
+        </Field>
+        <Field Name="PageLoop_Number">
+          <DataField>PageLoop_Number</DataField>
+        </Field>
+        <Field Name="PMWOCommentsGeneral_Comments">
+          <DataField>PMWOCommentsGeneral_Comments</DataField>
+        </Field>
+        <Field Name="General_Comments_Caption">
+          <DataField>General_Comments_Caption</DataField>
+        </Field>
+        <Field Name="PMWOCommentsGeneral_PM_Procedure_Code">
+          <DataField>PMWOCommentsGeneral_PM_Procedure_Code</DataField>
+        </Field>
+        <Field Name="PMWOCommentsGeneral_Version_No_">
+          <DataField>PMWOCommentsGeneral_Version_No_</DataField>
+        </Field>
+        <Field Name="PMWOCommentsGeneral_PM_Procedure_Line_No_">
+          <DataField>PMWOCommentsGeneral_PM_Procedure_Line_No_</DataField>
+        </Field>
+        <Field Name="PMWOCommentsGeneral_Line_No_">
+          <DataField>PMWOCommentsGeneral_Line_No_</DataField>
+        </Field>
+        <Field Name="gintCommentRowNumber">
+          <DataField>gintCommentRowNumber</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Line__PM_Measure_Code_">
+          <DataField>PM_Procedure_Line__PM_Measure_Code_</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Line__PM_Unit_of_Measure_">
+          <DataField>PM_Procedure_Line__PM_Unit_of_Measure_</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Line__Value_Type_">
+          <DataField>PM_Procedure_Line__Value_Type_</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Line__Qualification_Code_">
+          <DataField>PM_Procedure_Line__Qualification_Code_</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Line__Employee_No__">
+          <DataField>PM_Procedure_Line__Employee_No__</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Line__PM_Measure_Cost_">
+          <DataField>PM_Procedure_Line__PM_Measure_Cost_</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Line__PM_Measure_Cost_Format">
+          <DataField>PM_Procedure_Line__PM_Measure_Cost_Format</DataField>
+        </Field>
+        <Field Name="gvarValue">
+          <DataField>gvarValue</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Line_Description">
+          <DataField>PM_Procedure_Line_Description</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Line__Decimal_Min_">
+          <DataField>PM_Procedure_Line__Decimal_Min_</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Line__Decimal_Min_Format">
+          <DataField>PM_Procedure_Line__Decimal_Min_Format</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Line__Decimal_Max_">
+          <DataField>PM_Procedure_Line__Decimal_Max_</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Line__Decimal_Max_Format">
+          <DataField>PM_Procedure_Line__Decimal_Max_Format</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Line__PM_Measure_Code_Caption">
+          <DataField>PM_Procedure_Line__PM_Measure_Code_Caption</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Line__PM_Unit_of_Measure_Caption">
+          <DataField>PM_Procedure_Line__PM_Unit_of_Measure_Caption</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Line__Value_Type_Caption">
+          <DataField>PM_Procedure_Line__Value_Type_Caption</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Line__Qualification_Code_Caption">
+          <DataField>PM_Procedure_Line__Qualification_Code_Caption</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Line__Employee_No__Caption">
+          <DataField>PM_Procedure_Line__Employee_No__Caption</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Line__PM_Measure_Cost_Caption">
+          <DataField>PM_Procedure_Line__PM_Measure_Cost_Caption</DataField>
+        </Field>
+        <Field Name="gvarValueCaption">
+          <DataField>gvarValueCaption</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Line_DescriptionCaption">
+          <DataField>PM_Procedure_Line_DescriptionCaption</DataField>
+        </Field>
+        <Field Name="MinCaption">
+          <DataField>MinCaption</DataField>
+        </Field>
+        <Field Name="MaxCaption">
+          <DataField>MaxCaption</DataField>
+        </Field>
+        <Field Name="Completed_ByCaption">
+          <DataField>Completed_ByCaption</DataField>
+        </Field>
+        <Field Name="SupervisorCaption">
+          <DataField>SupervisorCaption</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Line_PM_Procedure_Code">
+          <DataField>PM_Procedure_Line_PM_Procedure_Code</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Line_Version_No_">
+          <DataField>PM_Procedure_Line_Version_No_</DataField>
+        </Field>
+        <Field Name="PM_Procedure_Line_Line_No_">
+          <DataField>PM_Procedure_Line_Line_No_</DataField>
+        </Field>
+        <Field Name="gcodSubItemDetail">
+          <DataField>gcodSubItemDetail</DataField>
+        </Field>
+        <Field Name="gintProcedureLineRowNumber">
+          <DataField>gintProcedureLineRowNumber</DataField>
+        </Field>
+        <Field Name="LineHeader_Number">
+          <DataField>LineHeader_Number</DataField>
+        </Field>
+        <Field Name="PM_Item_Consumption__Item_No__">
+          <DataField>PM_Item_Consumption__Item_No__</DataField>
+        </Field>
+        <Field Name="PM_Item_Consumption__Unit_of_Measure_">
+          <DataField>PM_Item_Consumption__Unit_of_Measure_</DataField>
+        </Field>
+        <Field Name="PM_Item_Consumption__Quantity_Installed_">
+          <DataField>PM_Item_Consumption__Quantity_Installed_</DataField>
+        </Field>
+        <Field Name="PM_Item_Consumption__Quantity_Installed_Format">
+          <DataField>PM_Item_Consumption__Quantity_Installed_Format</DataField>
+        </Field>
+        <Field Name="PM_Item_Consumption_Description">
+          <DataField>PM_Item_Consumption_Description</DataField>
+        </Field>
+        <Field Name="PM_Item_Consumption__Quantity_Installed_Caption">
+          <DataField>PM_Item_Consumption__Quantity_Installed_Caption</DataField>
+        </Field>
+        <Field Name="PM_Item_Consumption__Unit_of_Measure_Caption">
+          <DataField>PM_Item_Consumption__Unit_of_Measure_Caption</DataField>
+        </Field>
+        <Field Name="PM_Item_Consumption__Item_No__Caption">
+          <DataField>PM_Item_Consumption__Item_No__Caption</DataField>
+        </Field>
+        <Field Name="Inventory_Items_ConsumedCaption">
+          <DataField>Inventory_Items_ConsumedCaption</DataField>
+        </Field>
+        <Field Name="PM_Item_Consumption_DescriptionCaption">
+          <DataField>PM_Item_Consumption_DescriptionCaption</DataField>
+        </Field>
+        <Field Name="PM_Item_Consumption_PM_Procedure_Code">
+          <DataField>PM_Item_Consumption_PM_Procedure_Code</DataField>
+        </Field>
+        <Field Name="PM_Item_Consumption_Version_No_">
+          <DataField>PM_Item_Consumption_Version_No_</DataField>
+        </Field>
+        <Field Name="PM_Item_Consumption_PM_Procedure_Line_No_">
+          <DataField>PM_Item_Consumption_PM_Procedure_Line_No_</DataField>
+        </Field>
+        <Field Name="PM_Item_Consumption_Line_No_">
+          <DataField>PM_Item_Consumption_Line_No_</DataField>
+        </Field>
+        <Field Name="gintItemConsumptionRowNumber">
+          <DataField>gintItemConsumptionRowNumber</DataField>
+        </Field>
+        <Field Name="PM_Resource_Description">
+          <DataField>PM_Resource_Description</DataField>
+        </Field>
+        <Field Name="PM_Resource__No__">
+          <DataField>PM_Resource__No__</DataField>
+        </Field>
+        <Field Name="PM_Resource_Type">
+          <DataField>PM_Resource_Type</DataField>
+        </Field>
+        <Field Name="PM_Resource_DescriptionCaption">
+          <DataField>PM_Resource_DescriptionCaption</DataField>
+        </Field>
+        <Field Name="PM_Resource__No__Caption">
+          <DataField>PM_Resource__No__Caption</DataField>
+        </Field>
+        <Field Name="PM_Resource_TypeCaption">
+          <DataField>PM_Resource_TypeCaption</DataField>
+        </Field>
+        <Field Name="Equipment_RequiredCaption">
+          <DataField>Equipment_RequiredCaption</DataField>
+        </Field>
+        <Field Name="PM_Resource_PM_Procedure_Code">
+          <DataField>PM_Resource_PM_Procedure_Code</DataField>
+        </Field>
+        <Field Name="PM_Resource_Version_No_">
+          <DataField>PM_Resource_Version_No_</DataField>
+        </Field>
+        <Field Name="PM_Resource_PM_Procedure_Line_No_">
+          <DataField>PM_Resource_PM_Procedure_Line_No_</DataField>
+        </Field>
+        <Field Name="PM_Resource_Line_No_">
+          <DataField>PM_Resource_Line_No_</DataField>
+        </Field>
+        <Field Name="gintResourceRowNumber">
+          <DataField>gintResourceRowNumber</DataField>
+        </Field>
+        <Field Name="PM_Proc__Comment_Comments">
+          <DataField>PM_Proc__Comment_Comments</DataField>
+        </Field>
+        <Field Name="Procedure_Line_CommentsCaption">
+          <DataField>Procedure_Line_CommentsCaption</DataField>
+        </Field>
+        <Field Name="PM_Proc__Comment_PM_Procedure_Code">
+          <DataField>PM_Proc__Comment_PM_Procedure_Code</DataField>
+        </Field>
+        <Field Name="PM_Proc__Comment_Version_No_">
+          <DataField>PM_Proc__Comment_Version_No_</DataField>
+        </Field>
+        <Field Name="PM_Proc__Comment_PM_Procedure_Line_No_">
+          <DataField>PM_Proc__Comment_PM_Procedure_Line_No_</DataField>
+        </Field>
+        <Field Name="PM_Proc__Comment_Line_No_">
+          <DataField>PM_Proc__Comment_Line_No_</DataField>
+        </Field>
+        <Field Name="gintProcCommentRowNumber">
+          <DataField>gintProcCommentRowNumber</DataField>
+        </Field>
+        <Field Name="LineFooter_Number">
+          <DataField>LineFooter_Number</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
 </Report>

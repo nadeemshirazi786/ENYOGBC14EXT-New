@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Report xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:cl="http://schemas.microsoft.com/sqlserver/reporting/2010/01/componentdefinition" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/reportdefinition">
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
@@ -10,216 +10,6 @@
       <rd:DataSourceID>b418aebb-3a13-4e3d-9aff-1136b1ec8d6f</rd:DataSourceID>
     </DataSource>
   </DataSources>
-  <DataSets>
-    <DataSet Name="DataSet_Result">
-      <Query>
-        <DataSourceName>DataSource</DataSourceName>
-        <CommandText />
-      </Query>
-      <Fields>
-        <Field Name="Work_Order_Header_PM_Work_Order_No">
-          <DataField>Work_Order_Header_PM_Work_Order_No</DataField>
-        </Field>
-        <Field Name="CopyTxt">
-          <DataField>CopyTxt</DataField>
-        </Field>
-        <Field Name="USERID">
-          <DataField>USERID</DataField>
-        </Field>
-        <Field Name="CurrReport_PAGENO">
-          <DataField>CurrReport_PAGENO</DataField>
-        </Field>
-        <Field Name="COMPANYNAME">
-          <DataField>COMPANYNAME</DataField>
-        </Field>
-        <Field Name="FORMAT_TODAY_0_4_">
-          <DataField>FORMAT_TODAY_0_4_</DataField>
-        </Field>
-        <Field Name="WOH_Description">
-          <DataField>WOH_Description</DataField>
-        </Field>
-        <Field Name="WOH_PM_Proc_VersionActiveVersion">
-          <DataField>WOH_PM_Proc_VersionActiveVersion</DataField>
-        </Field>
-        <Field Name="WOH_PM_Work_Order_No">
-          <DataField>WOH_PM_Work_Order_No</DataField>
-        </Field>
-        <Field Name="WOH_Work_Order_Freq">
-          <DataField>WOH_Work_Order_Freq</DataField>
-        </Field>
-        <Field Name="WOH_Last_Work_Order_Date">
-          <DataField>WOH_Last_Work_Order_Date</DataField>
-        </Field>
-        <Field Name="WOH_Person_Responsible">
-          <DataField>WOH_Person_Responsible</DataField>
-        </Field>
-        <Field Name="WOH_Maintenance_Time_WOH_UOM">
-          <DataField>WOH_Maintenance_Time_WOH_UOM</DataField>
-        </Field>
-        <Field Name="WOH_PM_Group_Code">
-          <DataField>WOH_PM_Group_Code</DataField>
-        </Field>
-        <Field Name="WOH_Name">
-          <DataField>WOH_Name</DataField>
-        </Field>
-        <Field Name="WOH_Serial_No">
-          <DataField>WOH_Serial_No</DataField>
-        </Field>
-        <Field Name="WOH_WorkOrder_Date">
-          <DataField>WOH_WorkOrder_Date</DataField>
-        </Field>
-        <Field Name="WOH_No">
-          <DataField>WOH_No</DataField>
-        </Field>
-        <Field Name="WOH_Evaluated_At_Qty">
-          <DataField>WOH_Evaluated_At_Qty</DataField>
-        </Field>
-        <Field Name="WOH_Evaluated_At_QtyFormat">
-          <DataField>WOH_Evaluated_At_QtyFormat</DataField>
-        </Field>
-        <Field Name="PageLoop_Number">
-          <DataField>PageLoop_Number</DataField>
-        </Field>
-        <Field Name="Copy_No">
-          <DataField>Copy_No</DataField>
-        </Field>
-        <Field Name="PMWOCommentsGeneral_Comments">
-          <DataField>PMWOCommentsGeneral_Comments</DataField>
-        </Field>
-        <Field Name="PMWOCommentsGeneral_PM_Work_Order_No">
-          <DataField>PMWOCommentsGeneral_PM_Work_Order_No</DataField>
-        </Field>
-        <Field Name="PMWOCommentsGeneral_PM_WO_Line_No">
-          <DataField>PMWOCommentsGeneral_PM_WO_Line_No</DataField>
-        </Field>
-        <Field Name="PMWOCommentsGeneral_Line_No">
-          <DataField>PMWOCommentsGeneral_Line_No</DataField>
-        </Field>
-        <Field Name="WOL_PM_Measure_Code">
-          <DataField>WOL_PM_Measure_Code</DataField>
-        </Field>
-        <Field Name="WOL_PM_Unit_of_Measure">
-          <DataField>WOL_PM_Unit_of_Measure</DataField>
-        </Field>
-        <Field Name="WOL_Value_Type">
-          <DataField>WOL_Value_Type</DataField>
-        </Field>
-        <Field Name="gvarDesiredValue">
-          <DataField>gvarDesiredValue</DataField>
-        </Field>
-        <Field Name="WOL_Description">
-          <DataField>WOL_Description</DataField>
-        </Field>
-        <Field Name="WOL_Decimal_Min">
-          <DataField>WOL_Decimal_Min</DataField>
-        </Field>
-        <Field Name="WOL_Decimal_MinFormat">
-          <DataField>WOL_Decimal_MinFormat</DataField>
-        </Field>
-        <Field Name="WOL_Decimal_Max">
-          <DataField>WOL_Decimal_Max</DataField>
-        </Field>
-        <Field Name="WOL_Decimal_MaxFormat">
-          <DataField>WOL_Decimal_MaxFormat</DataField>
-        </Field>
-        <Field Name="WOL_PM_Work_Order_No">
-          <DataField>WOL_PM_Work_Order_No</DataField>
-        </Field>
-        <Field Name="WOL__Line_No">
-          <DataField>WOL__Line_No</DataField>
-        </Field>
-        <Field Name="WO_Line_Result_Result_No">
-          <DataField>WO_Line_Result_Result_No</DataField>
-        </Field>
-        <Field Name="WO_Line_Result_Result_Value">
-          <DataField>WO_Line_Result_Result_Value</DataField>
-        </Field>
-        <Field Name="WO_Line_Result_Result_ValueFormat">
-          <DataField>WO_Line_Result_Result_ValueFormat</DataField>
-        </Field>
-        <Field Name="WO_Line_Result_Calc_Type">
-          <DataField>WO_Line_Result_Calc_Type</DataField>
-        </Field>
-        <Field Name="WO_Line_Decimal_Value">
-          <DataField>WO_Line_Decimal_Value</DataField>
-        </Field>
-        <Field Name="WO_Line_Decimal_ValueFormat">
-          <DataField>WO_Line_Decimal_ValueFormat</DataField>
-        </Field>
-        <Field Name="WO_Line_Result_PM_Work_Order_No">
-          <DataField>WO_Line_Result_PM_Work_Order_No</DataField>
-        </Field>
-        <Field Name="WO_Line_Result_PM_WO_Line_No">
-          <DataField>WO_Line_Result_PM_WO_Line_No</DataField>
-        </Field>
-        <Field Name="LineHeader_Number">
-          <DataField>LineHeader_Number</DataField>
-        </Field>
-        <Field Name="WO_Item_Consumption__Item_No__">
-          <DataField>WO_Item_Consumption__Item_No__</DataField>
-        </Field>
-        <Field Name="WO_Item_Consumption__Unit_of_Measure_">
-          <DataField>WO_Item_Consumption__Unit_of_Measure_</DataField>
-        </Field>
-        <Field Name="WO_Item_Consumption__Quantity_Installed_">
-          <DataField>WO_Item_Consumption__Quantity_Installed_</DataField>
-        </Field>
-        <Field Name="WO_Item_Consumption__Quantity_Installed_Format">
-          <DataField>WO_Item_Consumption__Quantity_Installed_Format</DataField>
-        </Field>
-        <Field Name="WO_Item_Consumption_Description">
-          <DataField>WO_Item_Consumption_Description</DataField>
-        </Field>
-        <Field Name="WO_Item_Consumption_PM_Work_Order_No_">
-          <DataField>WO_Item_Consumption_PM_Work_Order_No_</DataField>
-        </Field>
-        <Field Name="WO_Item_Consumption_PM_WO_Line_No_">
-          <DataField>WO_Item_Consumption_PM_WO_Line_No_</DataField>
-        </Field>
-        <Field Name="WO_Item_Consumption_Line_No_">
-          <DataField>WO_Item_Consumption_Line_No_</DataField>
-        </Field>
-        <Field Name="WO_Resource_Description">
-          <DataField>WO_Resource_Description</DataField>
-        </Field>
-        <Field Name="WO_Resource__No__">
-          <DataField>WO_Resource__No__</DataField>
-        </Field>
-        <Field Name="WO_Resource_Type">
-          <DataField>WO_Resource_Type</DataField>
-        </Field>
-        <Field Name="WO_Resource_PM_Work_Order_No_">
-          <DataField>WO_Resource_PM_Work_Order_No_</DataField>
-        </Field>
-        <Field Name="WO_Resource_PM_WO_Line_No_">
-          <DataField>WO_Resource_PM_WO_Line_No_</DataField>
-        </Field>
-        <Field Name="WO_Resource_Line_No_">
-          <DataField>WO_Resource_Line_No_</DataField>
-        </Field>
-        <Field Name="WO_Comment_Comments">
-          <DataField>WO_Comment_Comments</DataField>
-        </Field>
-        <Field Name="WO_Comment_PM_Work_Order_No_">
-          <DataField>WO_Comment_PM_Work_Order_No_</DataField>
-        </Field>
-        <Field Name="WO_Comment_PM_WO_Line_No_">
-          <DataField>WO_Comment_PM_WO_Line_No_</DataField>
-        </Field>
-        <Field Name="WO_Comment_Line_No_">
-          <DataField>WO_Comment_Line_No_</DataField>
-        </Field>
-        <Field Name="LineFooter_Number">
-          <DataField>LineFooter_Number</DataField>
-        </Field>
-      </Fields>
-      <rd:DataSetInfo>
-        <rd:DataSetName>DataSet</rd:DataSetName>
-        <rd:SchemaPath>Report.xsd</rd:SchemaPath>
-        <rd:TableName>Result</rd:TableName>
-      </rd:DataSetInfo>
-    </DataSet>
-  </DataSets>
   <ReportSections>
     <ReportSection>
       <Body>
@@ -4643,4 +4433,209 @@ End Function
   <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
   <rd:ReportUnitType>Cm</rd:ReportUnitType>
   <rd:ReportID>0e78015e-66be-4fcc-bc31-a355e0bfe67c</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="Work_Order_Header_PM_Work_Order_No">
+          <DataField>Work_Order_Header_PM_Work_Order_No</DataField>
+        </Field>
+        <Field Name="CopyTxt">
+          <DataField>CopyTxt</DataField>
+        </Field>
+        <Field Name="USERID">
+          <DataField>USERID</DataField>
+        </Field>
+        <Field Name="CurrReport_PAGENO">
+          <DataField>CurrReport_PAGENO</DataField>
+        </Field>
+        <Field Name="COMPANYNAME">
+          <DataField>COMPANYNAME</DataField>
+        </Field>
+        <Field Name="FORMAT_TODAY_0_4_">
+          <DataField>FORMAT_TODAY_0_4_</DataField>
+        </Field>
+        <Field Name="WOH_Description">
+          <DataField>WOH_Description</DataField>
+        </Field>
+        <Field Name="WOH_PM_Proc_VersionActiveVersion">
+          <DataField>WOH_PM_Proc_VersionActiveVersion</DataField>
+        </Field>
+        <Field Name="WOH_PM_Work_Order_No">
+          <DataField>WOH_PM_Work_Order_No</DataField>
+        </Field>
+        <Field Name="WOH_Work_Order_Freq">
+          <DataField>WOH_Work_Order_Freq</DataField>
+        </Field>
+        <Field Name="WOH_Last_Work_Order_Date">
+          <DataField>WOH_Last_Work_Order_Date</DataField>
+        </Field>
+        <Field Name="WOH_Person_Responsible">
+          <DataField>WOH_Person_Responsible</DataField>
+        </Field>
+        <Field Name="WOH_Maintenance_Time_WOH_UOM">
+          <DataField>WOH_Maintenance_Time_WOH_UOM</DataField>
+        </Field>
+        <Field Name="WOH_PM_Group_Code">
+          <DataField>WOH_PM_Group_Code</DataField>
+        </Field>
+        <Field Name="WOH_Name">
+          <DataField>WOH_Name</DataField>
+        </Field>
+        <Field Name="WOH_Serial_No">
+          <DataField>WOH_Serial_No</DataField>
+        </Field>
+        <Field Name="WOH_WorkOrder_Date">
+          <DataField>WOH_WorkOrder_Date</DataField>
+        </Field>
+        <Field Name="WOH_No">
+          <DataField>WOH_No</DataField>
+        </Field>
+        <Field Name="WOH_Evaluated_At_Qty">
+          <DataField>WOH_Evaluated_At_Qty</DataField>
+        </Field>
+        <Field Name="WOH_Evaluated_At_QtyFormat">
+          <DataField>WOH_Evaluated_At_QtyFormat</DataField>
+        </Field>
+        <Field Name="PageLoop_Number">
+          <DataField>PageLoop_Number</DataField>
+        </Field>
+        <Field Name="Copy_No">
+          <DataField>Copy_No</DataField>
+        </Field>
+        <Field Name="PMWOCommentsGeneral_Comments">
+          <DataField>PMWOCommentsGeneral_Comments</DataField>
+        </Field>
+        <Field Name="PMWOCommentsGeneral_PM_Work_Order_No">
+          <DataField>PMWOCommentsGeneral_PM_Work_Order_No</DataField>
+        </Field>
+        <Field Name="PMWOCommentsGeneral_PM_WO_Line_No">
+          <DataField>PMWOCommentsGeneral_PM_WO_Line_No</DataField>
+        </Field>
+        <Field Name="PMWOCommentsGeneral_Line_No">
+          <DataField>PMWOCommentsGeneral_Line_No</DataField>
+        </Field>
+        <Field Name="WOL_PM_Measure_Code">
+          <DataField>WOL_PM_Measure_Code</DataField>
+        </Field>
+        <Field Name="WOL_PM_Unit_of_Measure">
+          <DataField>WOL_PM_Unit_of_Measure</DataField>
+        </Field>
+        <Field Name="WOL_Value_Type">
+          <DataField>WOL_Value_Type</DataField>
+        </Field>
+        <Field Name="gvarDesiredValue">
+          <DataField>gvarDesiredValue</DataField>
+        </Field>
+        <Field Name="WOL_Description">
+          <DataField>WOL_Description</DataField>
+        </Field>
+        <Field Name="WOL_Decimal_Min">
+          <DataField>WOL_Decimal_Min</DataField>
+        </Field>
+        <Field Name="WOL_Decimal_MinFormat">
+          <DataField>WOL_Decimal_MinFormat</DataField>
+        </Field>
+        <Field Name="WOL_Decimal_Max">
+          <DataField>WOL_Decimal_Max</DataField>
+        </Field>
+        <Field Name="WOL_Decimal_MaxFormat">
+          <DataField>WOL_Decimal_MaxFormat</DataField>
+        </Field>
+        <Field Name="WOL_PM_Work_Order_No">
+          <DataField>WOL_PM_Work_Order_No</DataField>
+        </Field>
+        <Field Name="WOL__Line_No">
+          <DataField>WOL__Line_No</DataField>
+        </Field>
+        <Field Name="WO_Line_Result_Result_No">
+          <DataField>WO_Line_Result_Result_No</DataField>
+        </Field>
+        <Field Name="WO_Line_Result_Result_Value">
+          <DataField>WO_Line_Result_Result_Value</DataField>
+        </Field>
+        <Field Name="WO_Line_Result_Result_ValueFormat">
+          <DataField>WO_Line_Result_Result_ValueFormat</DataField>
+        </Field>
+        <Field Name="WO_Line_Result_Calc_Type">
+          <DataField>WO_Line_Result_Calc_Type</DataField>
+        </Field>
+        <Field Name="WO_Line_Decimal_Value">
+          <DataField>WO_Line_Decimal_Value</DataField>
+        </Field>
+        <Field Name="WO_Line_Decimal_ValueFormat">
+          <DataField>WO_Line_Decimal_ValueFormat</DataField>
+        </Field>
+        <Field Name="WO_Line_Result_PM_Work_Order_No">
+          <DataField>WO_Line_Result_PM_Work_Order_No</DataField>
+        </Field>
+        <Field Name="WO_Line_Result_PM_WO_Line_No">
+          <DataField>WO_Line_Result_PM_WO_Line_No</DataField>
+        </Field>
+        <Field Name="LineHeader_Number">
+          <DataField>LineHeader_Number</DataField>
+        </Field>
+        <Field Name="WO_Item_Consumption__Item_No__">
+          <DataField>WO_Item_Consumption__Item_No__</DataField>
+        </Field>
+        <Field Name="WO_Item_Consumption__Unit_of_Measure_">
+          <DataField>WO_Item_Consumption__Unit_of_Measure_</DataField>
+        </Field>
+        <Field Name="WO_Item_Consumption__Quantity_Installed_">
+          <DataField>WO_Item_Consumption__Quantity_Installed_</DataField>
+        </Field>
+        <Field Name="WO_Item_Consumption__Quantity_Installed_Format">
+          <DataField>WO_Item_Consumption__Quantity_Installed_Format</DataField>
+        </Field>
+        <Field Name="WO_Item_Consumption_Description">
+          <DataField>WO_Item_Consumption_Description</DataField>
+        </Field>
+        <Field Name="WO_Item_Consumption_PM_Work_Order_No_">
+          <DataField>WO_Item_Consumption_PM_Work_Order_No_</DataField>
+        </Field>
+        <Field Name="WO_Item_Consumption_PM_WO_Line_No_">
+          <DataField>WO_Item_Consumption_PM_WO_Line_No_</DataField>
+        </Field>
+        <Field Name="WO_Item_Consumption_Line_No_">
+          <DataField>WO_Item_Consumption_Line_No_</DataField>
+        </Field>
+        <Field Name="WO_Resource_Description">
+          <DataField>WO_Resource_Description</DataField>
+        </Field>
+        <Field Name="WO_Resource__No__">
+          <DataField>WO_Resource__No__</DataField>
+        </Field>
+        <Field Name="WO_Resource_Type">
+          <DataField>WO_Resource_Type</DataField>
+        </Field>
+        <Field Name="WO_Resource_PM_Work_Order_No_">
+          <DataField>WO_Resource_PM_Work_Order_No_</DataField>
+        </Field>
+        <Field Name="WO_Resource_PM_WO_Line_No_">
+          <DataField>WO_Resource_PM_WO_Line_No_</DataField>
+        </Field>
+        <Field Name="WO_Resource_Line_No_">
+          <DataField>WO_Resource_Line_No_</DataField>
+        </Field>
+        <Field Name="WO_Comment_Comments">
+          <DataField>WO_Comment_Comments</DataField>
+        </Field>
+        <Field Name="WO_Comment_PM_Work_Order_No_">
+          <DataField>WO_Comment_PM_Work_Order_No_</DataField>
+        </Field>
+        <Field Name="WO_Comment_PM_WO_Line_No_">
+          <DataField>WO_Comment_PM_WO_Line_No_</DataField>
+        </Field>
+        <Field Name="WO_Comment_Line_No_">
+          <DataField>WO_Comment_Line_No_</DataField>
+        </Field>
+        <Field Name="LineFooter_Number">
+          <DataField>LineFooter_Number</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
 </Report>

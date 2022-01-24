@@ -6,7 +6,7 @@ report 14229800 "PM Procedure ELA"
 
     dataset
     {
-        dataitem("PM Procedure Header"; "PM Procedure Header")
+        dataitem("PM Procedure Header"; "PM Procedure Header ELA")
         {
             RequestFilterFields = "Code", "Version No.", Status, "Person Responsible", "Starting Date";
             column(PM_Procedure_Header_Code; Code)
@@ -17,7 +17,7 @@ report 14229800 "PM Procedure ELA"
             }
             dataitem(CopyLoop; "Integer")
             {
-                DataItemTableView = SORTING (Number);
+                DataItemTableView = SORTING(Number);
                 column(gcodSubItem; gcodSubItem)
                 {
                 }
@@ -26,7 +26,7 @@ report 14229800 "PM Procedure ELA"
                 }
                 dataitem(PageLoop; "Integer")
                 {
-                    DataItemTableView = SORTING (Number) WHERE (Number = CONST (1));
+                    DataItemTableView = SORTING(Number) WHERE(Number = CONST(1));
                     column(USERID; UserId)
                     {
                     }
@@ -129,9 +129,9 @@ report 14229800 "PM Procedure ELA"
                         gcodSubItem := '1_PAGELOOP';  //<JF32428BB>
                     end;
                 }
-                dataitem(PMWOCommentsGeneral; "PM Proc. Comment")
+                dataitem(PMWOCommentsGeneral; "PM Proc. Comment ELA")
                 {
-                    DataItemTableView = SORTING ("PM Procedure Code", "Version No.", "PM Procedure Line No.", "Line No.") WHERE ("PM Procedure Line No." = CONST (0));
+                    DataItemTableView = SORTING("PM Procedure Code", "Version No.", "PM Procedure Line No.", "Line No.") WHERE("PM Procedure Line No." = CONST(0));
                     column(PMWOCommentsGeneral_Comments; Comments)
                     {
                     }
@@ -169,9 +169,9 @@ report 14229800 "PM Procedure ELA"
                         SetRange("Version No.", "PM Procedure Header"."Version No.");
                     end;
                 }
-                dataitem("PM Procedure Line"; "PM Procedure Line")
+                dataitem("PM Procedure Line"; "PM Procedure Line ELA")
                 {
-                    DataItemTableView = SORTING ("PM Procedure Code", "Version No.", "Line No.");
+                    DataItemTableView = SORTING("PM Procedure Code", "Version No.", "Line No.");
                     column(PM_Procedure_Line__PM_Measure_Code_; "PM Measure Code")
                     {
                     }
@@ -255,7 +255,7 @@ report 14229800 "PM Procedure ELA"
                     }
                     dataitem(LineHeader; "Integer")
                     {
-                        DataItemTableView = SORTING (Number) WHERE (Number = CONST (1));
+                        DataItemTableView = SORTING(Number) WHERE(Number = CONST(1));
                         column(LineHeader_Number; Number)
                         {
                         }
@@ -268,10 +268,10 @@ report 14229800 "PM Procedure ELA"
                                 CurrReport.Break;
                         end;
                     }
-                    dataitem("PM Item Consumption"; "PM Item Consumption")
+                    dataitem("PM Item Consumption"; "PM Item Consumption ELA")
                     {
-                        DataItemLink = "PM Procedure Code" = FIELD ("PM Procedure Code"), "Version No." = FIELD ("Version No."), "PM Procedure Line No." = FIELD ("Line No.");
-                        DataItemTableView = SORTING ("PM Procedure Code", "Version No.", "PM Procedure Line No.", "Line No.");
+                        DataItemLink = "PM Procedure Code" = FIELD("PM Procedure Code"), "Version No." = FIELD("Version No."), "PM Procedure Line No." = FIELD("Line No.");
+                        DataItemTableView = SORTING("PM Procedure Code", "Version No.", "PM Procedure Line No.", "Line No.");
                         column(PM_Item_Consumption__Item_No__; "Item No.")
                         {
                         }
@@ -330,10 +330,10 @@ report 14229800 "PM Procedure ELA"
                                 CurrReport.Break;
                         end;
                     }
-                    dataitem("PM Resource"; "PM Resource")
+                    dataitem("PM Resource"; "PM Resource ELA")
                     {
-                        DataItemLink = "PM Procedure Code" = FIELD ("PM Procedure Code"), "Version No." = FIELD ("Version No."), "PM Procedure Line No." = FIELD ("Line No.");
-                        DataItemTableView = SORTING ("PM Procedure Code", "Version No.", "PM Procedure Line No.", "Line No.");
+                        DataItemLink = "PM Procedure Code" = FIELD("PM Procedure Code"), "Version No." = FIELD("Version No."), "PM Procedure Line No." = FIELD("Line No.");
+                        DataItemTableView = SORTING("PM Procedure Code", "Version No.", "PM Procedure Line No.", "Line No.");
                         column(PM_Resource_Description; Description)
                         {
                         }
@@ -386,10 +386,10 @@ report 14229800 "PM Procedure ELA"
                                 CurrReport.Break;
                         end;
                     }
-                    dataitem("PM Proc. Comment"; "PM Proc. Comment")
+                    dataitem("PM Proc. Comment"; "PM Proc. Comment ELA")
                     {
-                        DataItemLink = "PM Procedure Code" = FIELD ("PM Procedure Code"), "Version No." = FIELD ("Version No."), "PM Procedure Line No." = FIELD ("Line No.");
-                        DataItemTableView = SORTING ("PM Procedure Code", "Version No.", "PM Procedure Line No.", "Line No.");
+                        DataItemLink = "PM Procedure Code" = FIELD("PM Procedure Code"), "Version No." = FIELD("Version No."), "PM Procedure Line No." = FIELD("Line No.");
+                        DataItemTableView = SORTING("PM Procedure Code", "Version No.", "PM Procedure Line No.", "Line No.");
                         column(PM_Proc__Comment_Comments; Comments)
                         {
                         }
@@ -429,7 +429,7 @@ report 14229800 "PM Procedure ELA"
                     }
                     dataitem(LineFooter; "Integer")
                     {
-                        DataItemTableView = SORTING (Number) WHERE (Number = CONST (1));
+                        DataItemTableView = SORTING(Number) WHERE(Number = CONST(1));
                         column(LineFooter_Number; Number)
                         {
                         }
@@ -534,7 +534,7 @@ report 14229800 "PM Procedure ELA"
 
     var
         gvarValue: Variant;
-        gcduQualityVersionMgt: Codeunit Codeunit23019250;
+        gcduQualityVersionMgt: Codeunit "PM Management ELA";
         gcodActiveVersion: Code[10];
         gcodPrintActiveVersion: Boolean;
         CopyTxt: Text[10];
@@ -575,7 +575,6 @@ report 14229800 "PM Procedure ELA"
     [Scope('Internal')]
     procedure jfdoFormatValue()
     var
-        lrecPurchLineProp: Record Table23019016;
     begin
         with "PM Procedure Line" do begin
             case "Value Type" of

@@ -154,16 +154,16 @@ page 14229834 "PM Procedure List"
                         REPORT.RUN(REPORT :: "PM Procedure ELA", TRUE, FALSE, grecPMProcedure);
                     end;
                 }
-                action("<Action1102631003>")
-                {
-                    Caption = 'Report Selection(s)';
-                    Image = SelectReport;
+                // action("<Action1102631003>")
+                // {
+                //     Caption = 'Report Selection(s)';
+                //     Image = SelectReport;
 
-                    trigger OnAction()
-                    begin
-                        jfdoPrintReportSelections;
-                    end;
-                }
+                //     trigger OnAction()
+                //     begin
+                //         jfdoPrintReportSelections;
+                //     end;
+                // }
             }
         }
     }

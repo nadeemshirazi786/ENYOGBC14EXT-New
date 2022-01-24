@@ -117,14 +117,14 @@ table 14229816 "PM Planning Worksheet ELA"
                             begin
                                 grecMachCenter.Get("No.");
 
-                                "Serial No." := grecMachCenter."Serial No.";
+                                "Serial No." := grecMachCenter."Serial No. ELA";
                                 Name := grecMachCenter.Name;
                             end;
                         Type::"Work Center":
                             begin
                                 grecWorkCenter.Get("No.");
 
-                                "Serial No." := grecWorkCenter."Serial No.";
+                                "Serial No." := grecWorkCenter."Serial No. ELA";
                                 Name := grecWorkCenter.Name;
                             end;
                         Type::"Fixed Asset":

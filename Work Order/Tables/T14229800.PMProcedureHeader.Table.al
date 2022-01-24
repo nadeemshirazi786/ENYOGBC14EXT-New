@@ -184,14 +184,14 @@ table 14229800 "PM Procedure Header ELA"
                             begin
                                 grecMachCenter.Get("No.");
 
-                                "Serial No." := grecMachCenter."Serial No.";
+                                "Serial No." := grecMachCenter."Serial No. ELA";
                                 Name := grecMachCenter.Name;
                             end;
                         Type::"Work Center":
                             begin
                                 grecWorkCenter.Get("No.");
 
-                                "Serial No." := grecWorkCenter."Serial No.";
+                                "Serial No." := grecWorkCenter."Serial No. ELA";
                                 Name := grecWorkCenter.Name;
                             end;
                         Type::"Fixed Asset":
@@ -327,22 +327,22 @@ table 14229800 "PM Procedure Header ELA"
         end;
     end;
 
-    [Scope('Internal')]
-    procedure jfdoPrintReportSelections()
-    var
-        lrrfRecRef: RecordRef;
-        lrecPMProc: Record "PM Procedure Header ELA";
-        lrecReportSelection: Record "Report Selections";
-    begin
-        lrrfRecRef.GetTable(Rec);
-        lrecReportSelection.SETRANGE("Table ID", lrrfRecRef.Number);
-        lrecReportSelection.SETFILTER("Report ID", '<>0');
-        lrecReportSelection.FINDSET;
-        lrecPMProc.SetRange("No.", "No.");
-        lrecPMProc.SetRange("Version No.", "Version No.");
-        repeat
-            REPORT.RunModal(lrecReportSelection."Report ID", true, false, lrecPMProc);
-        until lrecReportSelection.NEXT = 0;
-    end;
+    // [Scope('Internal')]
+    // procedure jfdoPrintReportSelections()
+    // var
+    //     lrrfRecRef: RecordRef;
+    //     lrecPMProc: Record "PM Procedure Header ELA";
+    //     lrecReportSelection: Record "Report Selections";
+    // begin
+    //     lrrfRecRef.GetTable(Rec);
+    //     lrecReportSelection.SETRANGE("Table ID", lrrfRecRef.Number);
+    //     lrecReportSelection.SETFILTER("Report ID", '<>0');
+    //     lrecReportSelection.FINDSET;
+    //     lrecPMProc.SetRange("No.", "No.");
+    //     lrecPMProc.SetRange("Version No.", "Version No.");
+    //     repeat
+    //         REPORT.RunModal(lrecReportSelection."Report ID", true, false, lrecPMProc);
+    //     until lrecReportSelection.NEXT = 0;
+    // end;
 }
 

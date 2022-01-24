@@ -383,13 +383,13 @@ codeunit 14229800 "PM Management ELA"
                 BEGIN
                     lrecFA.GET(precWorkOrder."No.");
 
-                    IF lrecFA."Link To Type" = lrecFA."Link To Type"::"Machine Center" THEN
+                    IF lrecFA."Link To Type ELA" = lrecFA."Link To Type ELA"::"Machine Center" THEN
                         lrecCalendarAbsEntry.VALIDATE("Capacity Type", lrecCalendarAbsEntry."Capacity Type"::"Machine Center")
                     ELSE
-                        IF lrecFA."Link To Type" = lrecFA."Link To Type"::"Work Center" THEN
+                        IF lrecFA."Link To Type ELA" = lrecFA."Link To Type ELA"::"Work Center" THEN
                             lrecCalendarAbsEntry.VALIDATE("Capacity Type", lrecCalendarAbsEntry."Capacity Type"::"Work Center")
                         ELSE
-                            lrecFA.FIELDERROR("Link To Type");
+                            lrecFA.FIELDERROR("Link To Type ELA");
 
                     lcodNoToUse := lrecFA."Link To No.";
                 END;
@@ -458,7 +458,7 @@ codeunit 14229800 "PM Management ELA"
         END;
 
         lrecCalendarAbsEntry.Description := STRSUBSTNO(ljfText001, precWorkOrder."PM Work Order No.");
-        lrecCalendarAbsEntry."PM Work Order No." := precWorkOrder."PM Work Order No.";
+        lrecCalendarAbsEntry."PM Work Order No. ELA" := precWorkOrder."PM Work Order No.";
 
         lrecCalendarAbsEntry.UpdateDatetime;
 
@@ -479,7 +479,7 @@ codeunit 14229800 "PM Management ELA"
         END;
 
         lrecCalendarAbsEntry.RESET;
-        lrecCalendarAbsEntry.SETRANGE("PM Work Order No.", precWorkOrder."PM Work Order No.");
+        lrecCalendarAbsEntry.SETRANGE("PM Work Order No. ELA", precWorkOrder."PM Work Order No.");
 
         IF lrecCalendarAbsEntry.FINDSET THEN BEGIN
             REPEAT
@@ -497,7 +497,7 @@ codeunit 14229800 "PM Management ELA"
         IF precWorkOrder."PM Work Order No." = '' THEN
             EXIT;
 
-        lrecCalendarAbsEntry.SETRANGE("PM Work Order No.", precWorkOrder."PM Work Order No.");
+        lrecCalendarAbsEntry.SETRANGE("PM Work Order No. ELA", precWorkOrder."PM Work Order No.");
         lrecCalendarAbsEntry.DELETEALL(TRUE);
     end;
 }

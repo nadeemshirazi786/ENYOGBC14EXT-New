@@ -141,15 +141,15 @@ page 14229820 "Finished Work Order"
                         //REPORT.RUN(REPORT :: Report23019254, TRUE, FALSE, grecPMWOHeader);
                     end;
                 }
-                action("Report Selection(s)")
-                {
-                    Caption = 'Report Selection(s)';
+                // action("Report Selection(s)")
+                // {
+                //     Caption = 'Report Selection(s)';
 
-                    trigger OnAction()
-                    begin
-                        jfdoPrintReportSelections;
-                    end;
-                }
+                //     trigger OnAction()
+                //     begin
+                //         jfdoPrintReportSelections;
+                //     end;
+                // }
             }
         }
     }

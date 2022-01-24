@@ -249,7 +249,7 @@ page 14229810 "Work Order"
                     trigger OnAction()
                     begin
                         grecPMWOHeader.SETRANGE("PM Work Order No.", "PM Work Order No.");
-                        //REPORT.RUN(REPORT :: Report23019251, TRUE, FALSE, grecPMWOHeader);
+                        REPORT.RUN(REPORT :: "PM Work Order Worksheet ELA", TRUE, FALSE, grecPMWOHeader);
                     end;
                 }
                 action("Report Selection(s)")
@@ -257,10 +257,10 @@ page 14229810 "Work Order"
                     Caption = 'Report Selection(s)';
                     Image = "Report";
 
-                    trigger OnAction()
-                    begin
-                        jfdoPrintReportSelections;
-                    end;
+                    // trigger OnAction()
+                    // begin
+                    //     jfdoPrintReportSelections;
+                    // end;
                 }
             }
         }

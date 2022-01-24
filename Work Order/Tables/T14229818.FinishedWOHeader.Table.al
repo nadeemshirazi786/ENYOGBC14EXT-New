@@ -229,21 +229,21 @@ table 14229818 "Finished WO Header ELA"
         lrecFinPMWOComments.DELETEALL;
     end;
 
-    [Scope('Internal')]
-    procedure jfdoPrintReportSelections()
-    var
-        lrrfRecRef: RecordRef;
-        lrecFinWO: Record "Finished WO Header ELA";
-        lrecReportSelection: Record "Report Selections";
-    begin
-        lrrfRecRef.GetTable(Rec);
-        lrecReportSelection.SETRANGE("Table ID", lrrfRecRef.Number);
-        lrecReportSelection.SETFILTER("Report ID", '<>0');
-        lrecReportSelection.FINDSET;
-        lrecFinWO.SetRange("No.", "No.");
-        repeat
-            REPORT.RunModal(lrecReportSelection."Report ID", true, false, lrecFinWO);
-        until lrecReportSelection.NEXT = 0;
-    end;
+    // [Scope('Internal')]
+    // procedure jfdoPrintReportSelections()
+    // var
+    //     lrrfRecRef: RecordRef;
+    //     lrecFinWO: Record "Finished WO Header ELA";
+    //     lrecReportSelection: Record "Report Selections";
+    // begin
+    //     lrrfRecRef.GetTable(Rec);
+    //     lrecReportSelection.SETRANGE("Table ID", lrrfRecRef.Number);
+    //     lrecReportSelection.SETFILTER("Report ID", '<>0');
+    //     lrecReportSelection.FINDSET;
+    //     lrecFinWO.SetRange("No.", "No.");
+    //     repeat
+    //         REPORT.RunModal(lrecReportSelection."Report ID", true, false, lrecFinWO);
+    //     until lrecReportSelection.NEXT = 0;
+    // end;
 }
 
