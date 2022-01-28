@@ -1,4 +1,4 @@
-page 14229825 "Fin. Work Order Faults"
+page 14229825 "Fin. Work Order Faults ELA"
 {
     Editable = false;
     PageType = List;

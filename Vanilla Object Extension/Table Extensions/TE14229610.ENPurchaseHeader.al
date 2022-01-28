@@ -120,6 +120,22 @@ tableextension 14229610 "EN Purchase Header ELA" extends "Purchase Header"
                 end;
             end;
         }
+		field(14229200; "Pickup Date ELA"; Date)
+        {
+            Caption = 'Pickup Date';
+            DataClassification = ToBeClassified;
+        }
+        field(14229201; "PO Receiving Status ELA"; Option)
+        {
+            Caption = 'PO Receiving Status';
+            DataClassification = ToBeClassified;
+            OptionMembers = Open,Partial,Full;
+        }
+        field(14229202; "Use for IC Receiving ELA"; Boolean)
+        {
+            Caption = 'Use for IC Receiving';
+            DataClassification = ToBeClassified;
+        }
     }
     Keys
     {

@@ -60,7 +60,7 @@ page 14229834 "PM Procedure List"
         }
         area(factboxes)
         {
-            part("PM Sched. Statistics FactBox"; "PM Sched. Statistics FactBox")
+            part("PM Sched. Statistics FactBox"; "PM Sched. Stat. FactBox ELA")
             {
                 ShowFilter = false;
                 SubPageLink = Code = FIELD(Code),
@@ -80,7 +80,7 @@ page 14229834 "PM Procedure List"
                 {
                     Caption = 'Comments';
                     Image = ListPage;
-                    RunObject = Page "PM Proc. Comments";
+                    RunObject = Page "PM Proc. Comments ELA";
                     RunPageLink = "PM Procedure Code"=FIELD(Code),
                                   "Version No."=FIELD("Version No."),
                                   "PM Procedure Line No."=CONST(0);
@@ -130,7 +130,7 @@ page 14229834 "PM Procedure List"
                     Image = ListPage;
                     Promoted = true;
                     PromotedCategory = Process;
-                    RunObject = Page "PM Calc. Methods";
+                    RunObject = Page "PM Calc. Methods ELA";
                                     RunPageLink = "PM Procedure Code"=FIELD(Code),
                                   "Version No."=FIELD("Version No."),
                                   Type=FIELD(Type);

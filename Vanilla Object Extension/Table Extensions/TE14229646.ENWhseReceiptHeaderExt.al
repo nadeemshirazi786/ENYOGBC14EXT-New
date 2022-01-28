@@ -60,7 +60,32 @@ tableextension 14229646 "EN Whse Receipt Header Ext" extends "Warehouse Receipt 
         {
             DataClassification = ToBeClassified;
         }
+		field(14229200; "Source Doc. No. ELA"; Code[10])
+        {
+            Caption = 'Source Doc. No.';
+            DataClassification = ToBeClassified;
+        }
 
+        field(14229201; "Off-load Status ELA"; Option)
+        {
+            OptionMembers = "Pending","Started","Completed";
+            Caption = 'Off-load Status';
+            DataClassification = ToBeClassified;
+        }
 
     }
+	trigger OnDelete()
+    var
+        Container: record "Container ELA";
+        Repor: Report 5753;
+    begin
+        Container.reset;
+        container.SetRange(Completed, false);
+        // Container.SetRange("Whse. Document Type", Container."Whse. Document Type"::Receipt);
+        //Container.SetRange("Whse. Document No.", "No.");
+        if Container.FindSet() then
+            repeat
+                Container.Delete(true);
+            until Container.Next() = 0;
+    end;
 }

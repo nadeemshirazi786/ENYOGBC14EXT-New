@@ -17,7 +17,69 @@ pageextension 14229642 "Whse. Receipt Subform" extends "Whse. Receipt Subform"
                 Caption = 'UOM Size Code';
             }
         }
+		addafter("Qty. per Unit of Measure")
+        {
+            field("Line No."; "Line No.")
+            {
+                ApplicationArea = All;
+            }
+            field("Received By"; "Received By ELA")
+            {
+                ApplicationArea = All;
+            }
+            field("No. of Pallets ELA"; "No. of Pallets ELA")
+            {
+                ApplicationArea = ALL;
+            }
+        }
 
+    }
+	actions
+    {
+        addfirst(Processing)
+        {
+            action("Show Container")
+            {
+                ApplicationArea = Suite;
+                Caption = '&Container';
+                Image = ResourceGroup;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                ShortCutKey = 'F9';
+                ToolTip = 'Shows Items in the container';
+                trigger OnAction()
+                var
+                    ContMgmt: Codeunit "Container Mgmt. ELA";
+                    WhseDocType: enum "Whse. Doc. Type ELA";
+                    SourceDocTypeFilter: enum "WMS Source Doc Type ELA";
+                    ActivityType: Enum "WMS Activity Type ELA";
+                begin
+                    ContMgmt.ShowContainer(SourceDocTypeFilter, '', "Location Code", 0, '', WhseDocType::Receipt,
+                         Rec."No.", ActivityType, '');
+                end;
+            }
+
+            action("Assign Container Contents")
+            {
+                ApplicationArea = Warehouse;
+                Promoted = true;
+                PromotedCategory = Process;
+                image = Create;
+                trigger OnAction()
+                var
+                    AssignContContents: Page "Assign Container Contents ELA";
+                    WhseDocType: Enum "Whse. Doc. Type ELA";
+                    SourceDocTypeFilter: Enum "WMS Source Doc Type ELA";
+                    ActivityType: Enum "WMS Activity Type ELA";
+                begin
+                    AssignContContents.SetDocumentFilters(SourceDocTypeFilter, 1, rec."Source No.", 0,
+                        WhseDocType::Receipt, Rec."No.", ActivityType::"Put-away", '', 0, '', false);
+                    AssignContContents.Run();
+                end;
+            }
+
+        }
     }
     trigger OnAfterGetRecord()
     var

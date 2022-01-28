@@ -125,6 +125,12 @@ tableextension 14229608 "Sales Invoice Header Ext ELA" extends "Sales Invoice He
             Caption = 'Order Template Location';
             DataClassification = ToBeClassified;
         }
+		field(14229200; "App. User ID ELA"; Code[10])
+        {
+            Caption = 'App. User ID';
+            DataClassification = ToBeClassified;
+            Editable = false;
+        }
     }
 
 }

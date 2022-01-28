@@ -166,6 +166,41 @@ pageextension 14228858 "EN Sales Order Ext" extends "Sales Order"
         }
         moveafter("No. Pallets"; "Transport Method")
         moveafter("Transport Method"; "Transaction Type")
+		addlast("Work Description")
+        {
+            field("App. User ID"; Rec."App. User ID ELA")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Application users ID';
+            }
+
+            field("Delivery Route No."; "Route No. ELA")
+            {
+                ApplicationArea = all;
+            }
+
+            field("Stop No."; "Stop No. ELA")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Default stop no. on route';
+            }
+
+            field("Trip No."; rec."Trip No. ELA")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Outbound Load Trip No.';
+
+                trigger OnAssistEdit()
+                var
+                    TripLoad: Record "Trip Load ELA";
+                    TripLoadPage: Page "Outbound Trip Load ELA";
+                begin
+                    TripLoad.Get("Trip No. ELA", TripLoad.Direction::Outbound);
+                    TripLoadPage.SetRecord(TripLoad);
+                    TripLoadPage.Run();
+                end;
+            }
+        }
 
     }
     actions
@@ -213,6 +248,47 @@ pageextension 14228858 "EN Sales Order Ext" extends "Sales Order"
             }
 
 
+        }
+		addfirst(Processing)
+        {
+            action("Show Containers")
+            {
+                ApplicationArea = Warehouse;
+                Promoted = true;
+                PromotedCategory = Process;
+                image = Resource;
+
+                trigger OnAction()
+                var
+                    ContMgmt: codeunit "Container Mgmt. ELA";
+                    WhseDocType: Enum "Whse. Doc. Type ELA";
+                    SourceDoctypeFilter: Enum "WMS Source Doc Type ELA";
+                    ActivityType: Enum "WMS Activity Type ELA";
+                begin
+                    ContMgmt.ShowContainer(SourceDoctypeFilter, '', "Location Code", "Document Type", "No.", WhseDocType::Shipment, ''
+              , ActivityType, '');
+                end;
+            }
+
+
+            action("Assign Container Contents")
+            {
+                ApplicationArea = Warehouse;
+                Promoted = true;
+                PromotedCategory = Process;
+                image = Create;
+                trigger OnAction()
+                var
+                    AssignContContents: Page "Assign Container Contents ELA";
+                    WhseDocType: Enum "Whse. Doc. Type ELA";
+                    ENWMSSourceDocTypeFilter: Enum "WMS Source Doc Type ELA";
+                    ENWMSActType: Enum "WMS Activity Type ELA";
+                begin
+                    AssignContContents.SetDocumentFilters(ENWMSSourceDocTypeFilter::"Sales Order", "Document Type", "No.", 0,
+                        WhseDocType, '', ENWMSActType, '', 0, '', false);
+                    AssignContContents.Run();
+                end;
+            }
         }
 
 

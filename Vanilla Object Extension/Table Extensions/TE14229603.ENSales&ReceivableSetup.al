@@ -438,7 +438,16 @@ tableextension 14229603 "Sales & Receivables Setup ELA" extends "Sales & Receiva
         {
             Caption = 'Test Ord. Sht. Dup. Ext. Doc.';
         }
-
+		field(14229200; "Auto Create Whse. Shipment ELA"; Boolean)
+        {
+            Caption = 'Auto Create Whse. Shipment';
+            DataClassification = ToBeClassified;
+        }
+        field(14229210; "Auto Create Trip ELA"; Boolean)
+        {
+            Caption = 'Auto Create Trip';
+            DataClassification = ToBeClassified;
+        }
     }
     var
         Text50001: Label 'You can only release Order type';

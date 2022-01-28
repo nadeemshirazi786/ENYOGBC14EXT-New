@@ -130,6 +130,12 @@ pageextension 14229621 "EN LT ItemCard EXT ELA" extends "Item Card"
                 Caption = 'Receiving Unit Of Measure';
             }
         }
+		addlast(Control1907509201)
+        {
+            field("Item UPC"; "Item UPC ELA")
+            {
+            }
+        }
     }
     actions
     {

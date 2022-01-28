@@ -375,5 +375,21 @@ tableextension 14229607 "EN Customer ELA" extends "Customer"
             Caption = 'Prices on Invoice';
             DataClassification = ToBeClassified;
         }
+		field(14229200; "Default Delivery Route ELA"; Code[20])
+        {
+            Caption = 'Default Delivery Route';
+            TableRelation = "Delivery Route ELA";
+            DataClassification = ToBeClassified;
+        }
+        field(14229201; "Default Stop No. ELA"; Integer)
+        {
+            Caption = 'Default Stop No.';
+            DataClassification = ToBeClassified;
+        }
+        field(14229202; "Auto. Add to Outbound Load ELA"; Boolean)
+        {
+            Caption = 'Auto. Add to Outbound Load';
+            DataClassification = ToBeClassified;
+        }
     }
 }

@@ -11,7 +11,14 @@ tableextension 14229637 "EN LT Location EXT ELA" extends Location
         {
             DataClassification = ToBeClassified;
         }
-        
+        field(1422928800; "Use Loc. for WMS ELA"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(14229221; "Automatic Write Off"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     procedure LocationType(): Integer

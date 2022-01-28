@@ -1,4 +1,4 @@
-page 14229815 "Work Order Faults"
+page 14229815 "Work Order Faults ELA"
 {
     // Copyright Axentia Solutions Corp.  1999-2009.
     // By opening this object you acknowledge that this object includes confidential information and intellectual

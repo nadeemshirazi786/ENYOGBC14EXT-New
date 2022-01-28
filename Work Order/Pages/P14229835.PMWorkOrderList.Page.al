@@ -62,7 +62,7 @@ page 14229835 "PM Work Order List"
         }
         area(factboxes)
         {
-            part("PM Work Ord Statistics FactBox"; "PM Work Ord Statistics FactBox")
+            part("PM Work Ord Statistics FactBox"; "PM Work Ord Stat. FactBox ELA")
             {
                 ShowFilter = false;
                 SubPageLink = "PM Work Order No." = FIELD ("PM Work Order No."),
@@ -83,7 +83,7 @@ page 14229835 "PM Work Order List"
                 {
                     Caption = 'Comments';
                     Image = ListPage;
-                    RunObject = Page "WO Comments";
+                    RunObject = Page "WO Comments ELA";
                     RunPageLink = "PM Work Order No."=FIELD("PM Work Order No."),
                                   "PM WO Line No."=CONST(0);
                 }

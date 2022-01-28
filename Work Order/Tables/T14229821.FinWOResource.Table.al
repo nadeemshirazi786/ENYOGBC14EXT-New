@@ -1,7 +1,7 @@
 table 14229821 "Fin. WO Resource ELA"
 {
-    DrillDownPageID = "Fin. WO Resources";
-    LookupPageID = "Fin. WO Resources";
+    DrillDownPageID = "Fin. WO Resources ELA";
+    LookupPageID = "Fin. WO Resources ELA";
 
     fields
     {

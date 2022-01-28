@@ -1,4 +1,4 @@
-page 14229833 "PM Fault Effects"
+page 14229833 "PM Fault Effects ELA"
 {
     DelayedInsert = true;
     PageType = List;

@@ -1,4 +1,4 @@
-page 14229842 "PM Cycle History"
+page 14229842 "PM Cycle History ELA"
 {
     PageType = List;
     SourceTable = "PM Cycle History ELA";

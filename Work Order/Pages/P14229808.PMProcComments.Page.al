@@ -1,4 +1,4 @@
-page 14229808 "PM Proc. Comments"
+page 14229808 "PM Proc. Comments ELA"
 {
     AutoSplitKey = true;
     DelayedInsert = true;

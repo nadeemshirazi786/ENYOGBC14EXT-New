@@ -1,7 +1,7 @@
 table 14229810 "Work Order Line ELA"
 {
-    DrillDownPageID = "Work Order Subform";
-    LookupPageID = "Work Order Subform";
+    DrillDownPageID = "Work Order Subform ELA";
+    LookupPageID = "Work Order Subform ELA";
 
     fields
     {

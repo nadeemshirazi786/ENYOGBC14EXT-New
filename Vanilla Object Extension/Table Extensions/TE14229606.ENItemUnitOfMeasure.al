@@ -84,6 +84,104 @@ tableextension 14229606 "EN Item Unit Of Measure ELA" extends "Item Unit of Meas
             end;
 
         }
+		field(14229220; "Case Barcode ELA"; Code[20])
+        {
+            Caption = 'Case Barcode';
+            DataClassification = ToBeClassified;
+        }
+
+        field(14229221; "Is Bulk ELA"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Is Bulk';
+
+            trigger OnValidate()
+            var
+                ItemUnitOfMeasure: record "Item Unit of Measure";
+                TEXT14229220: Label 'Unable to mark %1 as bulk unit for Item No. %2';
+            begin
+                if "Is Bulk ELA" then begin
+                    ItemUnitOfMeasure.SetRange("Item No.", "Item No.");
+                    ItemUnitOfMeasure.SetRange("Is Bulk ELA", true);
+                    ItemUnitOfMeasure.SetFilter(Code, '<>%1', Rec.Code);
+                    if ItemUnitOfMeasure.FindFirst() then
+                        Error(
+                            StrSubstNo(TEXT14229220, Code, "Item No."));
+                end;
+            end;
+        }
+        field(14229222; "Item Description ELA"; Text[30])
+        {
+            Caption = 'Item Description';
+            DataClassification = ToBeClassified;
+        }
+
+        field(14229223; "Std. Pack UPC/EAN Number ELA"; Code[20])
+        {
+            Caption = 'Std. Pack UPC/EAN Number';
+            DataClassification = ToBeClassified;
+            /* trigger OnValidate()
+             var
+                 Item: Record Item;
+             begin
+
+                 IF NOT ISSERVICETIER THEN BEGIN //EN1.03
+                     IF NOT (STRLEN("Std. Pack UPC/EAN Number ELA") IN [0, 14]) THEN
+                         IF NOT CONFIRM(
+                                  Text14000701, FALSE,
+                                  FIELDNAME("Std. Pack UPC/EAN Number ELA"))
+                         THEN
+                             ERROR(Text14000702);
+
+                     IF "Std. Pack UPC/EAN Number ELA" <> '' THEN BEGIN
+                         Item.GET("Item No.");
+                         IF Item."Item UPC ELA" <> '' THEN
+                             IF (STRPOS("Std. Pack UPC/EAN Number ELA", Item."Item UPC ELA") = 0) AND
+                                (STRPOS(
+                                   "Std. Pack UPC/EAN Number ELA",
+                                   COPYSTR(Item."Item UPC ELA", 1, STRLEN(Item."Item UPC ELA") - 1)) = 0)
+                             THEN
+                                 IF NOT CONFIRM(
+                                          Text14000703, FALSE,
+                                          Item.FIELDNAME("Item UPC ELA"), Item."Item UPC ELA",
+                                          FIELDNAME("Std. Pack UPC/EAN Number ELA"))
+                                 THEN
+                                     ERROR(Text14000702);
+                     END;
+                 END; // EN1.03
+
+                 //<<EN1.03
+                 NewBarcode := "Std. Pack UPC/EAN Number ELA";
+                 NewBarcode := DELCHR(NewBarcode, '=', '(');
+                 NewBarcode := DELCHR(NewBarcode, '=', ')');
+                 Barcode := NewBarcode;
+             end;*/
+        }
+        field(14229224; "Label Description ELA"; Text[80])
+        {
+            Caption = 'Label Description';
+            DataClassification = ToBeClassified;
+        }
+        field(14229225; "Lable Size ELA"; Text[20])
+        {
+            Caption = 'Lable Size';
+            DataClassification = ToBeClassified;
+        }
+        field(14229226; "Base Quantity ELA"; Decimal)
+        {
+            Caption = 'Base Quantity';
+            DataClassification = ToBeClassified;
+        }
+        field(14229227; "Putaway Unit of Measure ELA"; Code[10])
+        {
+            Caption = 'Putaway Unit of Measure';
+            DataClassification = ToBeClassified;
+        }
+        field(14229228; "Base Unit of Measure ELA"; Code[10])
+        {
+            Caption = 'Base Unit of Measure';
+            DataClassification = ToBeClassified;
+        }
     }
     procedure CheckUOM_ELA()
     var

@@ -1,4 +1,4 @@
-page 14229823 "Fin. WO Resources"
+page 14229823 "Fin. WO Resources ELA"
 {
     AutoSplitKey = true;
     DelayedInsert = true;

@@ -1,4 +1,4 @@
-page 14229805 "PM Measure Codes"
+page 14229805 "PM Measure Codes ELA"
 {
     DelayedInsert = true;
     PageType = List;
@@ -37,7 +37,7 @@ page 14229805 "PM Measure Codes"
                 {
                     Caption = 'PM Measure Code Values';
                     Image = CodesList;
-                    RunObject = Page "PM Measure Code Values";
+                    RunObject = Page "PM Measure Code Values ELA";
                     RunPageLink = "PM Measure Code"=FIELD(Code);
                 }
             }

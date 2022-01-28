@@ -1,7 +1,7 @@
 table 14229819 "Finished WO Line ELA"
 {
-    DrillDownPageID = "Fin. WO Subform";
-    LookupPageID = "Fin. WO Subform";
+    DrillDownPageID = "Fin. WO Subform ELA";
+    LookupPageID = "Fin. WO Subform ELA";
 
     fields
     {

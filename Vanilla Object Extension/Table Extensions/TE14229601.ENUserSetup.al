@@ -64,6 +64,15 @@ tableextension 14229601 "EN User Setup ELA" extends "User Setup"
             Caption = 'Allow EC Button Use';
             DataClassification = ToBeClassified;
         }
+		field(14229200; "Use For App. Auth. ELA"; Boolean)
+        {
+
+        }
+
+        field(14229201; "Can Modify App. Users ELA"; Boolean)
+        {
+
+        }
 
     }
     procedure GetUserSalesTeam(): Code[10]

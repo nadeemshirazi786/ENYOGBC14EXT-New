@@ -1,7 +1,7 @@
 table 14229833 "PM Step ELA"
 {
-    DrillDownPageID = "PM Steps";
-    LookupPageID = "PM Steps";
+    DrillDownPageID = "PM Steps ELA";
+    LookupPageID = "PM Steps ELA";
 
     fields
     {

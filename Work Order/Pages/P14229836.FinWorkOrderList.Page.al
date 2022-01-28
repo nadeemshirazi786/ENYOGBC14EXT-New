@@ -1,6 +1,6 @@
 page 14229836 "Fin. Work Order List"
 {
-    CardPageID = "Finished Work Order";
+    CardPageID = "Finished Work Order ELA";
     DeleteAllowed = false;
     Editable = false;
     InsertAllowed = false;
@@ -69,7 +69,7 @@ page 14229836 "Fin. Work Order List"
         }
         area(factboxes)
         {
-            part("Fin. Work Ord Stat FactBox"; "Fin. Work Ord Stat FactBox")
+            part("Fin. Work Ord Stat FactBox"; "Fin. Work Ord Stat FactBox ELA")
             {
                 ShowFilter = false;
                 SubPageLink = "PM Work Order No." = FIELD("PM Work Order No."),
@@ -90,7 +90,7 @@ page 14229836 "Fin. Work Order List"
                 {
                     Caption = 'Comments';
                     Image = ListPage;
-                    RunObject = Page "Fin. WO Comments";
+                    RunObject = Page "Fin. WO Comments ELA";
                     RunPageLink = "PM Work Order No."=FIELD("PM Work Order No."),
                                   "PM WO Line No."=CONST(0);
                 }

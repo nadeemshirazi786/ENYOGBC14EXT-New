@@ -1,4 +1,4 @@
-page 14229826 "Fin. WO Line Results"
+page 14229826 "Fin. WO Line Results ELA"
 {
     DelayedInsert = true;
     Editable = false;

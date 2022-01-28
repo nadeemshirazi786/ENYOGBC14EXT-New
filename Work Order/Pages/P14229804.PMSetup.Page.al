@@ -1,4 +1,4 @@
-page 14229804 "PM Setup"
+page 14229804 "PM Setup ELA"
 {
     PageType = Card;
     SourceTable = "PM Setup ELA";

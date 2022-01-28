@@ -1,7 +1,7 @@
 table 14229814 "Work Order Fault ELA"
 {
-    DrillDownPageID = "Work Order Faults";
-    LookupPageID = "Work Order Faults";
+    DrillDownPageID = "Work Order Faults ELA";
+    LookupPageID = "Work Order Faults ELA";
 
     fields
     {

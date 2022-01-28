@@ -435,7 +435,7 @@ page 14229807 "PM Work Order Wizard"
     [Scope('Internal')]
     procedure jfdoCodePropertyLookup(): Code[10]
     var
-        lfrmQMCodeValues: Page "PM Measure Code Values";
+        lfrmQMCodeValues: Page "PM Measure Code Values ELA";
         lrecQMCodeValue: Record "PM Measure Code Value ELA";
     begin
         lrecQMCodeValue.SETRANGE("PM Measure Code", "PM Measure Code");
@@ -452,7 +452,7 @@ page 14229807 "PM Work Order Wizard"
     [Scope('Internal')]
     procedure jfdoPMWOResultsLookup(): Decimal
     var
-        lfrmWOLineResults: Page "WO Line Results";
+        lfrmWOLineResults: Page "WO Line Results ELA";
         lrecWOLineResults: Record "WO Line Result ELA";
     begin
         EXIT(lrecWOLineResults.jfdoPMWOResultsLookup(Rec, TRUE));

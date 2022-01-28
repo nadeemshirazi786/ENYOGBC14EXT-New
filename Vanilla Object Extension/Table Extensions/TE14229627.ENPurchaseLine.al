@@ -445,6 +445,18 @@ tableextension 14229627 "EN Purchase  Line ELA" extends "Purchase Line"
             FieldClass = FlowField;
             CalcFormula = Lookup("Purchase Header"."Ext Bill of Lading/Waybill No." WHERE("Document Type" = FIELD("Document Type"), "No." = FIELD("Document No.")));
         }
+		field(14229220; "Vendor Lot No. ELA"; Code[20])
+        {
+            Caption = 'Vendor Lot No.';
+        }
+
+        field(14229221; "Vendor Item Barcode ELA"; Code[20])
+        {
+            Caption = 'Vendor Item Barcode';
+            FieldClass = FlowField;
+
+            CalcFormula = Lookup("Item Cross Reference"."Cross-Reference No." WHERE("Item No." = FIELD("No."), "Cross-Reference Type" = CONST(Vendor), "Cross-Reference Type No." = FIELD("Buy-from Vendor No.")));
+        }
     }
 
     procedure GetLocation("Location Code": Code[10])

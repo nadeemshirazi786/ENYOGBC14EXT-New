@@ -1,4 +1,4 @@
-page 14229830 "PM Fault Codes"
+page 14229830 "PM Fault Codes ELA"
 {
     DelayedInsert = true;
     PageType = List;

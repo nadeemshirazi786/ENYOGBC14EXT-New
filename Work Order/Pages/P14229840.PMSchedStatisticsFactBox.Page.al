@@ -1,4 +1,4 @@
-page 14229840 "PM Sched. Statistics FactBox"
+page 14229840 "PM Sched. Stat. FactBox ELA"
 {
     Caption = 'Scheduling Statistics';
     Editable = false;

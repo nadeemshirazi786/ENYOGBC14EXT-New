@@ -30,6 +30,19 @@ pageextension 14229608 "EN Purchase Order" extends "Purchase Order"
             {
 
             }
+			field("Pickup Date"; "Pickup Date ELA")
+            {
+                ApplicationArea = All;
+            }
+            field("Your Reference"; "Your Reference")
+            {
+
+                ApplicationArea = All;
+            }
+            field("PO Receiving Status ELA"; "PO Receiving Status ELA")
+            {
+                ApplicationArea = All;
+            }
         }
         addlast(General)
         {
@@ -108,5 +121,65 @@ pageextension 14229608 "EN Purchase Order" extends "Purchase Order"
             }
 
         }
+		addfirst(Processing)
+        {
+            action("Show Containers")
+            {
+                ApplicationArea = Warehouse;
+                Promoted = true;
+                PromotedCategory = Process;
+                image = Resource;
+
+                trigger OnAction()
+                var
+                    ContMgmt: codeunit "Container Mgmt. ELA";
+                    WhseDocType: Enum "Whse. Doc. Type ELA";
+                    SourceDoctypeFilter: Enum "WMS Source Doc Type ELA";
+                    ActivityType: Enum "WMS Activity Type ELA";
+                begin
+                    ContMgmt.ShowContainer(SourceDoctypeFilter, '', "Location Code", "Document Type", "No.",
+                     WhseDocType::Receipt, '', ActivityType, '');
+                end;
+            }
+
+            action("Assign Container Contents")
+            {
+                ApplicationArea = Warehouse;
+                Promoted = true;
+                PromotedCategory = Process;
+                image = Create;
+                trigger OnAction()
+                var
+                    AssignContContents: Page "Assign Container Contents ELA";
+                    WhseDocType: Enum "Whse. Doc. Type ELA";
+                    ENWMSSourceDocTypeFilter: Enum "WMS Source Doc Type ELA";
+                    ActivityType: Enum "WMS Activity Type ELA";
+                begin
+                    AssignContContents.SetDocumentFilters(ENWMSSourceDocTypeFilter::"Purchase Order", "Document Type", "No.", 0,
+                        WhseDocType, '', ActivityType, '', 0, '', false);
+                    AssignContContents.Run();
+                end;
+            }
+
+            action("Create Receipt")
+            {
+                ApplicationArea = Warehouse;
+                Promoted = true;
+                PromotedCategory = Process;
+                image = Receipt;
+
+                trigger OnAction()
+                var
+                    WMSMgmt: Codeunit "WMS Activity Mgmt. ELA";
+                begin
+                    WMSMgmt.CreatePOReceipt(Rec."No.");
+                end;
+            }
+        }
     }
+	procedure SetLocFilter(LocationCode: code[10])
+    begin
+        CurrPage.PurchLines.Page.SetLocFilter(LocationCode);
+        CurrPage.Update();
+    end;
 }

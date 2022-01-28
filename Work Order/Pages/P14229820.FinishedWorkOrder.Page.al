@@ -1,4 +1,4 @@
-page 14229820 "Finished Work Order"
+page 14229820 "Finished Work Order ELA"
 {
     Editable = false;
     PageType = Document;
@@ -69,14 +69,14 @@ page 14229820 "Finished Work Order"
                 {
                 }
             }
-            part("Fin. WO Subform"; "Fin. WO Subform")
+            part("Fin. WO Subform"; "Fin. WO Subform ELA")
             {
                 SubPageLink = "PM Work Order No." = FIELD("PM Work Order No.");
             }
         }
         area(factboxes)
         {
-            part("Fin. Work Ord Stat FactBox"; "Fin. Work Ord Stat FactBox")
+            part("Fin. Work Ord Stat FactBox"; "Fin. Work Ord Stat FactBox ELA")
             {
                 ShowFilter = false;
                 SubPageLink = "PM Work Order No." = FIELD("PM Work Order No."), "PM Proc. Version No." = FIELD("PM Proc. Version No."), "PM Procedure Code" = FIELD("PM Procedure Code");
@@ -95,7 +95,7 @@ page 14229820 "Finished Work Order"
                 {
                     Caption = 'Comments';
                     Image = ListPage;
-                    RunObject = Page "Fin. WO Comments";
+                    RunObject = Page "Fin. WO Comments ELA";
                     RunPageLink = "PM Work Order No." = FIELD("PM Work Order No."), "PM WO Line No." = CONST(0);
                 }
                 separator(Separator)

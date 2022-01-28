@@ -1,4 +1,4 @@
-page 14229843 "Fin. Work Ord Stat FactBox"
+page 14229843 "Fin. Work Ord Stat FactBox ELA"
 {
     // Copyright Axentia Solutions Corp.  1999-2014.
     // By opening this object you acknowledge that this object includes confidential information and intellectual

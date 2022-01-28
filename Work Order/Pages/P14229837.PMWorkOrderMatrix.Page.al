@@ -1,4 +1,4 @@
-page 14229837 "PM Work Order Matrix"
+page 14229837 "PM Work Order Matrix ELA"
 {
     DataCaptionFields = Type, "No.";
     PageType = List;

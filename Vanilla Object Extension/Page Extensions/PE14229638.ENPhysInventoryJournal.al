@@ -1,5 +1,27 @@
 pageextension 14229638 "Phys. Inventory Journal ELA" extends "Phys. Inventory Journal"
 {
+layout
+    {
+        addafter("Item No.")
+        {
+            field("Journal Template Name"; "Journal Template Name")
+            {
+                ApplicationArea = All;
+            }
+            field("Journal Batch Name"; "Journal Batch Name")
+            {
+                ApplicationArea = All;
+            }
+            field("Line No."; "Line No.")
+            {
+                ApplicationArea = All;
+            }
+            field("Lot No."; "Lot No.")
+            {
+                ApplicationArea = All;
+            }
+        }
+    }
     actions
     {
         addafter(CalculateCountingPeriod)

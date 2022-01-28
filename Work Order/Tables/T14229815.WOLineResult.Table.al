@@ -1,7 +1,7 @@
 table 14229815 "WO Line Result ELA"
 {
-    DrillDownPageID = "WO Line Results";
-    LookupPageID = "WO Line Results";
+    DrillDownPageID = "WO Line Results ELA";
+    LookupPageID = "WO Line Results ELA";
 
     fields
     {
@@ -61,7 +61,7 @@ table 14229815 "WO Line Result ELA"
     [Scope('Internal')]
     procedure jfdoPMWOResultsLookup(precPMWOLine: Record "Work Order Line ELA"; pblnLookupForm: Boolean): Decimal
     var
-        lfrmPMWOLineResults: Page "WO Line Results";
+        lfrmPMWOLineResults: Page "WO Line Results ELA";
         lrecPMWOLineResults: Record "WO Line Result ELA";
         //lrecQStatBufferTemp: Record Table23019239 temporary;
         lintNoResults: Integer;

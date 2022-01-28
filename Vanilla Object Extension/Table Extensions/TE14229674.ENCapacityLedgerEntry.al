@@ -1,4 +1,4 @@
-tableextension 14229655 "Capacity Ledger Entry ELA" extends "Capacity Ledger Entry"
+tableextension 14229674 "Capacity Ledger Entry ELA" extends "Capacity Ledger Entry"
 {
     fields
     {

@@ -8,6 +8,14 @@ pageextension 14229600 "EN User Setup ELA" extends "User Setup"
             {
                 ApplicationArea = All;
             }
+			field("Use For Mobile App. Auth."; Rec."Use For App. Auth. ELA")
+            {
+                ApplicationArea = All;
+            }
+            field("Can Modify Mobile App. Users"; Rec."Can Modify App. Users ELA")
+            {
+                ApplicationArea = All;
+            }
         }
         addlast(Control1)
         {

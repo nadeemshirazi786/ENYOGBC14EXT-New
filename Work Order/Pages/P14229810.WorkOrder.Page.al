@@ -102,7 +102,7 @@ page 14229810 "Work Order"
                 {
                 }
             }
-            part(Lines; "Work Order Subform")
+            part(Lines; "Work Order Subform ELA")
             {
                 SubPageLink = "PM Work Order No." = FIELD("PM Work Order No.");
             }
@@ -136,7 +136,7 @@ page 14229810 "Work Order"
         }
         area(factboxes)
         {
-            part("PM Work Ord Statistics FactBox"; "PM Work Ord Statistics FactBox")
+            part("PM Work Ord Statistics FactBox"; "PM Work Ord Stat. FactBox ELA")
             {
                 ShowFilter = false;
                 SubPageLink = "PM Work Order No." = FIELD("PM Work Order No."), "PM Proc. Version No." = FIELD("PM Proc. Version No."), "PM Procedure Code" = FIELD("PM Procedure Code");
@@ -155,7 +155,7 @@ page 14229810 "Work Order"
                 {
                     Caption = 'Comments';
                     Image = ListPage;
-                    RunObject = Page "WO Comments";
+                    RunObject = Page "WO Comments ELA";
                     RunPageLink = "PM Work Order No." = FIELD("PM Work Order No."), "PM WO Line No." = CONST(0);
                 }
             }

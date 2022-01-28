@@ -17,6 +17,13 @@ pageextension 14229631 "Location ELA" extends "Location Card"
                 ApplicationArea = All;
             }
         }
+		addafter("Use As In-Transit")
+        {
+            field("Use Loc. for WMS"; "Use Loc. for WMS ELA")
+            {
+                ApplicationArea = All;
+            }
+        }
     }
 
     actions

@@ -315,6 +315,17 @@ pageextension 14229605 "EN Sales & Receivables Setup" extends "Sales & Receivabl
 
             }
         }
+		addafter("Skip Manual Reservation")
+        {
+            field("Auto Create Whse. Shipment"; "Auto Create Whse. Shipment ELA")
+            {
+                ApplicationArea = All;
+            }
+            field("Auto Create Trip"; "Auto Create Trip ELA")
+            {
+                ApplicationArea = All;
+            }
+        }
 
     }
 }

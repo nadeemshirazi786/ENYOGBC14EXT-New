@@ -1,4 +1,4 @@
-page 14229841 "PM Work Ord Statistics FactBox"
+page 14229841 "PM Work Ord Stat. FactBox ELA"
 {
     Caption = 'Statistics';
     Editable = false;

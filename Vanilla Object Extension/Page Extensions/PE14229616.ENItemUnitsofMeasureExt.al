@@ -35,6 +35,39 @@ pageextension 14229616 "EN Item Units of Measure Ext" extends "Item Units of Mea
                 ApplicationArea = All;
 
             }
+			field("Case Barcode"; "Case Barcode ELA")
+            {
+                ApplicationArea = All;
+            }
+
+            field("Is bulk"; "Is Bulk ELA")
+            {
+                ApplicationArea = All;
+            }
+            field("Item Description ELA"; "Item Description ELA")
+            {
+                ApplicationArea = All;
+            }
+            field("Std. Pack UPC/EAN Number ELA"; "Std. Pack UPC/EAN Number ELA")
+            {
+                ApplicationArea = All;
+            }
+            field("Label Description ELA"; "Label Description ELA")
+            {
+                ApplicationArea = All;
+            }
+            field("Lable Size ELA"; "Lable Size ELA")
+            {
+                ApplicationArea = All;
+            }
+            field("Base Unit of Measure ELA"; "Base Unit of Measure ELA")
+            {
+                ApplicationArea = All;
+            }
+            field("Putaway Unit of Measure ELA"; "Putaway Unit of Measure ELA")
+            {
+                ApplicationArea = All;
+            }
 
         }
     }

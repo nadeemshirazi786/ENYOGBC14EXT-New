@@ -29,6 +29,15 @@ pageextension 14229610 "EN Posted Purchase Receipt" extends "Posted Purchase Rec
 
             }
         }
+		// addlast(Content)
+        // {
+        //     field("Order No."; "Order No.")
+        //     {
+
+        //         ApplicationArea = All;
+        //     }
+
+        // }
     }
     actions
     {

@@ -38,6 +38,32 @@ tableextension 14229618 "EN Unit of Measure ELA" extends "Unit of Measure"
             Caption = 'EN Dimension Type';
             DataClassification = ToBeClassified;
         }
+		field(14229200; "Use for WMS App. ELA"; Boolean)
+        {
+            Caption = 'Use for WMS App.';
+            DataClassification = ToBeClassified;
+        }
+
+        field(14229220; "Is Bulk ELA"; Boolean)
+        {
+            Caption = 'Is Bulk';
+            DataClassification = ToBeClassified;
+
+            trigger OnValidate()
+            var
+                ItemUnitOfMeasure: record "Item Unit of Measure";
+            begin
+                ItemUnitOfMeasure.reset;
+                ItemUnitOfMeasure.SetRange(Code, Rec.Code);
+                ItemUnitOfMeasure.ModifyAll("Is Bulk ELA", "Is Bulk ELA");
+                // if ItemUnitOfMeasure.FindSet() then
+                //     repeat
+                //         if ItemUnitOfMeasure."Is Bulk" <> "Is Bulk" then begin
+
+                //         end;
+                //     until ItemUnitOfMeasure.Next() = 0;
+            end;
+        }
     }
 
 

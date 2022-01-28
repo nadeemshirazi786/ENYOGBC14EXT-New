@@ -1,4 +1,4 @@
-page 14229818 "PM Worksheet Batch"
+page 14229818 "PM Worksheet Batch ELA"
 {
     PageType = List;
     SourceTable = "PM Worksheet Batch ELA";

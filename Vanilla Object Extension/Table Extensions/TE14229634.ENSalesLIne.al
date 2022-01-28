@@ -452,6 +452,31 @@ tableextension 14229634 "EN Sales Line ELA" extends "Sales Line"
                 jfmgOverShip;
             end;
         }
+		field(14229200; "Ship Action ELA"; Enum "WMS Ship Acion ELA")
+        {
+            // Caption = 'Ship Action';
+            // OptionCaption = ' ,Fullfill,Cut,Over Ship,Back Order';
+            // OptionMembers = " ",Fullfill,Cut,"Over Ship","Back Order";
+        }
+        field(14229220; "Orig. Ordered Qty ELA"; Decimal)
+        {
+
+        }
+
+        field(14229221; "Orig. Asked Qty. ELA"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+
+        field(14229222; "Last Modified Qty. ELA"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+
+        field(14229223; "Cut/Overship Qty. ELA"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
 
     }
     procedure WarehouseLineQuantityELA(QtyBase: Decimal; QtyAlt: Decimal; QtyToInvBase: Decimal)

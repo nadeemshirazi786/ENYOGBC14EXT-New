@@ -129,6 +129,20 @@ pageextension 14228852 "EN Customer Card Ext" extends "Customer Card"
             {
                 Caption = 'Dropoff Time Window Start 2';
             }
+			field("Default Delivery Route"; "Default Delivery Route ELA")
+            {
+                ApplicationArea = All;
+            }
+
+            field("Default Stop No."; Rec."Default Stop No. ELA")
+            {
+                ApplicationArea = All;
+            }
+
+            field("Auto. Add to Outbound Load"; Rec."Auto. Add to Outbound Load ELA")
+            {
+                ApplicationArea = All;
+            }
 
         }
         addafter("Language Code")

@@ -13,6 +13,18 @@ pageextension 14229634 "Sales Invoice ELA" extends "Sales Invoice"
                 ApplicationArea = All;
             }
         }
+		addlast("Work Description")
+        {
+            field("App. User ID"; Rec."App. User ID ELA")
+            {
+                ApplicationArea = All;
+            }
+
+            field("Delivery Route No."; "Route No. ELA")
+            {
+                ApplicationArea = all;
+            }
+        }
     }
 
     actions

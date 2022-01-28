@@ -1,98 +1,94 @@
 tableextension 14229654 "Warehouse Activity Line" extends "Warehouse Activity Line"
 {
-    //fields
-    //{
-    //     modify("Qty. to Handle")
-    //     {
-    //         trigger OnAfterValidate()
-    //         begin
-    //             IF "Action Type" = "Action Type"::Take THEN BEGIN
-    //                 jfSetUpdatePlaceLine(true);
-    //             END;
+    fields
+    {
+        field(14229220; "Assigned App. Role ELA";
+        Code[20])
+        {
+            TableRelation = "App. Role ELA";
+            DataClassification = ToBeClassified;
+        }
+        field(14229221; "Assigned App. User ELA"; Code[10])
+        {
+            TableRelation = "App. Role ELA";
+            DataClassification = ToBeClassified;
+        }
+        field(14229222; "Original Qty. ELA"; Decimal)
+        {
+            Caption = 'Original Qty.';
+            DataClassification = ToBeClassified;
+        }
+        field(14229223; "Released To Pick ELA"; Boolean)
+        {
+            Caption = 'Released To Pick';
+            DataClassification = ToBeClassified;
+        }
+        field(14229224; "Released At ELA"; DateTime)
+        {
+            Caption = 'Released On';
+            DataClassification = ToBeClassified;
+        }
+        field(14229225; "Prioritized ELA"; Boolean)
+        {
+            Caption = 'Prioritized';
+            DataClassification = ToBeClassified;
+        }
+        field(14229226; "Trip No. ELA"; Code[10])
+        {
+            Caption = 'Trip No.';
+            TableRelation = "Trip Load ELA";
+            DataClassification = ToBeClassified;
+        }
+        field(14229227; "Ship Action ELA"; Option)
+        {
+            OptionMembers = "",Fullfill,Cut,"Over Ship","Back Order";
+            Caption = 'Ship Action';
+            DataClassification = ToBeClassified;
+        }
+        field(14229228; "Received By ELA"; Code[20])
+        {
+            Caption = 'Received By';
+            Editable = false;
+            DataClassification = ToBeClassified;
+        }
+        field(14229229; "Received Date ELA"; Date)
+        {
+            Caption = 'Received Date';
+            Editable = false;
+            DataClassification = ToBeClassified;
+        }
+        field(14229230; "Received Time ELA"; Time)
+        {
+            Caption = 'Received Time';
+            Editable = false;
+            DataClassification = ToBeClassified;
+        }
 
-    //             jfUpdatePlaceLine(FIELDNO("Qty. to Handle"));
-    //         end;
-    //     }
-    // }
 
-    // procedure jfSetUpdatePlaceLine(pblnSet: Boolean)
-    // begin
-    //     IF gblnIsPosting THEN BEGIN
-    //         gblnUpdatePlaceLine := FALSE;
-    //         EXIT;
-    //     END;
-    //     gblnUpdatePlaceLine := pblnSet;
-    // end;
+        field(142292231; "Container No. ELA"; Code[20])
+        {
+            TableRelation = "Container ELA";
+            DataClassification = ToBeClassified;
+        }
+        field(14229232; "Licnese Plate No. ELA"; code[20])
+        {
+            TableRelation = "License Plate ELA";
+            DataClassification = ToBeClassified;
+        }
 
-    // procedure jfUpdatePlaceLine(pintFieldNo: Integer)
-    // var
-    //     lrecWhseActivityLine: Record "Warehouse Activity Line";
-    //     lintUpToLineNo: Integer;
-    //     lintPlaceLineCount: Integer;
-    // begin
-    //     //Update Place line if there is a single place to single take
-
-    //     // IF "Action Type" = "Action Type"::Place THEN
-    //     //     EXIT;
-
-    //     IF NOT gblnUpdatePlaceLine THEN
-    //         EXIT;
-
-    //     //Find Next take Line
-    //     IF NOT lrecWhseActivityLine.GET("Activity Type", "No.", "Line No.") THEN
-    //         EXIT;
-
-    //     lrecWhseActivityLine.SETRANGE("Activity Type", "Activity Type");
-    //     lrecWhseActivityLine.SETRANGE("No.", "No.");
-
-    //     //See if there's a previous Take Line (split take)
-    //     // IF lrecWhseActivityLine.NEXT(-1) <> 0 THEN BEGIN
-    //     //     IF lrecWhseActivityLine."Action Type" = lrecWhseActivityLine."Action Type"::Take THEN
-    //     //         EXIT;
-    //     // END;
-
-    //     lrecWhseActivityLine.SETFILTER("Line No.", '>%1', "Line No.");
-    //     lrecWhseActivityLine.SETRANGE("Action Type", lrecWhseActivityLine."Action Type"::Take);
-    //     IF lrecWhseActivityLine.FINDFIRST THEN
-    //         lintUpToLineNo := lrecWhseActivityLine."Line No."
-    //     ELSE
-    //         lintUpToLineNo := 0;
-
-    //     IF lintUpToLineNo <> 0 THEN
-    //         lrecWhseActivityLine.SETRANGE("Line No.", "Line No." + 10000, lintUpToLineNo);
-    //     lrecWhseActivityLine.SETRANGE("Action Type", lrecWhseActivityLine."Action Type"::Place);
-
-    //     lintPlaceLineCount := lrecWhseActivityLine.COUNT;
-
-    //     IF (lintPlaceLineCount > 1) OR (lintPlaceLineCount = 0) THEN
-    //         EXIT;
-
-    //     lrecWhseActivityLine.FINDFIRST;
-
-    //     CASE pintFieldNo OF
-    //         FIELDNO("Qty. to Handle"):
-    //             BEGIN
-    //                 lrecWhseActivityLine.VALIDATE(
-    //                 "Qty. to Handle",
-    //                 ROUND("Qty. to Handle (Base)" / lrecWhseActivityLine."Qty. per Unit of Measure", 0.00001));
-    //             END;
-    //         FIELDNO("Lot No."):
-    //             BEGIN
-    //                 lrecWhseActivityLine.VALIDATE("Lot No.", "Lot No.");
-    //             END;
-    //         FIELDNO("Serial No."):
-    //             BEGIN
-    //                 lrecWhseActivityLine.VALIDATE("Serial No.", "Serial No.");
-    //             END;
-    //     END;
-
-    //     lrecWhseActivityLine.MODIFY;
-    // end;
-
-    // procedure jfUpdateIsFromPosting(pblnIsPosting: Boolean)
-    // begin
-    //     gblnIsPosting := pblnIsPosting;
-    // end;
-
+        field(142292233; "Container Line No. ELA"; Integer)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(142292234; "Parent Line No. ELA"; Integer)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(14229243; "Reason Code ELA"; Code[20])
+        {
+            Caption = 'Reason Code';
+            DataClassification = ToBeClassified;
+        }
+	}
 
 }

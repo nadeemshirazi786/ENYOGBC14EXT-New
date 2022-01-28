@@ -1,4 +1,4 @@
-page 14229824 "Fin. WO Comments"
+page 14229824 "Fin. WO Comments ELA"
 {
     AutoSplitKey = true;
     DelayedInsert = true;

@@ -176,7 +176,7 @@ page 14229801 "PM Proc. Subform ELA"
     [Scope('Internal')]
     procedure jmdoCodePropertyLookup(): Code[10]
     var
-        lfrmQMCodeValues: Page "PM Measure Code Values";
+        lfrmQMCodeValues: Page "PM Measure Code Values ELA";
         lrecQMCodeValue: Record "PM Measure Code Value ELA";
     begin
         lrecQMCodeValue.SETRANGE("PM Measure Code", "PM Measure Code");

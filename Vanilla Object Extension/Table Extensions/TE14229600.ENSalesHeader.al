@@ -313,6 +313,10 @@ tableextension 14229600 "EN Sales Header ELA" extends "Sales Header"
             trigger OnAfterValidate()
             var
                 lcduDSDTemplateMgmt: Codeunit "DSD Route Template Mgmt. ELA";
+				Customer: Record Customer;
+                WMSTripLoadMgmt: Codeunit "WMS Trip Load Mgmt. ELA";
+                TripLoadOrder: Record "Trip Load Order ELA";
+                TEXT14229200: Label 'Cannot validate user';
             begin
                 GetCust("Sell-to Customer No.");
                 IF Cust."Order Rule Usage ELA" = Cust."Order Rule Usage ELA"::None THEN
@@ -334,6 +338,17 @@ tableextension 14229600 "EN Sales Header ELA" extends "Sales Header"
                 END;
                 "Delivery Zone Code ELA" := Cust."Delivery Zone Code ELA";
                 "Shipping Instructions ELA" := Cust."Shipping Instructions ELA";
+				
+				if Customer.get("Sell-to Customer No.") then begin
+                    if customer."Auto. Add to Outbound Load ELA" then begin
+                        UpdateRouteCode();
+                        "Stop No. ELA" := customer."Default Stop No. ELA";
+                    end else begin
+                        clear("Route No. ELA");
+                        clear("Stop No. ELA");
+                    end;
+                end else
+                    Error(TEXT14229200);
             end;
         }
         modify("Shipment Date")
@@ -341,6 +356,8 @@ tableextension 14229600 "EN Sales Header ELA" extends "Sales Header"
             trigger OnAfterValidate()
             var
                 lcduDSDTemplateMgmt: Codeunit "DSD Route Template Mgmt. ELA";
+				WMSTripLoadMgmt: Codeunit "WMS Trip Load Mgmt. ELA";
+                TripLoadOrder: Record "Trip Load Order ELA";
             begin
                 IF (("Document Type" = "Document Type"::Order) OR ("Document Type" = "Document Type"::"Credit Memo") OR ("Document Type" = "Document Type"::"Return Order"))//<PD31395MK>
                 AND ("Sell-to Customer No." <> '') THEN BEGIN
@@ -355,6 +372,15 @@ tableextension 14229600 "EN Sales Header ELA" extends "Sales Header"
                         END;
                     END;
                 END;
+				UpdateRouteCode();
+                if ((xrec."Shipment Date" <> rec."Shipment Date") and (rec."Trip No. ELA" <> '')) then begin
+                    IF TripLoadOrder.get(rec."Trip No. ELA", TripLoadOrder.Direction::Outbound,
+                        TripLoadOrder."Source Document Type"::"Sales Order", rec."No.") THEN begin
+                        WMSTripLoadMgmt.RemoveOrderFromTrip("Trip No. ELA", TripLoadOrder.Direction::Outbound,
+                                                 TripLoadOrder."Source Document Type"::"Sales Order", "No.");
+                        clear("Trip No. ELA");
+                    end;
+                end;
             end;
         }
         modify("Location Code")
@@ -377,6 +403,42 @@ tableextension 14229600 "EN Sales Header ELA" extends "Sales Header"
                     END;
                 END;
             end;
+        }
+		field(14229200; "App. User ID ELA"; Code[10])
+        {
+            Caption = 'App. User ID';
+            DataClassification = ToBeClassified;
+            Editable = false;
+        }
+
+        field(14229201; "Route No. ELA"; Code[20])
+        {
+            Caption = 'Delivery Route No.';
+            TableRelation = "Delivery Route ELA";
+            DataClassification = ToBeClassified;
+            trigger OnValidate()
+            var
+                "14229220": Label 'You cannot change route no. after trip is assigned. Please un-link the sales order from trip %1';
+            begin
+                if ("Trip No. ELA" <> '') then
+                    Error(
+                        StrSubstNo(
+                            "14229220",
+                            "Trip No. ELA"));
+            end;
+        }
+
+        field(14229202; "Stop No. ELA"; Integer)
+        {
+            DataClassification = ToBeClassified;
+        }
+
+        field(14229203; "Trip No. ELA"; code[20])
+        {
+            TableRelation = "Trip Load Order ELA"."Load No."
+                where(Direction = const(Outbound), "Source Document Type" = const("Sales Order"));
+            Editable = false;
+            DataClassification = ToBeClassified;
         }
     }
 
@@ -675,7 +737,50 @@ tableextension 14229600 "EN Sales Header ELA" extends "Sales Header"
             if Rec."Cash Drawer No. ELA" <> '' then
                 Error(Text14228901, "Cash Drawer No. ELA");
     end;
+	procedure UpdateRouteCode()
+    begin
+        "Route No. ELA" := GetRouteCode();
+        Modify();
+    end;
 
+    procedure GetRouteCode(): Code[20]
+    var
+        Customer: Record Customer;
+        RouteMatrix: Record "Route Matrix ELA";
+        WeekDay: Text;
+    begin
+        if Customer.get("Sell-to Customer No.") then begin
+            IF Customer."Default Delivery Route ELA" <> '' then
+                exit(Customer."Default Delivery Route ELA")
+            ELSE begin
+                RouteMatrix.RESET;
+                RouteMatrix.SetRange("Location Code", Rec."Location Code");
+                RouteMatrix.SetRange("Customer Code", "Sell-to Customer No.");
+                RouteMatrix.SetRange(Active, true);
+                WeekDay := FORMAT("Shipment Date", 0, '<Weekday Text>');
+                case WeekDay of
+                    'Monday':
+                        RouteMatrix.SetRange(Monday, true);
+                    'Tuesday':
+                        RouteMatrix.SetRange(Tuesday, true);
+                    'Wednesday':
+                        RouteMatrix.SetRange(Wednesday, true);
+                    'Thursday':
+                        RouteMatrix.SetRange(Thursday, true);
+                    'Friday':
+                        RouteMatrix.SetRange(Friday, true);
+                    'Saturday':
+                        RouteMatrix.SetRange(Saturday, true);
+                    'Sunday':
+                        RouteMatrix.SetRange(Sunday, true);
+                end;
+                IF RouteMatrix.FindFirst() then
+                    exit(RouteMatrix."Route Code")
+                else
+                    exit('');
+            end;
+        end;
+    end;
     trigger OnAfterInsert()
     begin
         "Date Order Created ELA" := WorkDate();

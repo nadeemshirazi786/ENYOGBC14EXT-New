@@ -91,6 +91,14 @@ pageextension 51003 "Sales Order Subform Ext" extends "Sales Order Subform"
                 ApplicationArea = All;
             }
         }
+		addafter("Qty. to Ship")
+        {
+
+            field("Ship Action"; "Ship Action ELA")
+            {
+                ApplicationArea = All;
+            }
+        }
     }
     trigger OnAfterGetRecord()
     var

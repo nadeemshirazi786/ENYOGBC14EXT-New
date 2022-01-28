@@ -1,4 +1,4 @@
-page 14229821 "Fin. WO Subform"
+page 14229821 "Fin. WO Subform ELA"
 {
     AutoSplitKey = true;
     Caption = 'Lines';
@@ -213,7 +213,7 @@ page 14229821 "Fin. WO Subform"
     [Scope('Internal')]
     procedure jmdoCodePropertyLookup(): Code[10]
     var
-        lfrmQMCodeValues: Page "PM Measure Code Values";
+        lfrmQMCodeValues: Page "PM Measure Code Values ELA";
         lrecQMCodeValue: Record "PM Measure Code Value ELA";
     begin
         lrecQMCodeValue.SETRANGE("PM Measure Code", "PM Measure Code");

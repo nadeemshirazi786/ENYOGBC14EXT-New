@@ -23,6 +23,13 @@ pageextension 14229601 "EN Posted Sales Invoice" extends "Posted Sales Invoice" 
 
             }
         }
+		addlast("Work Description")
+        {
+            field("App. User ID"; Rec."App. User ID ELA")
+            {
+                ApplicationArea = All;
+            }
+        }
     }
     actions
     {

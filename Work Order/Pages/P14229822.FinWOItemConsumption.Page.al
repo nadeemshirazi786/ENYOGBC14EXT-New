@@ -1,4 +1,4 @@
-page 14229822 "Fin. WO Item Consumption"
+page 14229822 "Fin. WO Item Consumption ELA"
 {
     AutoSplitKey = true;
     DelayedInsert = true;

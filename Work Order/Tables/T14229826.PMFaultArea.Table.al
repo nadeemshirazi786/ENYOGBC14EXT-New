@@ -1,7 +1,7 @@
 table 14229826 "PM Fault Area ELA"
 {
-    DrillDownPageID = "PM Fault Areas";
-    LookupPageID = "PM Fault Areas";
+    DrillDownPageID = "PM Fault Areas ELA";
+    LookupPageID = "PM Fault Areas ELA";
 
     fields
     {

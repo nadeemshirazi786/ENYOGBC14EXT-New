@@ -1,4 +1,4 @@
-page 14229811 "Work Order Subform"
+page 14229811 "Work Order Subform ELA"
 {
     AutoSplitKey = true;
     Caption = 'Lines';
@@ -228,7 +228,7 @@ page 14229811 "Work Order Subform"
     [Scope('Internal')]
     procedure jmdoCodePropertyLookup(): Code[10]
     var
-        lfrmQMCodeValues: Page "PM Measure Code Values";
+        lfrmQMCodeValues: Page "PM Measure Code Values ELA";
         lrecQMCodeValue: Record "PM Measure Code Value ELA";
     begin
         lrecQMCodeValue.SETRANGE("PM Measure Code", "PM Measure Code");
@@ -245,7 +245,7 @@ page 14229811 "Work Order Subform"
     [Scope('Internal')]
     procedure jfdoPMWOResultsLookup(): Decimal
     var
-        lfrmPMWOLineResults: Page "WO Line Results";
+        lfrmPMWOLineResults: Page "WO Line Results ELA";
         lrecPMWOLineResults: Record "WO Line Result ELA";
     begin
         EXIT(lrecPMWOLineResults.jfdoPMWOResultsLookup(Rec, TRUE));

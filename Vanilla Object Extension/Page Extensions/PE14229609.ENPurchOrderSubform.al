@@ -141,6 +141,25 @@ pageextension 14229609 "EN Purchase Order Subform" extends "Purchase Order Subfo
                 SetLotFields;
             end;
         }
+		addafter("Unit of Measure Code")
+        {
+
+            field("Vendor Lot No."; "Vendor Lot No. ELA")
+            {
+                Caption = 'Vendor Lot No.';
+                ApplicationArea = All;
+            }
+            field("Vendor Item Barcode ELA"; "Vendor Item Barcode ELA")
+            {
+                Caption = 'Vendor Item Barcode';
+                ApplicationArea = All;
+            }
+            field("Outstanding Quantity"; "Outstanding Quantity")
+            {
+                ApplicationArea = All;
+            }
+
+        }
     }
     actions
     {
@@ -172,6 +191,14 @@ pageextension 14229609 "EN Purchase Order Subform" extends "Purchase Order Subfo
         IF Quantity <> 0 THEN
             EXIT("Line Amount" / Quantity);
         EXIT(0);
+    end;
+	procedure SetLocFilter(LocationCode: code[10])
+    var
+    begin
+        FILTERGROUP(2);
+        SETRANGE("Location Code", LocationCode);
+        FILTERGROUP(0);
+        CurrPage.Update();
     end;
 
     var

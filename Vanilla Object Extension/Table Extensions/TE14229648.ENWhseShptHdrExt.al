@@ -11,8 +11,24 @@ tableextension 14229648 "Whse Shpt Hdr ELA" extends "Warehouse Shipment Header"
         {
             Caption = 'Pallet Code';
         }
+		field(14229212; "Assigned App. Role ELA"; code[10])
+        {
+            DataClassification = ToBeClassified;
+        }
+
+        field(14229213; "Assigned To ELA"; Code[10])
+        {
+            DataClassification = ToBeClassified;
+        }
+
+        field(14229220; "Trip No. ELA"; Code[20])
+        {
+            TableRelation = "Trip Load ELA" where(Direction = const(Outbound));
+            DataClassification = ToBeClassified;
+        }
     }
     
     var
-        myInt: Integer;
+        UpdateSource: Option " ",Shipment,"Task Queue",Activity,ShipBoard;
+        ActivityType: Option " ","Put-away",Pick,Movement,"Invt. Put-away","Invt. Pick";
 }

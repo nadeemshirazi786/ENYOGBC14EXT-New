@@ -113,7 +113,7 @@ page 14229800 "PM Procedure ELA"
         }
         area(FactBoxes)
         {
-            part("PM Sched. Statistics FactBox"; "PM Sched. Statistics FactBox")
+            part("PM Sched. Statistics FactBox"; "PM Sched. Stat. FactBox ELA")
             {
                 ApplicationArea = All;
                 SubPageLink = Code = field(Code), "Version No." = field("Version No.");
@@ -131,7 +131,7 @@ page 14229800 "PM Procedure ELA"
                 action(Comments)
                 {
                     ApplicationArea = All;
-                    RunObject = page "PM Proc. Comments";
+                    RunObject = page "PM Proc. Comments ELA";
                     RunPageLink = "PM Procedure Code" = field(Code), "Version No." = field("Version No."), "PM Procedure Line No." = const(0);
                     Image = ListPage;
                 }
@@ -186,7 +186,7 @@ page 14229800 "PM Procedure ELA"
                     ApplicationArea = All;
                     Promoted = true;
                     PromotedCategory = Process;
-                    RunObject = page "PM Calc. Methods";
+                    RunObject = page "PM Calc. Methods ELA";
                     RunPageLink = "PM Procedure Code" = field(Code), "Version No." = field("Version No."), Type = field(Type);
 
                 }
