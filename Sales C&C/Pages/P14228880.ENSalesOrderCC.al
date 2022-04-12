@@ -717,8 +717,6 @@ page 14228880 "EN Sales Order C&C Card"
         gcduYOGFunctions: Codeunit "EN Custom Functions";
         lpagCustSalesHistory: Page "EN Cust. Sales History";
         grecGenJnlLine_AdditionalPaymentsToPost: Record "Gen. Journal Line";
-        gblnPostAdditionalPayments: Boolean;
-        gblnSetAppliedAmt: Boolean;
         gdecAmountToApply: Decimal;
 
     local procedure Post(PostingCodeunitID: Integer)
@@ -820,11 +818,11 @@ page 14228880 "EN Sales Order C&C Card"
         ldecAppliedToOthers: Decimal;
         lcduGenJnlPostBatch: Codeunit "Gen. Jnl.-Post Batch";
         lcduReleaseOrder: Codeunit "Release Sales Document";
+        ENSalesCCEvents: Codeunit "EN Sales CC Event Subscriber";
+        OpenOrder: Codeunit "Release Sales Document";
+
     begin
-
-
         CurrPage.CnCOrderSummaryFactbox.PAGE.CalcTotalTax("Document Type", "No.");
-
         SlsHdr.Get("Document Type", "No.");
         lcduReleaseOrder.Run(SlsHdr);
         CheckTotals;
@@ -872,10 +870,15 @@ page 14228880 "EN Sales Order C&C Card"
           (not Payment.IsEmpty)
         ) then begin
             Payment.Find('-');
-            SetGenJournalLineOfAdditionalPaymentsToPost(Payment); //TBR
+            OpenOrder.Reopen(SlsHdr);
+            SlsHdr.Validate("CC Applied Jnl Template", Payment."Journal Template Name");
+            SlsHdr.Validate("CC Applied Jnl Batch", Payment."Journal Batch Name");
+            SlsHdr.Validate("CC Applied Line", Payment."Line No.");
+
+            //ENSalesCCEvents.SetGenJournalLineOfAdditionalPaymentsToPost(Payment); //TBR
         end;
 
-        SetApplyAmount(-"Cash Applied (Current) ELA");//TBR
+        ENSalesCCEvents.SetApplyAmount(- SlsHdr."Cash Applied (Current) ELA");//TBR
         AdjustShortages;
 
         SlsHdr.Modify();
@@ -913,17 +916,9 @@ page 14228880 "EN Sales Order C&C Card"
         exit(true);
     end;
 
-    procedure SetGenJournalLineOfAdditionalPaymentsToPost(precGenJnlLine_AdditionalPaymentsToPost: Record "Gen. Journal Line")
-    begin
-        grecGenJnlLine_AdditionalPaymentsToPost.COPY(precGenJnlLine_AdditionalPaymentsToPost);
-        gblnPostAdditionalPayments := TRUE;
-    end;
 
-    procedure SetApplyAmount(pdecAmountToApply: Decimal)
-    begin
-        gdecAmountToApply := pdecAmountToApply;
-        gblnSetAppliedAmt := TRUE;
-    end;
+
+
 
     procedure CheckTotals()
     var
@@ -957,5 +952,12 @@ page 14228880 "EN Sales Order C&C Card"
         CCOrderBarcode.SetOrderNo(OrderNo);
         CCOrderBarcode.RUNMODAL();
     end;
+
+
+
+
+    var
+        grecRecordExtension: Record "Custom Record Extension";
+        Payment2: Record "Gen. Journal Line";
 }
 

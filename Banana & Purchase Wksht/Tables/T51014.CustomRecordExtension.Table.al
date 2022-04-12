@@ -64,6 +64,24 @@ table 51014 "Custom Record Extension"
         field(111; "6th Room Quantity"; Integer)
         {
         }
+        field(50000; "Authorized Amount"; Decimal)
+        {
+
+        }
+        field(50001; "Cash Applied (Other)"; Decimal)
+        {
+
+        }
+        field(50002; "Cash Applied (Current)"; Decimal)
+        { }
+        field(50003; "Cash Tendered"; Decimal)
+        { }
+        field(50004; "Entered Amount to Apply"; Decimal)
+        { }
+        field(50005; "Change Due"; Decimal)
+        {
+
+        }
     }
 
     keys

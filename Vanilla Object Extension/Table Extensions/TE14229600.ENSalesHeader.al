@@ -94,6 +94,7 @@ tableextension 14229600 "EN Sales Header ELA" extends "Sales Header"
         field(14228887; "Cash Applied (Other) ELA"; Decimal)
         {
             Caption = 'Cash Applied (Other)';
+
         }
         field(14228888; "Cash Applied (Current) ELA"; Decimal)
         {
@@ -262,6 +263,28 @@ tableextension 14229600 "EN Sales Header ELA" extends "Sales Header"
             Caption = 'Amt. to Collect';
             DataClassification = ToBeClassified;
         }
+        field(14229635; "Cash&CarryApplied"; Boolean)
+        {
+            trigger OnValidate()
+            begin
+            end;
+        }
+        field(14229636; "CC Applied Jnl Template"; Code[20])
+        {
+            trigger OnValidate()
+            begin
+            end;
+
+        }
+        field(14229637; "CC Applied Jnl Batch"; Code[20])
+        {
+
+           
+        }
+        field(14229638; "CC Applied Line"; Integer)
+        {
+         
+        }
         modify("Posting Date")
         {
             trigger OnAfterValidate()
@@ -313,7 +336,7 @@ tableextension 14229600 "EN Sales Header ELA" extends "Sales Header"
             trigger OnAfterValidate()
             var
                 lcduDSDTemplateMgmt: Codeunit "DSD Route Template Mgmt. ELA";
-				Customer: Record Customer;
+                Customer: Record Customer;
                 WMSTripLoadMgmt: Codeunit "WMS Trip Load Mgmt. ELA";
                 TripLoadOrder: Record "Trip Load Order ELA";
                 TEXT14229200: Label 'Cannot validate user';
@@ -338,8 +361,8 @@ tableextension 14229600 "EN Sales Header ELA" extends "Sales Header"
                 END;
                 "Delivery Zone Code ELA" := Cust."Delivery Zone Code ELA";
                 "Shipping Instructions ELA" := Cust."Shipping Instructions ELA";
-				
-				if Customer.get("Sell-to Customer No.") then begin
+
+                if Customer.get("Sell-to Customer No.") then begin
                     if customer."Auto. Add to Outbound Load ELA" then begin
                         UpdateRouteCode();
                         "Stop No. ELA" := customer."Default Stop No. ELA";
@@ -356,7 +379,7 @@ tableextension 14229600 "EN Sales Header ELA" extends "Sales Header"
             trigger OnAfterValidate()
             var
                 lcduDSDTemplateMgmt: Codeunit "DSD Route Template Mgmt. ELA";
-				WMSTripLoadMgmt: Codeunit "WMS Trip Load Mgmt. ELA";
+                WMSTripLoadMgmt: Codeunit "WMS Trip Load Mgmt. ELA";
                 TripLoadOrder: Record "Trip Load Order ELA";
             begin
                 IF (("Document Type" = "Document Type"::Order) OR ("Document Type" = "Document Type"::"Credit Memo") OR ("Document Type" = "Document Type"::"Return Order"))//<PD31395MK>
@@ -372,7 +395,7 @@ tableextension 14229600 "EN Sales Header ELA" extends "Sales Header"
                         END;
                     END;
                 END;
-				UpdateRouteCode();
+                UpdateRouteCode();
                 if ((xrec."Shipment Date" <> rec."Shipment Date") and (rec."Trip No. ELA" <> '')) then begin
                     IF TripLoadOrder.get(rec."Trip No. ELA", TripLoadOrder.Direction::Outbound,
                         TripLoadOrder."Source Document Type"::"Sales Order", rec."No.") THEN begin
@@ -404,7 +427,7 @@ tableextension 14229600 "EN Sales Header ELA" extends "Sales Header"
                 END;
             end;
         }
-		field(14229200; "App. User ID ELA"; Code[10])
+        field(14229200; "App. User ID ELA"; Code[10])
         {
             Caption = 'App. User ID';
             DataClassification = ToBeClassified;
@@ -737,7 +760,8 @@ tableextension 14229600 "EN Sales Header ELA" extends "Sales Header"
             if Rec."Cash Drawer No. ELA" <> '' then
                 Error(Text14228901, "Cash Drawer No. ELA");
     end;
-	procedure UpdateRouteCode()
+
+    procedure UpdateRouteCode()
     begin
         "Route No. ELA" := GetRouteCode();
         Modify();
@@ -781,6 +805,7 @@ tableextension 14229600 "EN Sales Header ELA" extends "Sales Header"
             end;
         end;
     end;
+
     trigger OnAfterInsert()
     begin
         "Date Order Created ELA" := WorkDate();

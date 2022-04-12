@@ -62,6 +62,7 @@ page 14228883 "EN C&C Receive Cash"
                     begin
                         ApplyToOtherOrders := MIN(ApplyToOtherOrders, Tendered - AppliedToOrder);
                         ApplyToOtherOrders := MAX(0, ApplyToOtherOrders);
+                        Rec.Validate("Cash&CarryApplied", true);
                     end;
                 }
                 field(Applied; Applied)

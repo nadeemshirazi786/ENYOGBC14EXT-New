@@ -33,7 +33,7 @@ tableextension 14229607 "EN Customer ELA" extends "Customer"
         {
             Caption = 'Customer Buying Group';
             DataClassification = ToBeClassified;
-            TableRelation = "EN Customer Buying Group";
+            TableRelation = "Customer Buying Group ELA";
         }
         field(14228852; "Price List Group Code ELA"; Code[20])
         {
@@ -375,7 +375,7 @@ tableextension 14229607 "EN Customer ELA" extends "Customer"
             Caption = 'Prices on Invoice';
             DataClassification = ToBeClassified;
         }
-		field(14229200; "Default Delivery Route ELA"; Code[20])
+        field(14229200; "Default Delivery Route ELA"; Code[20])
         {
             Caption = 'Default Delivery Route';
             TableRelation = "Delivery Route ELA";

@@ -84,7 +84,7 @@ tableextension 14229606 "EN Item Unit Of Measure ELA" extends "Item Unit of Meas
             end;
 
         }
-		field(14229220; "Case Barcode ELA"; Code[20])
+        field(14229220; "Case Barcode ELA"; Code[20])
         {
             Caption = 'Case Barcode';
             DataClassification = ToBeClassified;

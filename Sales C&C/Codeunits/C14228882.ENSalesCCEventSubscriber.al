@@ -34,6 +34,152 @@ codeunit 14228882 "EN Sales CC Event Subscriber"
         SalesInvLine.Modify();
     end;
 
+    [EventSubscriber(ObjectType::Codeunit, 80, 'OnBeforePostBalancingEntry', '', true, true)]
+    local procedure OnBeforePostBalancingEntry(VAR GenJnlLine: Record "Gen. Journal Line"; SalesHeader: Record "Sales Header"; VAR TotalSalesLine: Record "Sales Line"; VAR TotalSalesLineLCY: Record "Sales Line"; CommitIsSuppressed: Boolean; PreviewMode: Boolean)
+
+    var
+        CustLedgEntry: Record "Cust. Ledger Entry";
+        TotalSalesLine2: Record "Sales Line";
+        GenJnlLine2: Record "Gen. Journal Line";
+        TotalSalesLineLCY2: Record "Sales Line";
+        GenJnlPostLine: Codeunit "Gen. Jnl.-Post Line";
+        DocType: Option;
+        DocNo: Code[20];
+        SourceCode: Code[10];
+    begin
+
+        //<JF12847KV>
+    //     gblnSetAppliedAmt := true;
+    //     if gblnSetAppliedAmt THEN
+    //         GenJnlLine.Amount := -SalesHeader."Cash Applied (Current) ELA"
+    //     ELSE
+    //         //</JF12847KV>
+    //         GenJnlLine.Amount :=
+    // TotalSalesLine2."Amount Including VAT" + CustLedgEntry."Remaining Pmt. Disc. Possible";
+    //     GenJnlLine."Source Currency Code" := SalesHeader."Currency Code";
+    //     //<JF12847KV>
+    //     IF gblnSetAppliedAmt THEN
+    //         GenJnlLine."Source Currency Amount" := -SalesHeader."Cash Applied (Current) ELA"
+    //     ELSE
+    //         //</JF12847KV>
+    //         GenJnlLine."Source Currency Amount" := GenJnlLine.Amount;
+    //     GenJnlLine.Correction := SalesHeader.Correction;
+    //     CustLedgEntry.CALCFIELDS(Amount);
+    //     //JF12847
+    //     IF gblnSetAppliedAmt THEN BEGIN
+    //         GenJnlLine."Amount (LCY)" := -SalesHeader."Cash Applied (Current) ELA";
+    //     END ELSE BEGIN
+    //         //</JF12847KV>
+    //         IF CustLedgEntry.Amount = 0 THEN
+    //             GenJnlLine."Amount (LCY)" := TotalSalesLineLCY2."Amount Including VAT"
+    //         ELSE
+    //             GenJnlLine."Amount (LCY)" :=
+    //               TotalSalesLineLCY2."Amount Including VAT" +
+    //               ROUND(
+    //                 CustLedgEntry."Remaining Pmt. Disc. Possible" /
+    //                 CustLedgEntry."Adjusted Currency Factor");
+    //         //<JF12847KV>
+    //     END;
+    //     //</JF12847KV>
+    //     IF SalesHeader."Currency Code" = '' THEN
+    //         GenJnlLine."Currency Factor" := 1
+    //     ELSE
+    //         GenJnlLine."Currency Factor" := SalesHeader."Currency Factor";
+    //     GenJnlLine."Applies-to Doc. Type" := DocType;
+    //     GenJnlLine."Applies-to Doc. No." := DocNo;
+    //     GenJnlLine."Source Type" := GenJnlLine."Source Type"::Customer;
+    //     GenJnlLine."Source No." := SalesHeader."Bill-to Customer No.";
+    //     GenJnlLine."Source Code" := SourceCode;
+    //     GenJnlLine."Posting No. Series" := SalesHeader."Posting No. Series";
+    //     GenJnlLine."IC Partner Code" := SalesHeader."Sell-to IC Partner Code";
+    //     GenJnlLine."Salespers./Purch. Code" := SalesHeader."Salesperson Code";
+    //     GenJnlLine."Allow Zero-Amount Posting" := TRUE;
+
+    //     //<JF00085JJ>
+    //     GenJnlLine."Ship-to/Order Address Code" := SalesHeader."Ship-to Code";
+    //     //</JF00085JJ>
+    //     IF (gblnSetAppliedAmt) AND (SalesHeader."Cash Applied (Current) ELA" <> 0) THEN //<JFKV>
+    //         GenJnlPostLine.RunWithCheck(GenJnlLine2);
+    //     // grecGenJnlLine_AdditionalPaymentsToPost.copy(GenJnlLine);
+    end;
+
+    [EventSubscriber(ObjectType::Codeunit, 80, 'OnAfterPostBalancingEntry', '', true, true)]
+    local procedure OnAfterPostBalancingEntry(VAR GenJnlLine: Record "Gen. Journal Line"; VAR SalesHeader: Record "Sales Header"; VAR TotalSalesLine: Record "Sales Line"; VAR TotalSalesLineLCY: Record "Sales Line"; CommitIsSuppressed: Boolean; VAR GenJnlPostLine: Codeunit "Gen. Jnl.-Post Line")
+    var
+        ENCCPg: Page "EN Sales Order C&C Card";
+        CustLedgEntry: Record "Cust. Ledger Entry";
+        TotalSalesLine2: Record "Sales Line";
+        GenJnlLine2: Record "Gen. Journal Line";
+        SalesHeader2:Record "Sales Header";
+        TotalSalesLineLCY2: Record "Sales Line";
+        //GenJnlPostLine: Codeunit "Gen. Jnl.-Post Line";
+        DocType: Option;
+        DocNo: Code[20];
+        SourceCode: Code[10];
+    //GenJnlLine2:Record "Gen. Journal Line";
+    begin
+
+        gblnSetAppliedAmt := true;
+        if gblnSetAppliedAmt THEN
+            GenJnlLine2.Amount := -SalesHeader2."Cash Applied (Current) ELA"
+        ELSE
+            //</JF12847KV>
+            GenJnlLine2.Amount :=
+    TotalSalesLine2."Amount Including VAT" + CustLedgEntry."Remaining Pmt. Disc. Possible";
+        GenJnlLine2."Source Currency Code" := SalesHeader2."Currency Code";
+        //<JF12847KV>
+        IF gblnSetAppliedAmt THEN
+            GenJnlLine2."Source Currency Amount" := -SalesHeader2."Cash Applied (Current) ELA"
+        ELSE
+            //</JF12847KV>
+            GenJnlLine2."Source Currency Amount" := GenJnlLine.Amount;
+        GenJnlLine2.Correction := SalesHeader2.Correction;
+        CustLedgEntry.CALCFIELDS(Amount);
+        //JF12847
+        IF gblnSetAppliedAmt THEN BEGIN
+            GenJnlLine2."Amount (LCY)" := -SalesHeader2."Cash Applied (Current) ELA";
+        END ELSE BEGIN
+            //</JF12847KV>
+            IF CustLedgEntry.Amount = 0 THEN
+                GenJnlLine2."Amount (LCY)" := TotalSalesLineLCY2."Amount Including VAT"
+            ELSE
+                GenJnlLine2."Amount (LCY)" :=
+                  TotalSalesLineLCY2."Amount Including VAT" +
+                  ROUND(
+                    CustLedgEntry."Remaining Pmt. Disc. Possible" /
+                    CustLedgEntry."Adjusted Currency Factor");
+            //<JF12847KV>
+        END;
+        //</JF12847KV>
+        IF SalesHeader2."Currency Code" = '' THEN
+            GenJnlLine2."Currency Factor" := 1
+        ELSE
+            GenJnlLine2."Currency Factor" := SalesHeader2."Currency Factor";
+        GenJnlLine2."Applies-to Doc. Type" := DocType;
+        GenJnlLine2."Applies-to Doc. No." := DocNo;
+        GenJnlLine2."Source Type" := GenJnlLine."Source Type"::Customer;
+        GenJnlLine2."Source No." := SalesHeader2."Bill-to Customer No.";
+        GenJnlLine2."Source Code" := SourceCode;
+        GenJnlLine2."Posting No. Series" := SalesHeader2."Posting No. Series";
+        GenJnlLine2."IC Partner Code" := SalesHeader2."Sell-to IC Partner Code";
+        GenJnlLine2."Salespers./Purch. Code" := SalesHeader2."Salesperson Code";
+        GenJnlLine2."Allow Zero-Amount Posting" := TRUE;
+
+        //<JF00085JJ>
+        GenJnlLine2."Ship-to/Order Address Code" := SalesHeader2."Ship-to Code";
+        //</JF00085JJ>
+        IF (gblnSetAppliedAmt) AND (SalesHeader2."Cash Applied (Current) ELA" <> 0) THEN //<JFKV>
+            GenJnlPostLine.RunWithCheck(GenJnlLine2);
+        IF (SalesHeader."Cash&CarryApplied")
+        THEN BEGIN
+            If GenJnlLine.Get(SalesHeader."CC Applied Jnl Template", SalesHeader."CC Applied Jnl Batch", SalesHeader."CC Applied Line") then begin
+
+                lcduGenJnlPostBatch.RUN(GenJnlLine);
+
+            end
+        END;
+    end;
+
     [EventSubscriber(ObjectType::Table, 37, 'OnAfterCopyFromItem', '', true, true)]
     local procedure OnAfterCopyItem(var SalesLine: Record "Sales Line"; Item: Record Item)
     begin
@@ -185,11 +331,14 @@ codeunit 14228882 "EN Sales CC Event Subscriber"
                         SalesLine.VALIDATE(SalesLine."Qty. to Ship", 0)
                     ELSE
                         SalesLine.VALIDATE(SalesLine."Qty. to Ship", SalesLine."Outstanding Quantity");
+                // SalesLine.VALIDATE(SalesLine."Qty. to Ship", 0);
+                //SalesLine."Qty. to Ship" := SalesLine."Outstanding Quantity";
                 (SalesLine."Document Type" IN [SalesLine."Document Type"::Quote, SalesLine."Document Type"::Order]) AND (SalesLine.Quantity < 0):
                     IF Location.RequireReceive(SalesLine."Location Code") THEN
                         SalesLine.VALIDATE(SalesLine."Qty. to Ship", 0)
                     ELSE
                         SalesLine.VALIDATE(SalesLine."Qty. to Ship", SalesLine."Outstanding Quantity");
+                //SalesLine."Qty. to Ship" := SalesLine."Outstanding Quantity";
                 (SalesLine."Document Type" = SalesLine."Document Type"::"Return Order") AND (SalesLine.Quantity >= 0):
                     IF Location.RequireReceive(SalesLine."Location Code") THEN
                         SalesLine.VALIDATE(SalesLine."Return Qty. to Receive", 0)
@@ -204,18 +353,53 @@ codeunit 14228882 "EN Sales CC Event Subscriber"
         SalesLine.SetDefaultQuantity;
     end;
 
-    // [EventSubscriber(ObjectType::Table, 37, 'OnCheckWarehouseOnBeforeShowDialog', '', true, true)]
-    // procedure OnCheckWarehouseOnBeforeShowDialog(SalesLine: Record "Sales Line"; Location: Record Location; VAR ShowDialog: Option " ",Message,Error; VAR DialogText: Text[50])
-    // begin
-    //     if SalesLine.yogIsCashAndCarry(SalesLine) then
-    //         ShowDialog := ShowDialog::" ";
+    [EventSubscriber(ObjectType::Table, 37, 'OnCheckWarehouseOnBeforeShowDialog', '', true, true)]
+    procedure ASOnCheckWarehouseOnBeforeShowDialog(SalesLine: Record "Sales Line"; Location: Record Location; ShowDialog: Option " ",Message,Error; VAR DialogText: Text[50])
+    var
+        gblnHideWhseShowDlgMsg: Boolean;
+        gblnHideWhseShowDlgErr: Boolean;
+        Text016: TextConst ENU = '%1 is required for %2 = %3.';
+        Text017: TextConst ENU = '\The entered information may be disregarded by warehouse operations.';
+    begin
 
-    // end;
+        //<YOG43312AC>
+        gblnHideWhseShowDlgMsg := gblnHideWhseShowDlgMsg OR SalesLine.yogIsCashAndCarry(SalesLine);
+        //</YOG43312AC>
 
-    local procedure UseBaseUOM(pcodItemNo: Code[20]; pcodVariantCode: Code[10]; pcodLocation: Code[10]): Boolean
+        CASE ShowDialog OF
+            ShowDialog::Message:
+                //<JF3826DD>
+                BEGIN
+                    IF NOT gblnHideWhseShowDlgMsg THEN BEGIN
+                        MESSAGE(Text016 + Text017, DialogText, SalesLine.FieldCaption("Line No."), SalesLine."Line No.");
+                    END;
+                END;
+            //</JF3826DD>
+            ShowDialog::Error:
+                //<JF3826DD>
+                BEGIN
+                    IF NOT gblnHideWhseShowDlgErr THEN BEGIN
+                        ERROR(Text016, DialogText, SalesLine.FIELDCAPTION("Line No."), SalesLine."Line No.");
+                    END;
+                END;
+        //</JF3826DD>
+
+        end;
+
+        ShowDialog := ShowDialog::" ";
+
+    END;
+
+    local procedure UseBaseUOM(pcodItemNo: Code[20];
+pcodVariantCode:
+    Code[10];
+pcodLocation:
+    Code[10]):
+            Boolean
     var
         lrecSKU: Record "Stockkeeping Unit";
-        Location: Record Location;
+        Location:
+                Record Location;
     begin
         GetLocation(pcodLocation);
         IF lrecSKU.GET(pcodLocation, pcodItemNo, pcodVariantCode) THEN BEGIN
@@ -260,4 +444,24 @@ codeunit 14228882 "EN Sales CC Event Subscriber"
             IF Location.Code <> LocationCode THEN
                 Location.GET(LocationCode);
     end;
+
+    procedure SetGenJournalLineOfAdditionalPaymentsToPost(precGenJnlLine_AdditionalPaymentsToPost: Record "Gen. Journal Line")
+    begin
+        grecGenJnlLine_AdditionalPaymentsToPost.COPY(precGenJnlLine_AdditionalPaymentsToPost);
+        gblnPostAdditionalPayments := TRUE;
+    end;
+
+    procedure SetApplyAmount(pdecAmountToApply: Decimal)
+    begin
+        gdecAmountToApply := pdecAmountToApply;
+        gblnSetAppliedAmt := TRUE;
+    end;
+
+    var
+        grecGenJnlLine_AdditionalPaymentsToPost: Record "Gen. Journal Line";
+        gblnPostAdditionalPayments: Boolean;
+        lcduGenJnlPostBatch: Codeunit "Gen. Jnl.-Post Batch";
+        gblnSetAppliedAmt: Boolean;
+        gdecAmountToApply: Decimal;
+
 }

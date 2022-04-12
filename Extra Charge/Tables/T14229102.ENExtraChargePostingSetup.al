@@ -1,6 +1,6 @@
 table 14229102 "EN Extra Charge Posting Setup"
 {
-    
+
     Caption = 'Extra Charge Posting Setup';
 
     fields
@@ -39,7 +39,7 @@ table 14229102 "EN Extra Charge Posting Setup"
 
             trigger OnValidate()
             begin
-                CheckGLAcc("Invt. Accrual Acc. (Interim)"); 
+                CheckGLAcc("Invt. Accrual Acc. (Interim)");
             end;
         }
     }
@@ -74,7 +74,7 @@ table 14229102 "EN Extra Charge Posting Setup"
 
     procedure GetDirectCostAppliedAccount(): Code[20]
     begin
-        
+
         if "Direct Cost Applied Account" = '' then
             PostingSetupMgt.SendECPostingSetupNotification(Rec, FieldCaption("Direct Cost Applied Account"));
         TestField("Direct Cost Applied Account");
@@ -83,7 +83,7 @@ table 14229102 "EN Extra Charge Posting Setup"
 
     procedure GetInventoryAccrualAccount(): Code[20]
     begin
-        
+
         if "Invt. Accrual Acc. (Interim)" = '' then
             PostingSetupMgt.SendECPostingSetupNotification(Rec, FieldCaption("Invt. Accrual Acc. (Interim)"));
         TestField("Invt. Accrual Acc. (Interim)");

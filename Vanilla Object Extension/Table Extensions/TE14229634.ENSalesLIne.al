@@ -828,7 +828,7 @@ tableextension 14229634 "EN Sales Line ELA" extends "Sales Line"
                     //     "Approved By" := USERID;
                     // END;
                     gblnOverShip := TRUE;
-                    VALIDATE(Quantity, "Qty. to Ship" + "Quantity Shipped");
+                   // VALIDATE(Quantity, "Qty. to Ship" + "Quantity Shipped");
                     gblnOverShip := FALSE;
                 END;
             END;

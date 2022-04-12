@@ -358,7 +358,7 @@ tableextension 14229625 "EN Item ELA" extends Item
             Caption = 'Receiving Unit of Measure';
             TableRelation = "Item Unit of Measure".Code WHERE("Item No." = FIELD("No."));
         }
-		field(14229200; "Item UPC ELA"; Code[20])
+        field(14229200; "Item UPC ELA"; Code[20])
         {
             Caption = 'Item UPC';
             DataClassification = ToBeClassified;
